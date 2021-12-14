@@ -32,9 +32,12 @@ export class RefreshTokenUseCase {
     const userToken = await this.userTokensRepositories.findByUserIdAndRefreshToken(user_id, token);
 
     if (!userToken)
-      throw new AppError("Refresh Token não encontrado");
+      throw new AppError("Refresh Token não encontrado", 401);
 
     await this.userTokensRepositories.deleteById(userToken.id);
+
+    if (this.dayjsDateProvider.compareIfBefore(userToken.expires_date, this.dayjsDateProvider.dateNow()))
+      throw new AppError("Token expirado", 401);
 
     const refresh_token = sign({ user }, auth.secret_refresh_token, {
       subject: user_id,
