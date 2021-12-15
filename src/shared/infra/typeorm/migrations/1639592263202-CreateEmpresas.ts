@@ -77,7 +77,8 @@ export class CreateEmpresas1639592263202 implements MigrationInterface {
                 },
                 {
                     name: "excluir",
-                    type: "tinyint(1)"
+                    type: "boolean",
+                    default: false
                 },
                 {
                     name: "created_at",
