@@ -1,8 +1,6 @@
-import { getConnection, getConnectionOptions, createConnection } from "typeorm";
-
-interface IOptions {
-  host: string;
-}
+import { getConnectionOptions, createConnection, Repository } from "typeorm";
+import { Users } from "../../../../modules/accounts/infra/typeorm/entities/Users";
+import { hash } from "bcrypt";
 
 async function create() {
   let connection;
@@ -11,6 +9,21 @@ async function create() {
     const newConnection = await createConnection({ ...options });
     connection = newConnection;
   });
+
+  const userRepository: Repository<Users> = connection.getRepository(Users);
+
+  const senha = await hash(process.env.SENHA_DCI, 8);
+
+  const user = userRepository.create({
+    nome: "DCI",
+    user: "dci@dcisuporte.com.br",
+    senha,
+    admin: true
+  });
+
+  await userRepository.save(user);
+
+  console.log("Usuário DCI criado.");
 
   await connection.query(
     `INSERT INTO uf (id, nome, uf, ibge) VALUES
@@ -43,6 +56,8 @@ async function create() {
       (27, 'Tocantins', 'TO', 17),
       (99, 'Exterior', 'EX', 99);`
   );
+
+  console.log("Cadastros na tabela de Estados criados.");
 
   await connection.query(
     `INSERT INTO cidades (id, id_uf, nome, ibge) VALUES
@@ -5642,6 +5657,8 @@ async function create() {
     (5609, 24, 'Pescaria Brava', 4212650),
     (5610, 99, 'Exterior', 9999999);`
   );
+
+  console.log("Cadastros na tabela de Cidades criados.");
 
 };
 

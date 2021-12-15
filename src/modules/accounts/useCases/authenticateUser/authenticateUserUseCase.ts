@@ -30,7 +30,7 @@ export class AuthenticateUserUseCase {
     private usersRepositories: IUsersRepositories,
     @inject("UserTokensRepositories")
     private userTokensRepositories: IUseTokensRepositories,
-    @inject("DayjsDateProvider")
+    @inject("DaysJsDateProvider")
     private dayjsDateProvider: IDateProvider
   ) { }
 
