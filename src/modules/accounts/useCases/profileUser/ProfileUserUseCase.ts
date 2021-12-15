@@ -2,6 +2,7 @@ import { injectable, inject } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IUserResponseDTO } from "../../dtos/IUserResponseDTO";
 import { UsersRepositories } from "../../infra/typeorm/repositories/UsersRepositories";
+import { UserMap } from "../../mapper/UserMap";
 
 
 @injectable()
@@ -18,7 +19,7 @@ export class ProfileUserUseCase {
     if (!user)
       throw new AppError("Usuário inexistente")
 
-    return user;
+    return UserMap.toDTO(user);
   }
 
 }
