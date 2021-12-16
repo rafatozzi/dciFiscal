@@ -11,6 +11,10 @@ export class VariantesRepositories implements IVariantesRepositories {
     this.repository = getRepository(Variantes);
   }
 
+  async findByNome(nome: string): Promise<Variantes> {
+    return await this.repository.findOne({ nome, excluir: false });
+  }
+
   async create(data: ICreateVarianteDTO): Promise<Variantes> {
     const variante = this.repository.create({ ...data });
 

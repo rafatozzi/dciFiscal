@@ -12,7 +12,7 @@ export class EmpresasRepositories implements IEmpresasRepositories {
   }
 
   async findByCNPJ(cnpj: number): Promise<Empresas> {
-    const empresa = await this.repository.findOne({ cnpj });
+    const empresa = await this.repository.findOne({ cnpj, excluir: false });
 
     return empresa;
   }
