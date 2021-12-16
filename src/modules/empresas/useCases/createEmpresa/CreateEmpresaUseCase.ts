@@ -13,10 +13,13 @@ export class CreateEmpresaUseCase {
   ) { }
 
   async execute(data: ICreateEmpresasDTO): Promise<Empresas> {
-    const alredyExists = await this.empresasRepositories.findByCNPJ(data.cnpj);
 
-    if (alredyExists)
-      throw new AppError("Empresa já cadastrada");
+    if (!data.id) {
+      const alredyExists = await this.empresasRepositories.findByCNPJ(data.cnpj);
+
+      if (alredyExists)
+        throw new AppError("Empresa já cadastrada");
+    }
 
     const empresa = await this.empresasRepositories.create(data);
 

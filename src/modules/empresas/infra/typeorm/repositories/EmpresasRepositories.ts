@@ -29,7 +29,7 @@ export class EmpresasRepositories implements IEmpresasRepositories {
     const limitPage = limit ? limit : 25;
     const cursorPage = cursor ? cursor : 0;
 
-    let where = {};
+    let where: any = { excluir: false };
 
     if (pesquisa)
       where = [
