@@ -7,5 +7,6 @@ export interface IProdutosRepositories {
   findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListProdutosDTO>
   findById(id: string): Promise<Produtos>;
   findByCodBarras(codigo_barras: string): Promise<Produtos>;
+  findByNome(nome: string): Promise<Produtos>;
   deleteProduto(id: string): Promise<void>;
 }
