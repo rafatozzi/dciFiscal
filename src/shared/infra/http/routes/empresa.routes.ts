@@ -1,6 +1,7 @@
 import { Router } from "express";
+
 import { CreateEmpresaController } from "../../../../modules/empresas/useCases/createEmpresa/CreateEmpresaController";
-import { DeleteEmpresaController } from "../../../../modules/empresas/useCases/deleteEmpresa/DeleteEmpresaController";
+import { DeleteEmpresaController } from "../../../../modules/empresas/useCases/deleteEmpresa/deleteEmpresaController";
 import { FindByIdController } from "../../../../modules/empresas/useCases/findById/FindByIdController";
 import { ListEmpresasController } from "../../../../modules/empresas/useCases/listEmpresas/ListEmpresasController";
 import { EnsureAdmin } from "../middlewares/ensureAdmin";
