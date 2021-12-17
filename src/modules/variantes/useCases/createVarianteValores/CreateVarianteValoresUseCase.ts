@@ -1,14 +1,14 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateVariantesValoresDTO } from "../../dtos/ICreateVariantesValoresDTO";
-import { VariantesValoresRepositories } from "../../infra/typeorm/repositories/VariantesValoresRepositories";
+import { IVariantesValoresRepositories } from "../../repositories/IVariantesValoresRepositories";
 
 @injectable()
 export class CreateVarianteValoresUseCase {
 
   constructor(
     @inject("VariantesValoresRepositories")
-    private variantesValoresRepositories: VariantesValoresRepositories
+    private variantesValoresRepositories: IVariantesValoresRepositories
   ) { }
 
   async execute(data: ICreateVariantesValoresDTO[]): Promise<void> {

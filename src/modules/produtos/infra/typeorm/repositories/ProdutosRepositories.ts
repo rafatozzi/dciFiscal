@@ -62,7 +62,7 @@ export class ProdutosRepositories implements IProdutosRepositories {
 
   async findByCodBarras(codigo_barras: string): Promise<Produtos> {
     return await this.repository.findOne(
-      { cod_barras: codigo_barras },
+      { cod_barras: codigo_barras, excluir: false },
       {
         relations: ["variantes", "variantes.variante", "variantes.variante_valor"]
       }

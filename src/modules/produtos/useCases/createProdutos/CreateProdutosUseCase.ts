@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateProdutosDTO } from "../../dtos/ICreateProdutosDTO";
 import { Produtos } from "../../infra/typeorm/entities/Produtos";
-import { ProdutosRepositories } from "../../infra/typeorm/repositories/ProdutosRepositories";
+import { IProdutosRepositories } from "../../repositories/IProdutosRepositories";
 
 
 @injectable()
@@ -10,7 +10,7 @@ export class CreateProdutosUseCase {
 
   constructor(
     @inject("ProdutosRepositories")
-    private produtosRepositories: ProdutosRepositories
+    private produtosRepositories: IProdutosRepositories
   ) { }
 
   async execute(data: ICreateProdutosDTO): Promise<Produtos> {

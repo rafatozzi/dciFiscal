@@ -1,13 +1,13 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { VariantesValoresRepositories } from "../../infra/typeorm/repositories/VariantesValoresRepositories";
+import { IVariantesValoresRepositories } from "../../repositories/IVariantesValoresRepositories";
 
 @injectable()
 export class DeleteVarianteValoresUseCase {
 
   constructor(
     @inject("VariantesValoresRepositories")
-    private variantesValoresRepositories: VariantesValoresRepositories
+    private variantesValoresRepositories: IVariantesValoresRepositories
   ) { }
 
   async execute(id: string): Promise<void> {

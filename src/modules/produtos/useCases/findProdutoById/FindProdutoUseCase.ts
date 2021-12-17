@@ -1,14 +1,14 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Produtos } from "../../infra/typeorm/entities/Produtos";
-import { ProdutosRepositories } from "../../infra/typeorm/repositories/ProdutosRepositories";
+import { IProdutosRepositories } from "../../repositories/IProdutosRepositories";
 
 @injectable()
 export class FindProdutoByIdUseCase {
 
   constructor(
     @inject("ProdutosRepositories")
-    private produtosRepositories: ProdutosRepositories
+    private produtosRepositories: IProdutosRepositories
   ) { }
 
   async execute(id: string): Promise<Produtos> {

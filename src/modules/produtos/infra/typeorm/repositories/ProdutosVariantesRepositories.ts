@@ -23,15 +23,15 @@ export class ProdutosVariantesRepositories implements IProdutosVariantesReposito
   }
 
   async findByProduto(id: string): Promise<ProdutosVariantes[]> {
-    return await this.repository.find({ id_produtos: id });
+    return await this.repository.find({ id_produtos: id, excluir: false });
   }
 
   async findByVariante(id: string): Promise<ProdutosVariantes[]> {
-    return await this.repository.find({ id_variante: id });
+    return await this.repository.find({ id_variante: id, excluir: false });
   }
 
   async findByVarianteValor(id: string): Promise<ProdutosVariantes[]> {
-    return await this.repository.find({ id_variante_valores: id });
+    return await this.repository.find({ id_variante_valores: id, excluir: false });
   }
 
   async deleteById(id: string): Promise<void> {

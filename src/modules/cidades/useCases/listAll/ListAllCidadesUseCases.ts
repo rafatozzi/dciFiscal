@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { Cidades } from "../../infra/typeorm/entities/Cidades";
-import { CidadesRepositories } from "../../infra/typeorm/repositories/CidadesRepositories";
+import { ICidadesRespositories } from "../../repositories/ICidadesRespositories";
 
 @injectable()
 export class ListAllCidadesUseCases {
 
   constructor(
     @inject("CidadesRepositories")
-    private cidadesRepositories: CidadesRepositories
+    private cidadesRepositories: ICidadesRespositories
   ) { }
 
   async execute(): Promise<Cidades[]> {

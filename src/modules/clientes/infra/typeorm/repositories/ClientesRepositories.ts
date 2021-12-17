@@ -50,8 +50,8 @@ export class ClientesRepositories implements IClientesRepositories {
     return await this.repository.findOne(id);
   }
 
-  async findByCpfCnpj(cpf_cnpj: string): Promise<Clientes> {
-    return await this.repository.findOne(cpf_cnpj);
+  async findByCpfCnpj(cpf_cnpj: number): Promise<Clientes> {
+    return await this.repository.findOne({ cpf_cnpj, excluir: false });
   }
 
   async deleteById(id: string): Promise<void> {

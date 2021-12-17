@@ -1,13 +1,13 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { ProdutosRepositories } from "../../infra/typeorm/repositories/ProdutosRepositories";
+import { IProdutosRepositories } from "../../repositories/IProdutosRepositories";
 
 @injectable()
 export class DeleteProdutoUseCase {
 
   constructor(
     @inject("ProdutosRepositories")
-    private produtosRepositories: ProdutosRepositories
+    private produtosRepositories: IProdutosRepositories
   ) { }
 
   async execute(id: string): Promise<void> {

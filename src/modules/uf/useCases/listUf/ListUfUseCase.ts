@@ -1,13 +1,13 @@
 import { injectable, inject } from "tsyringe";
 import { Uf } from "../../infra/typeorm/entities/Uf";
-import { UfRepositories } from "../../infra/typeorm/repositories/UfRepositories";
+import { IUfRepositories } from "../../repositories/IUfRepositories";
 
 @injectable()
 export class ListUfUseCase {
 
   constructor(
     @inject("UfRepositories")
-    private ufRepositories: UfRepositories
+    private ufRepositories: IUfRepositories
   ) { }
 
   async execute(): Promise<Uf[]> {

@@ -1,13 +1,13 @@
 import { inject, injectable } from "tsyringe";
 import { IListResponse } from "../../dtos/IListResponse";
-import { EmpresasRepositories } from "../../infra/typeorm/repositories/EmpresasRepositories";
+import { IEmpresasRepositories } from "../../repositories/IEmpresasRepositories";
 
 @injectable()
 export class ListEmpresasUseCase {
 
   constructor(
     @inject("EmpresasRepositories")
-    private empresasRepositories: EmpresasRepositories
+    private empresasRepositories: IEmpresasRepositories
   ) { }
 
   async execute(pesquisa?: string, limit?: number, cursor?: number): Promise<IListResponse> {
