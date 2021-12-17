@@ -65,7 +65,7 @@ export class Empresas {
   cert(): string {
     switch (process.env.DISK) {
       case "local":
-        return `${process.env.APP_API_URL}/cert/${this.id}.pfx`;
+        return `${process.env.APP_API_URL}/certificado/${this.id}.pfx`;
 
       default:
         return null;
