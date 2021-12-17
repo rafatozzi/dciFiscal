@@ -1,5 +1,5 @@
 import { getRepository, Repository } from "typeorm";
-import { ICreateProdutosDTO } from "../../../dtos/ICreateProdutosDTO";
+import { ICreateProdutosVariantesDTO } from "../../../dtos/ICreateProdutosVariantesDTO";
 import { IProdutosVariantesRepositories } from "../../../repositories/IProdutosVariantesRepositories";
 import { ProdutosVariantes } from "../entities/ProdutosVariantes";
 
@@ -10,7 +10,7 @@ export class ProdutosVariantesRepositories implements IProdutosVariantesReposito
     this.repository = getRepository(ProdutosVariantes);
   }
 
-  async create(data: ICreateProdutosDTO[]): Promise<void> {
+  async create(data: ICreateProdutosVariantesDTO[]): Promise<void> {
     data.map(async (item) => {
       const variante = this.repository.create({ ...item });
 

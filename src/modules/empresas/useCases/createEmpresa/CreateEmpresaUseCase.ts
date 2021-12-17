@@ -14,6 +14,9 @@ export class CreateEmpresaUseCase {
 
   async execute(data: ICreateEmpresasDTO): Promise<Empresas> {
 
+    if (!data.id_cidades || data.id_cidades <= 0)
+      throw new AppError("Cidade não informada");
+
     if (!data.id) {
       const alredyExists = await this.empresasRepositories.findByCNPJ(data.cnpj);
 

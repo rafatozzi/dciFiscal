@@ -1,8 +1,8 @@
-import { ICreateProdutosDTO } from "../dtos/ICreateProdutosDTO";
+import { ICreateProdutosVariantesDTO } from "../dtos/ICreateProdutosVariantesDTO";
 import { ProdutosVariantes } from "../infra/typeorm/entities/ProdutosVariantes";
 
 export interface IProdutosVariantesRepositories {
-  create(data: ICreateProdutosDTO[]): Promise<void>;
+  create(data: ICreateProdutosVariantesDTO[]): Promise<void>;
   findById(id: string): Promise<ProdutosVariantes>;
   findByProduto(id: string): Promise<ProdutosVariantes[]>;
   findByVariante(id: string): Promise<ProdutosVariantes[]>;
