@@ -6,6 +6,7 @@ import { cidadesRouter } from "./cidades.routes";
 import { empresaRoutes } from "./empresa.routes";
 import { variantesRoutes } from "./variantes.routes";
 import { produtosRoutes } from "./produtos.routes";
+import { clientesRoutes } from "./clientes.routes";
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.use("/cidades", cidadesRouter);
 router.use("/empresas", empresaRoutes);
 router.use("/variantes", variantesRoutes);
 router.use("/produtos", produtosRoutes);
+router.use("/clientes", clientesRoutes);
 
 router.use(authenticateRoutes);
 

@@ -11,6 +11,7 @@ import { IVariantesRepositories } from "../../modules/variantes/repositories/IVa
 import { IVariantesValoresRepositories } from "../../modules/variantes/repositories/IVariantesValoresRepositories";
 import { IProdutosRepositories } from "../../modules/produtos/repositories/IProdutosRepositories";
 import { IProdutosVariantesRepositories } from "../../modules/produtos/repositories/IProdutosVariantesRepositories";
+import { IClientesRepositories } from "../../modules/clientes/repositories/IClientesRepositories";
 
 
 // REPOSITORIES
@@ -24,6 +25,7 @@ import { VariantesRepositories } from "../../modules/variantes/infra/typeorm/rep
 import { VariantesValoresRepositories } from "../../modules/variantes/infra/typeorm/repositories/VariantesValoresRepositories";
 import { ProdutosRepositories } from "../../modules/produtos/infra/typeorm/repositories/ProdutosRepositories";
 import { ProdutosVariantesRepositories } from "../../modules/produtos/infra/typeorm/repositories/ProdutosVariantesRepositories";
+import { ClientesRepositories } from "../../modules/clientes/infra/typeorm/repositories/ClientesRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -41,6 +43,7 @@ container.registerSingleton<IVariantesRepositories>("VariantesRepositories", del
 container.registerSingleton<IVariantesValoresRepositories>("VariantesValoresRepositories", delay(() => VariantesValoresRepositories));
 container.registerSingleton<IProdutosRepositories>("ProdutosRepositories", delay(() => ProdutosRepositories));
 container.registerSingleton<IProdutosVariantesRepositories>("ProdutosVariantesRepositories", delay(() => ProdutosVariantesRepositories));
+container.registerSingleton<IClientesRepositories>("ClientesRepositories", delay(() => ClientesRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
