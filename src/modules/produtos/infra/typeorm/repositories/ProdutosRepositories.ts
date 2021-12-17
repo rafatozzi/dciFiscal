@@ -37,7 +37,7 @@ export class ProdutosRepositories implements IProdutosRepositories {
 
     const [result, total] = await this.repository.findAndCount(
       {
-        relations: ["variantes"],
+        relations: ["variantes", "variantes.variante", "variantes.variante_valor"],
         order: { nome: "ASC" },
         take: limitPage,
         skip: cursorPage,
@@ -52,11 +52,21 @@ export class ProdutosRepositories implements IProdutosRepositories {
   }
 
   async findById(id: string): Promise<Produtos> {
-    return await this.repository.findOne(id);
+    return await this.repository.findOne(
+      id,
+      {
+        relations: ["variantes", "variantes.variante", "variantes.variante_valor"]
+      }
+    );
   }
 
   async findByCodBarras(codigo_barras: string): Promise<Produtos> {
-    return await this.repository.findOne({ cod_barras: codigo_barras });
+    return await this.repository.findOne(
+      { cod_barras: codigo_barras },
+      {
+        relations: ["variantes", "variantes.variante", "variantes.variante_valor"]
+      }
+    );
   }
 
   async deleteProduto(id: string): Promise<void> {
