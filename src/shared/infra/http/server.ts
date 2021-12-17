@@ -6,13 +6,15 @@ import "express-async-errors";
 import "../typeorm";
 import "../../container";
 
-
 import { router } from "./routes";
 import { AppError } from "../../errors/AppError";
+import upload from "../../../config/upload";
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/certificado", express.static(`${upload.tmpFolder}/cert`));
 
 app.use(router);
 

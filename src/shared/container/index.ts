@@ -28,6 +28,9 @@ import { ProdutosVariantesRepositories } from "../../modules/produtos/infra/type
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
 
+import { IStorageProvider } from "./providers/StorageProvider/IStorageProvider";
+import { LocalStorageProvider } from "./providers/StorageProvider/implementations/LocalStorageProvider";
+
 container.registerSingleton<IUsersRepositories>("UsersRepositories", delay(() => UsersRepositories));
 container.registerSingleton<IUseTokensRepositories>("UserTokensRepositories", delay(() => UserTokensRepositories));
 
@@ -40,3 +43,10 @@ container.registerSingleton<IProdutosRepositories>("ProdutosRepositories", delay
 container.registerSingleton<IProdutosVariantesRepositories>("ProdutosVariantesRepositories", delay(() => ProdutosVariantesRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
+
+
+const diskStorage = {
+  local: LocalStorageProvider
+};
+
+container.registerSingleton<IStorageProvider>("StorageProvider", delay(() => diskStorage[process.env.DISK]));

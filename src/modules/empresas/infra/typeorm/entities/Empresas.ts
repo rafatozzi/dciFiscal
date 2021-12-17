@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { Cidades } from "../../../../cidades/infra/typeorm/entities/Cidades";
@@ -59,6 +60,17 @@ export class Empresas {
 
   @Column()
   senha_cert: string;
+
+  @Expose({ name: "cert" })
+  cert(): string {
+    switch (process.env.DISK) {
+      case "local":
+        return `${process.env.APP_API_URL}/cert/${this.id}.pfx`;
+
+      default:
+        return null;
+    }
+  };
 
   @Column()
   excluir: boolean;
