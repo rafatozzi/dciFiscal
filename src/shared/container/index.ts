@@ -9,6 +9,8 @@ import { ICidadesRespositories } from "../../modules/cidades/repositories/ICidad
 import { IEmpresasRepositories } from "../../modules/empresas/repositories/IEmpresasRepositories";
 import { IVariantesRepositories } from "../../modules/variantes/repositories/IVariantesRepositories";
 import { IVariantesValoresRepositories } from "../../modules/variantes/repositories/IVariantesValoresRepositories";
+import { IProdutosRepositories } from "../../modules/produtos/repositories/IProdutosRepositories";
+import { IProdutosVariantesRepositories } from "../../modules/produtos/repositories/IProdutosVariantesRepositories";
 
 
 // REPOSITORIES
@@ -20,6 +22,8 @@ import { CidadesRepositories } from "../../modules/cidades/infra/typeorm/reposit
 import { EmpresasRepositories } from "../../modules/empresas/infra/typeorm/repositories/EmpresasRepositories";
 import { VariantesRepositories } from "../../modules/variantes/infra/typeorm/repositories/VariantesRepositories";
 import { VariantesValoresRepositories } from "../../modules/variantes/infra/typeorm/repositories/VariantesValoresRepositories";
+import { ProdutosRepositories } from "../../modules/produtos/infra/typeorm/repositories/ProdutosRepositories";
+import { ProdutosVariantesRepositories } from "../../modules/produtos/infra/typeorm/repositories/ProdutosVariantesRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -32,5 +36,7 @@ container.registerSingleton<ICidadesRespositories>("CidadesRepositories", delay(
 container.registerSingleton<IEmpresasRepositories>("EmpresasRepositories", delay(() => EmpresasRepositories));
 container.registerSingleton<IVariantesRepositories>("VariantesRepositories", delay(() => VariantesRepositories));
 container.registerSingleton<IVariantesValoresRepositories>("VariantesValoresRepositories", delay(() => VariantesValoresRepositories));
+container.registerSingleton<IProdutosRepositories>("ProdutosRepositories", delay(() => ProdutosRepositories));
+container.registerSingleton<IProdutosVariantesRepositories>("ProdutosVariantesRepositories", delay(() => ProdutosVariantesRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
