@@ -11,7 +11,7 @@ interface IPayload {
 export async function EnsureAuthenticated(request: Request, response: Response, next: NextFunction) {
   const authHeader = request.headers.authorization;
 
-  const usersRepositories = new UsersRepositories();
+  const usersRepositories = new UsersRepositories(request.cod_cliente);
 
   if (!authHeader)
     throw new AppError("Token não informado");
