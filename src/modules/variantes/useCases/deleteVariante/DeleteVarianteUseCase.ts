@@ -1,22 +1,23 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IVariantesRepositories } from "../../repositories/IVariantesRepositories";
+import { VariantesRepositories } from "../../infra/typeorm/repositories/VariantesRepositories";
 
 @injectable()
 export class DeleteVarianteUseCase {
 
   constructor(
-    @inject("VariantesRepositories")
-    private variantesRepositories: IVariantesRepositories
+    // @inject("VariantesRepositories")
+    // private variantesRepositories: IVariantesRepositories
   ) { }
 
-  async execute(id: string): Promise<void> {
-    const variante = await this.variantesRepositories.findById(id);
+  async execute(cod_Cliente: string, id: string): Promise<void> {
+    const variantesRepositories = new VariantesRepositories(cod_Cliente);
+    const variante = await variantesRepositories.findById(id);
 
     if (!variante)
       throw new AppError("Variante não encontrada");
 
-    await this.variantesRepositories.deleteVariante(id);
+    await variantesRepositories.deleteVariante(id);
   }
 
 }

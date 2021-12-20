@@ -8,7 +8,7 @@ export class DeleteProdutoVarianteController {
 
     const useCase = container.resolve(DeleteProdutoVarianteUseCase);
 
-    await useCase.execute(id);
+    await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).send();
   }

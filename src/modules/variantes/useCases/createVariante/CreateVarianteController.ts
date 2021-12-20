@@ -8,7 +8,7 @@ export class CreateVarianteController {
 
     const useCase = container.resolve(CreateVarianteUseCase);
 
-    const result = await useCase.execute({ id, nome });
+    const result = await useCase.execute(request.cod_cliente, { id, nome });
 
     return response.status(200).json(result);
   }

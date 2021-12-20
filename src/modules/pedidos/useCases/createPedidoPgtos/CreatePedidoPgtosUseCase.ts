@@ -1,15 +1,15 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { ICreatePedidosPgtosDTO } from "../../dtos/ICreatePedidosPgtosDTO";
-import { IPedidosPgtosRepositories } from "../../repositories/IPedidosPgtosRepositories";
+import { PedidosPgtosRepositories } from "../../infra/typeorm/repositories/PedidosPgtosRepositories";
 
 @injectable()
 export class CreatePedidoPgtosUseCase {
   constructor(
-    @inject("PedidosPgtosRepositories")
-    private pedidosPgtosRepositories: IPedidosPgtosRepositories
+    // @inject("PedidosPgtosRepositories")
+    // private pedidosPgtosRepositories: IPedidosPgtosRepositories
   ) { }
 
-  async execute(data: ICreatePedidosPgtosDTO[]): Promise<void> {
+  async execute(cod_cliente: string, data: ICreatePedidosPgtosDTO[]): Promise<void> {
     if (data.length <= 0)
       return;
 
@@ -22,7 +22,8 @@ export class CreatePedidoPgtosUseCase {
       }
     })
 
-    await this.pedidosPgtosRepositories.create(newData);
+    const pedidosPgtosRepositories = new PedidosPgtosRepositories(cod_cliente);
+    await pedidosPgtosRepositories.create(newData);
   }
 
 }

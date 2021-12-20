@@ -2,8 +2,8 @@ import { inject, injectable } from "tsyringe";
 import { verify, sign } from "jsonwebtoken";
 import auth from "../../../../config/auth";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
-import { UserTokensRepositories } from "../../infra/typeorm/repositories/UserTokensRepositories";
 import { AppError } from "../../../../shared/errors/AppError";
+import { UserTokensRepositories } from "../../infra/typeorm/repositories/UserTokensRepositories";
 
 interface IPayload {
   sub: string;
@@ -19,22 +19,23 @@ interface ITokenResponse {
 export class RefreshTokenUseCase {
 
   constructor(
-    @inject("UserTokensRepositories")
-    private userTokensRepositories: UserTokensRepositories,
+    // @inject("UserTokensRepositories")
+    // private userTokensRepositories: UserTokensRepositories,
     @inject("DaysJsDateProvider")
     private dayjsDateProvider: IDateProvider
   ) { }
 
-  async execute(token: string): Promise<ITokenResponse> {
+  async execute(cod_cliente: string, token: string): Promise<ITokenResponse> {
 
     const { sub: user_id, user } = verify(token, auth.secret_refresh_token) as IPayload;
+    const userTokensRepositories = new UserTokensRepositories(cod_cliente);
 
-    const userToken = await this.userTokensRepositories.findByUserIdAndRefreshToken(user_id, token);
+    const userToken = await userTokensRepositories.findByUserIdAndRefreshToken(user_id, token);
 
     if (!userToken)
       throw new AppError("Refresh Token não encontrado", 401);
 
-    await this.userTokensRepositories.deleteById(userToken.id);
+    await userTokensRepositories.deleteById(userToken.id);
 
     if (this.dayjsDateProvider.compareIfBefore(userToken.expires_date, this.dayjsDateProvider.dateNow()))
       throw new AppError("Token expirado", 401);
@@ -46,7 +47,7 @@ export class RefreshTokenUseCase {
 
     const refres_token_expires_date = this.dayjsDateProvider.addDays(auth.expires_in_refresh_token_days);
 
-    await this.userTokensRepositories.create({
+    await userTokensRepositories.create({
       user_id,
       refresh_token,
       expires_date: refres_token_expires_date

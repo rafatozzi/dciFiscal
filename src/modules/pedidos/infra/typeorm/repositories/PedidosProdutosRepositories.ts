@@ -6,8 +6,8 @@ import { PedidosProdutos } from "../entities/PedidosProdutos";
 export class PedidosProdutosRepositories implements IPedidosProdutosRepositories {
   private repository: Repository<PedidosProdutos>;
 
-  constructor() {
-    this.repository = getRepository(PedidosProdutos);
+  constructor(connectionName: string) {
+    this.repository = getRepository(PedidosProdutos, connectionName);
   }
 
   async create(data: ICreatePedidosProdutosDTO[]): Promise<void> {

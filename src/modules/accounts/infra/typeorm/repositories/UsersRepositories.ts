@@ -8,8 +8,8 @@ import { UserMap } from "../../../mapper/UserMap";
 export class UsersRepositories implements IUsersRepositories {
   private repository: Repository<Users>;
 
-  constructor() {
-    this.repository = getRepository(Users);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Users, connectionName);
   }
 
   async findAll(limit?: number, cursor?: number): Promise<IListUsersResponseDTO> {

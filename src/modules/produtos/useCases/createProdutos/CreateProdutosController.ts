@@ -9,7 +9,7 @@ export class CreateProdutosController {
 
     const useCase = container.resolve(CreateProdutosUseCase);
 
-    const result = await useCase.execute({ cfop, cod_barras, ncm, nome, preco, unid_med, id });
+    const result = await useCase.execute(request.cod_cliente, { cfop, cod_barras, ncm, nome, preco, unid_med, id });
 
     return response.status(200).json(result);
   }

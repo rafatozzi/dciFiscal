@@ -1,24 +1,26 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateProdutosVariantesDTO } from "../../dtos/ICreateProdutosVariantesDTO";
-import { IProdutosVariantesRepositories } from "../../repositories/IProdutosVariantesRepositories";
+import { ProdutosVariantesRepositories } from "../../infra/typeorm/repositories/ProdutosVariantesRepositories";
 
 @injectable()
 export class CreateProdutoVarianteUseCase {
 
   constructor(
-    @inject("ProdutosVariantesRepositories")
-    private produtosVariantesRepositories: IProdutosVariantesRepositories
+    // @inject("ProdutosVariantesRepositories")
+    // private produtosVariantesRepositories: IProdutosVariantesRepositories
   ) { }
 
-  async execute(data: ICreateProdutosVariantesDTO[]): Promise<void> {
+  async execute(cod_cliente: string, data: ICreateProdutosVariantesDTO[]): Promise<void> {
     if (data.length <= 0)
       return;
 
     if (!data[0].id_produtos && data[0].id_produtos.length <= 0)
       throw new AppError("Produto não informado")
 
-    const valoresExists = await this.produtosVariantesRepositories.findByProduto(data[0].id_produtos);
+    const produtosVariantesRepositories = new ProdutosVariantesRepositories(cod_cliente);
+
+    const valoresExists = await produtosVariantesRepositories.findByProduto(data[0].id_produtos);
 
     const newData = data.map((item) => {
       if (!item.id) {
@@ -31,7 +33,7 @@ export class CreateProdutoVarianteUseCase {
         return item;
     })
 
-    await this.produtosVariantesRepositories.create(newData);
+    await produtosVariantesRepositories.create(newData);
   }
 
 }

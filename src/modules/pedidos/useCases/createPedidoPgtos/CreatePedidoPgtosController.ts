@@ -8,7 +8,7 @@ export class CreatePedidoPgtosController {
 
     const useCase = container.resolve(CreatePedidoPgtosUseCase);
 
-    await useCase.execute(data);
+    await useCase.execute(request.cod_cliente, data);
 
     return response.status(200).send();
   }

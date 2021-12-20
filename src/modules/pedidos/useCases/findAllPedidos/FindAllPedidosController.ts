@@ -8,7 +8,7 @@ export class FindAllPedidosController {
 
     const useCase = container.resolve(FindAllPedidosUseCase);
 
-    const result = await useCase.execute(pesquisa, limit, cursor);
+    const result = await useCase.execute(request.cod_cliente, pesquisa, limit, cursor);
 
     return response.status(200).json(result);
   }

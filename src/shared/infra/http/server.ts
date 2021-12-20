@@ -9,10 +9,13 @@ import "../../container";
 import { router } from "./routes";
 import { AppError } from "../../errors/AppError";
 import upload from "../../../config/upload";
+import { midConnection } from "./middlewares/midConnection";
 
 const app = express();
 
 app.use(express.json());
+
+app.use(midConnection);
 
 app.use("/certificado", express.static(`${upload.tmpFolder}/cert`));
 

@@ -10,16 +10,19 @@ injectable()
 export class ResetPasswordUseCase {
 
   constructor(
-    @inject("UsersRepositories")
-    private usersRepositories: UsersRepositories,
-    @inject("UserTokensRepositories")
-    private userTokensRepositories: UserTokensRepositories,
+    // @inject("UsersRepositories")
+    // private usersRepositories: UsersRepositories,
+    // @inject("UserTokensRepositories")
+    // private userTokensRepositories: UserTokensRepositories,
     @inject("DayjsDateProvider")
     private dayjsDateProvider: IDateProvider
   ) { }
 
-  async execute(data: IResetPassword): Promise<void> {
-    const userToken = await this.userTokensRepositories.findByRefreshToken(data.token);
+  async execute(cod_cliente: string, data: IResetPassword): Promise<void> {
+    const userTokensRepositories = new UserTokensRepositories(cod_cliente);
+    const usersRepositories = new UsersRepositories(cod_cliente);
+
+    const userToken = await userTokensRepositories.findByRefreshToken(data.token);
 
     if (!userToken)
       throw new AppError("Token inválido");
@@ -27,12 +30,12 @@ export class ResetPasswordUseCase {
     if (this.dayjsDateProvider.compareIfBefore(userToken.expires_date, this.dayjsDateProvider.dateNow()))
       throw new AppError("Token expirado");
 
-    const user = await this.usersRepositories.findById(userToken.user_id);
+    const user = await usersRepositories.findById(userToken.user_id);
 
     user.senha = await hash(data.senha, 8);
 
-    await this.usersRepositories.create(user);
-    await this.userTokensRepositories.deleteById(userToken.id);
+    await usersRepositories.create(user);
+    await userTokensRepositories.deleteById(userToken.id);
   }
 
 }

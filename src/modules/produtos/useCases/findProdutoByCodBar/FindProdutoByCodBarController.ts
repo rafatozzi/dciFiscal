@@ -8,7 +8,7 @@ export class FindProdutoByCodBarController {
 
     const useCase = container.resolve(FindProdutoByCodBarUseCase);
 
-    const result = await useCase.execute(cod_barras);
+    const result = await useCase.execute(request.cod_cliente, cod_barras);
 
     return response.status(200).json(result);
   }

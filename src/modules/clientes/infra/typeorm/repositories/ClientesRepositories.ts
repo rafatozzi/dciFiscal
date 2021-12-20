@@ -7,8 +7,8 @@ import { Clientes } from "../entities/Clientes";
 export class ClientesRepositories implements IClientesRepositories {
   private repository: Repository<Clientes>;
 
-  constructor() {
-    this.repository = getRepository(Clientes);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Clientes, connectionName);
   }
 
   async create(data: ICreateClientesDTO): Promise<Clientes> {

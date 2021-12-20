@@ -8,7 +8,7 @@ export class FindClienteByIdController {
 
     const useCase = container.resolve(FindClienteByIdUseCase);
 
-    const result = await useCase.execute(id);
+    const result = await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).json(result);
   }

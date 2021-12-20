@@ -1,17 +1,18 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { IListClientesResponse } from "../../dtos/IListClientesResponse";
-import { IClientesRepositories } from "../../repositories/IClientesRepositories";
+import { ClientesRepositories } from "../../infra/typeorm/repositories/ClientesRepositories";
 
 @injectable()
 export class FindAllClientesUseCase {
 
   constructor(
-    @inject("ClientesRepositories")
-    private clientesRepositories: IClientesRepositories
+    // @inject("ClientesRepositories")
+    // private clientesRepositories: IClientesRepositories
   ) { }
 
-  async execute(pesquisa?: string, limit?: number, cursor?: number): Promise<IListClientesResponse> {
-    const result = await this.clientesRepositories.findAll(pesquisa, limit, cursor);
+  async execute(cod_cliente: string, pesquisa?: string, limit?: number, cursor?: number): Promise<IListClientesResponse> {
+    const clientesRepositories = new ClientesRepositories(cod_cliente);
+    const result = await clientesRepositories.findAll(pesquisa, limit, cursor);
 
     return result;
   }

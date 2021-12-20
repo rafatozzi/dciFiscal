@@ -6,8 +6,8 @@ import { UserToken } from "../entities/UserTokens";
 export class UserTokensRepositories implements IUseTokensRepositories {
   private repository: Repository<UserToken>;
 
-  constructor() {
-    this.repository = getRepository(UserToken);
+  constructor(connectionName: string) {
+    this.repository = getRepository(UserToken, connectionName);
   }
 
   async create(data: ICreateUserTokensDTO): Promise<UserToken> {

@@ -1,19 +1,20 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
-import { IUsersRepositories } from "../../repositories/IUsersRepositories";
 import { hash } from "bcrypt";
 import { AppError } from "../../../../shared/errors/AppError";
+import { UsersRepositories } from "../../infra/typeorm/repositories/UsersRepositories";
 
 @injectable()
 export class CreateUserUseCase {
 
   constructor(
-    @inject("UsersRepositories")
-    private usersRepositories: IUsersRepositories
+    // @inject("UsersRepositories")
+    // private usersRepositories: IUsersRepositories
   ) { }
 
-  async execute(data: ICreateUserDTO): Promise<void> {
-    const alreadyExists = await this.usersRepositories.findByUser(data.user);
+  async execute(cod_cliente: string, data: ICreateUserDTO): Promise<void> {
+    const usersRepositories = new UsersRepositories(cod_cliente);
+    const alreadyExists = await usersRepositories.findByUser(data.user);
 
     if (alreadyExists)
       throw new AppError("Usuário já cadastrado");
@@ -21,7 +22,7 @@ export class CreateUserUseCase {
     const senhaHash = await hash(data.senha, 8);
     data.senha = senhaHash;
 
-    await this.usersRepositories.create(data);
+    await usersRepositories.create(data);
   }
 
 }

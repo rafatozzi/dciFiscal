@@ -8,7 +8,7 @@ export class CreateProdutoVarianteController {
 
     const useCase = container.resolve(CreateProdutoVarianteUseCase);
 
-    await useCase.execute(data);
+    await useCase.execute(request.cod_cliente, data);
 
     return response.status(200).send();
   }

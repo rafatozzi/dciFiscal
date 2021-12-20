@@ -1,22 +1,23 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IProdutosVariantesRepositories } from "../../repositories/IProdutosVariantesRepositories";
+import { ProdutosVariantesRepositories } from "../../infra/typeorm/repositories/ProdutosVariantesRepositories";
 
 @injectable()
 export class DeleteProdutoVarianteUseCase {
 
   constructor(
-    @inject("ProdutosVariantesRepositories")
-    private produtosVariantesRepositories: IProdutosVariantesRepositories
+    // @inject("ProdutosVariantesRepositories")
+    // private produtosVariantesRepositories: IProdutosVariantesRepositories
   ) { }
 
-  async execute(id: string): Promise<void> {
-    const prodVariante = await this.produtosVariantesRepositories.findById(id);
+  async execute(cod_cliente: string, id: string): Promise<void> {
+    const produtosVariantesRepositories = new ProdutosVariantesRepositories(cod_cliente);
+    const prodVariante = await produtosVariantesRepositories.findById(id);
 
     if (!prodVariante)
       throw new AppError("Variante do produto não encontrado");
 
-    await this.produtosVariantesRepositories.deleteById(id);
+    await produtosVariantesRepositories.deleteById(id);
   }
 
 }

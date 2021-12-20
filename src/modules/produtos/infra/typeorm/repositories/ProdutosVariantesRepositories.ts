@@ -6,8 +6,8 @@ import { ProdutosVariantes } from "../entities/ProdutosVariantes";
 export class ProdutosVariantesRepositories implements IProdutosVariantesRepositories {
   private repository: Repository<ProdutosVariantes>;
 
-  constructor() {
-    this.repository = getRepository(ProdutosVariantes);
+  constructor(connectionName: string) {
+    this.repository = getRepository(ProdutosVariantes, connectionName);
   }
 
   async create(data: ICreateProdutosVariantesDTO[]): Promise<void> {

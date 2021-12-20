@@ -1,39 +1,43 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IPedidosPgtosRepositories } from "../../repositories/IPedidosPgtosRepositories";
-import { IPedidosProdutosRepositories } from "../../repositories/IPedidosProdutosRepositories";
-import { IPedidosRepositories } from "../../repositories/IPedidosRepositories";
+import { PedidosPgtosRepositories } from "../../infra/typeorm/repositories/PedidosPgtosRepositories";
+import { PedidosProdutosRepositories } from "../../infra/typeorm/repositories/PedidosProdutosRepositories";
+import { PedidosRepositories } from "../../infra/typeorm/repositories/PedidosRepositories";
 
 @injectable()
 export class DeletePedidoUseCase {
 
   constructor(
-    @inject("PedidosRepositories")
-    private pedidosRepositories: IPedidosRepositories,
-    @inject("PedidosProdutosRepositories")
-    private pedidosProdutosRepositories: IPedidosProdutosRepositories,
-    @inject("PedidosPgtosRepositories")
-    private pedidosPgtosRepositories: IPedidosPgtosRepositories
+    // @inject("PedidosRepositories")
+    // private pedidosRepositories: IPedidosRepositories,
+    // @inject("PedidosProdutosRepositories")
+    // private pedidosProdutosRepositories: IPedidosProdutosRepositories,
+    // @inject("PedidosPgtosRepositories")
+    // private pedidosPgtosRepositories: IPedidosPgtosRepositories
   ) { }
 
-  async execute(id: string): Promise<void> {
-    const pedido = await this.pedidosRepositories.findById(id);
+  async execute(cod_cliente: string, id: string): Promise<void> {
+    const pedidosRepositories = new PedidosRepositories(cod_cliente);
+    const pedidosPgtosRepositories = new PedidosPgtosRepositories(cod_cliente);
+    const pedidosProdutosRepositories = new PedidosProdutosRepositories(cod_cliente);
+
+    const pedido = await pedidosRepositories.findById(id);
 
     if (!pedido)
       throw new AppError("Pedido não encontrado");
 
-    const pgtos = await this.pedidosPgtosRepositories.findByPedido(pedido.id);
-    const produtos = await this.pedidosProdutosRepositories.findByPedido(pedido.id);
+    const pgtos = await pedidosPgtosRepositories.findByPedido(pedido.id);
+    const produtos = await pedidosProdutosRepositories.findByPedido(pedido.id);
 
     pgtos.map(async (item) => {
-      await this.pedidosPgtosRepositories.deletePedidosPgtos(item.id);
+      await pedidosPgtosRepositories.deletePedidosPgtos(item.id);
     });
 
     produtos.map(async (item) => {
-      await this.pedidosProdutosRepositories.deletePedidosProdutos(item.id);
+      await pedidosProdutosRepositories.deletePedidosProdutos(item.id);
     });
 
-    await this.pedidosRepositories.deletePedido(id);
+    await pedidosRepositories.deletePedido(id);
   }
 
 }

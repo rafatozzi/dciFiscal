@@ -7,7 +7,7 @@ export class ListByUfController {
     const { id_uf } = request.body;
     const useCase = container.resolve(ListByUfUseCases);
 
-    const result = await useCase.execute(id_uf);
+    const result = await useCase.execute(request.cod_cliente, id_uf);
 
     return response.status(200).json(result);
   }

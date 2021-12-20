@@ -8,7 +8,7 @@ export class DeleteEmpresaController {
 
     const useCase = container.resolve(DeleteEmpresaUseCase);
 
-    await useCase.execute(id);
+    await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).json();
   }

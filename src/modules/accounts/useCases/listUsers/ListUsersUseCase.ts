@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { IListUsersResponseDTO } from "../../dtos/IListUsersResponseDTO";
 import { UsersRepositories } from "../../infra/typeorm/repositories/UsersRepositories";
 
@@ -6,12 +6,13 @@ import { UsersRepositories } from "../../infra/typeorm/repositories/UsersReposit
 export class ListUsersUseCase {
 
   constructor(
-    @inject("UsersRepositories")
-    private usersRepositories: UsersRepositories
+    // @inject("UsersRepositories")
+    // private usersRepositories: UsersRepositories
   ) { }
 
-  async execute(limit?: number, cursor?: number): Promise<IListUsersResponseDTO> {
-    const result = await this.usersRepositories.findAll(limit, cursor);
+  async execute(cod_cliente: string, limit?: number, cursor?: number): Promise<IListUsersResponseDTO> {
+    const usersRepositories = new UsersRepositories(cod_cliente);
+    const result = await usersRepositories.findAll(limit, cursor);
 
     return result;
   }

@@ -7,8 +7,8 @@ import { IListResponse } from "../../../dtos/IListResponse";
 export class EmpresasRepositories implements IEmpresasRepositories {
   private repository: Repository<Empresas>;
 
-  constructor() {
-    this.repository = getRepository(Empresas);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Empresas, connectionName);
   }
 
   async findByCNPJ(cnpj: number): Promise<Empresas> {

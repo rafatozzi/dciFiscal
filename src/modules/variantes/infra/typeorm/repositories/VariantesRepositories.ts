@@ -7,8 +7,8 @@ import { Variantes } from "../entities/Variantes";
 export class VariantesRepositories implements IVariantesRepositories {
   private repository: Repository<Variantes>;
 
-  constructor() {
-    this.repository = getRepository(Variantes);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Variantes, connectionName);
   }
 
   async findByNome(nome: string): Promise<Variantes> {

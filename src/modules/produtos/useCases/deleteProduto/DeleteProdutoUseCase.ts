@@ -1,22 +1,23 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IProdutosRepositories } from "../../repositories/IProdutosRepositories";
+import { ProdutosRepositories } from "../../infra/typeorm/repositories/ProdutosRepositories";
 
 @injectable()
 export class DeleteProdutoUseCase {
 
   constructor(
-    @inject("ProdutosRepositories")
-    private produtosRepositories: IProdutosRepositories
+    // @inject("ProdutosRepositories")
+    // private produtosRepositories: IProdutosRepositories
   ) { }
 
-  async execute(id: string): Promise<void> {
-    const produto = await this.produtosRepositories.findById(id);
+  async execute(cod_cliente: string, id: string): Promise<void> {
+    const produtosRepositories = new ProdutosRepositories(cod_cliente);
+    const produto = await produtosRepositories.findById(id);
 
     if (!produto)
       throw new AppError("Produto não encontrado");
 
-    await this.produtosRepositories.deleteProduto(id);
+    await produtosRepositories.deleteProduto(id);
   }
 
 }

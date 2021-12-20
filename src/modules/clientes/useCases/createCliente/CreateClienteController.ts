@@ -24,7 +24,7 @@ export class CreateClienteController {
 
     const useCase = container.resolve(CreateClienteUseCase);
 
-    const result = await useCase.execute({
+    const result = await useCase.execute(request.cod_cliente, {
       bairro,
       cpf_cnpj,
       celular,

@@ -9,7 +9,7 @@ export class CreatePedidoController {
 
     const useCase = container.resolve(CreatePedidoUseCase);
 
-    const result = await useCase.execute({ id_cliente, id, id_empresa, total, desconto });
+    const result = await useCase.execute(request.cod_cliente, { id_cliente, id, id_empresa, total, desconto });
 
     return response.status(200).json(result);
   }

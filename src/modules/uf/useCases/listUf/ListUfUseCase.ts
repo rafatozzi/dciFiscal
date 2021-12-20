@@ -1,17 +1,18 @@
-import { injectable, inject } from "tsyringe";
+import { injectable } from "tsyringe";
 import { Uf } from "../../infra/typeorm/entities/Uf";
-import { IUfRepositories } from "../../repositories/IUfRepositories";
+import { UfRepositories } from "../../infra/typeorm/repositories/UfRepositories";
 
 @injectable()
 export class ListUfUseCase {
 
   constructor(
-    @inject("UfRepositories")
-    private ufRepositories: IUfRepositories
+    // @inject("UfRepositories")
+    // private ufRepositories: IUfRepositories
   ) { }
 
-  async execute(): Promise<Uf[]> {
-    const result = await this.ufRepositories.findAll();
+  async execute(cod_cliente: string): Promise<Uf[]> {
+    const ufRepositories = new UfRepositories(cod_cliente);
+    const result = await ufRepositories.findAll();
     return result;
   }
 

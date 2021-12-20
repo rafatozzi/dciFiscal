@@ -1,18 +1,19 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Pedidos } from "../../infra/typeorm/entities/Pedidos";
-import { IPedidosRepositories } from "../../repositories/IPedidosRepositories";
+import { PedidosRepositories } from "../../infra/typeorm/repositories/PedidosRepositories";
 
 @injectable()
 export class FindByIdPedidoUseCase {
 
   constructor(
-    @inject("PedidosRepositories")
-    private pedidosRepositories: IPedidosRepositories
+    // @inject("PedidosRepositories")
+    // private pedidosRepositories: IPedidosRepositories
   ) { }
 
-  async execute(id: string): Promise<Pedidos> {
-    const pedido = await this.pedidosRepositories.findById(id);
+  async execute(cod_cliente: string, id: string): Promise<Pedidos> {
+    const pedidosRepositories = new PedidosRepositories(cod_cliente);
+    const pedido = await pedidosRepositories.findById(id);
 
     if (!pedido)
       throw new AppError("Pedido não encontrado");

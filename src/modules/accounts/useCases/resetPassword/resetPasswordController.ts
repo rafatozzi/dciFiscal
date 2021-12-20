@@ -9,7 +9,7 @@ export class ResetPasswordController {
 
     const useCase = container.resolve(ResetPasswordUseCase);
 
-    await useCase.execute({
+    await useCase.execute(request.cod_cliente, {
       senha,
       token: `${token}`
     });

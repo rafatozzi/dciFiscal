@@ -1,24 +1,25 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateVariantesValoresDTO } from "../../dtos/ICreateVariantesValoresDTO";
-import { IVariantesValoresRepositories } from "../../repositories/IVariantesValoresRepositories";
+import { VariantesValoresRepositories } from "../../infra/typeorm/repositories/VariantesValoresRepositories";
 
 @injectable()
 export class CreateVarianteValoresUseCase {
 
   constructor(
-    @inject("VariantesValoresRepositories")
-    private variantesValoresRepositories: IVariantesValoresRepositories
+    // @inject("VariantesValoresRepositories")
+    // private variantesValoresRepositories: IVariantesValoresRepositories
   ) { }
 
-  async execute(data: ICreateVariantesValoresDTO[]): Promise<void> {
+  async execute(cod_cliente: string, data: ICreateVariantesValoresDTO[]): Promise<void> {
     if (data.length <= 0)
       return;
 
     if (!data[0].id_variante && data[0].id_variante.length <= 0)
       throw new AppError("Variante não informada")
 
-    const valoresExists = await this.variantesValoresRepositories.findByVariante(data[0].id_variante);
+    const variantesValoresRepositories = new VariantesValoresRepositories(cod_cliente);
+    const valoresExists = await variantesValoresRepositories.findByVariante(data[0].id_variante);
 
     const newData = data.map((item) => {
       if (!item.id) {
@@ -31,7 +32,7 @@ export class CreateVarianteValoresUseCase {
         return item;
     })
 
-    await this.variantesValoresRepositories.create(newData);
+    await variantesValoresRepositories.create(newData);
 
   }
 

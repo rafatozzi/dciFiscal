@@ -1,18 +1,19 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { IFiltersPedidosDTO } from "../../dtos/IFiltersPedidosDTO";
 import { IListPedidosDTO } from "../../dtos/IListPedidosDTO";
-import { IPedidosRepositories } from "../../repositories/IPedidosRepositories";
+import { PedidosRepositories } from "../../infra/typeorm/repositories/PedidosRepositories";
 
 @injectable()
 export class FindAllPedidosUseCase {
 
   constructor(
-    @inject("PedidosRepositories")
-    private pedidosRepositories: IPedidosRepositories
+    // @inject("PedidosRepositories")
+    // private pedidosRepositories: IPedidosRepositories
   ) { }
 
-  async execute(pesquisa?: IFiltersPedidosDTO, limit?: number, cursor?: number): Promise<IListPedidosDTO> {
-    const result = await this.pedidosRepositories.findAll(pesquisa, limit, cursor);
+  async execute(cod_cliente: string, pesquisa?: IFiltersPedidosDTO, limit?: number, cursor?: number): Promise<IListPedidosDTO> {
+    const pedidosRepositories = new PedidosRepositories(cod_cliente);
+    const result = await pedidosRepositories.findAll(pesquisa, limit, cursor);
 
     return result;
   }

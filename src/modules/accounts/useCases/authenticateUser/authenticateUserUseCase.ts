@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
-import { IUsersRepositories } from "../../repositories/IUsersRepositories";
 
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IUseTokensRepositories } from "../../repositories/IUseTokensRepositories";
 import auth from "../../../../config/auth";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
+import { UsersRepositories } from "../../infra/typeorm/repositories/UsersRepositories";
+import { UserTokensRepositories } from "../../infra/typeorm/repositories/UserTokensRepositories";
 
 interface IRequest {
   user: string;
@@ -26,17 +26,19 @@ interface IResponse {
 export class AuthenticateUserUseCase {
 
   constructor(
-    @inject("UsersRepositories")
-    private usersRepositories: IUsersRepositories,
-    @inject("UserTokensRepositories")
-    private userTokensRepositories: IUseTokensRepositories,
+    // @inject("UsersRepositories")
+    // private usersRepositories: IUsersRepositories,
+    // @inject("UserTokensRepositories")
+    // private userTokensRepositories: IUseTokensRepositories,
     @inject("DaysJsDateProvider")
     private dayjsDateProvider: IDateProvider
   ) { }
 
-  async execute({ user, senha }: IRequest): Promise<IResponse> {
+  async execute(cod_cliente: string, { user, senha }: IRequest): Promise<IResponse> {
+    const usersRepositories = new UsersRepositories(cod_cliente);
+    const userTokensRepositories = new UserTokensRepositories(cod_cliente);
 
-    const rsUser = await this.usersRepositories.findByUser(user);
+    const rsUser = await usersRepositories.findByUser(user);
 
     if (!rsUser)
       throw new AppError("Usuário não encontrado");
@@ -58,7 +60,7 @@ export class AuthenticateUserUseCase {
 
     const refresh_token_expires_date = this.dayjsDateProvider.addDays(auth.expires_in_refresh_token_days);
 
-    await this.userTokensRepositories.create({
+    await userTokensRepositories.create({
       expires_date: refresh_token_expires_date,
       refresh_token,
       user_id: rsUser.id

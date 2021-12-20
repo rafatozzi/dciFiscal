@@ -6,8 +6,8 @@ import { VariantesValores } from "../entities/VariantesValores";
 export class VariantesValoresRepositories implements IVariantesValoresRepositories {
   private repository: Repository<VariantesValores>;
 
-  constructor() {
-    this.repository = getRepository(VariantesValores);
+  constructor(connectionName: string) {
+    this.repository = getRepository(VariantesValores, connectionName);
   }
 
   async create(data: ICreateVariantesValoresDTO[]): Promise<void> {

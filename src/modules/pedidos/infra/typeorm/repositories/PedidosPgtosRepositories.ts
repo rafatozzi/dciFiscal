@@ -1,4 +1,4 @@
-import { getRepository, Repository } from "typeorm";
+import { getCustomRepository, getRepository, Repository } from "typeorm";
 import { ICreatePedidosPgtosDTO } from "../../../dtos/ICreatePedidosPgtosDTO";
 import { IPedidosPgtosRepositories } from "../../../repositories/IPedidosPgtosRepositories";
 import { PedidosPgtos } from "../entities/PedidosPgtos";
@@ -6,8 +6,8 @@ import { PedidosPgtos } from "../entities/PedidosPgtos";
 export class PedidosPgtosRepositories implements IPedidosPgtosRepositories {
   private repository: Repository<PedidosPgtos>;
 
-  constructor() {
-    this.repository = getRepository(PedidosPgtos);
+  constructor(connectionName: string) {
+    this.repository = getRepository(PedidosPgtos, connectionName);
   }
 
   async create(data: ICreatePedidosPgtosDTO[]): Promise<void> {

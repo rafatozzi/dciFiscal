@@ -7,8 +7,8 @@ import { Produtos } from "../entities/Produtos";
 export class ProdutosRepositories implements IProdutosRepositories {
   private repository: Repository<Produtos>;
 
-  constructor() {
-    this.repository = getRepository(Produtos);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Produtos, connectionName);
   }
 
   async findByNome(nome: string): Promise<Produtos> {

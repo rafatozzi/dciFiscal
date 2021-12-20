@@ -9,7 +9,7 @@ export class CreateUserController {
     const { nome, senha, user } = request.body as ICreateUserDTO;
     const createUserUseCase = container.resolve(CreateUserUseCase);
 
-    await createUserUseCase.execute({ nome, senha, user })
+    await createUserUseCase.execute(request.cod_cliente, { nome, senha, user })
 
     return response.status(200).send();
 

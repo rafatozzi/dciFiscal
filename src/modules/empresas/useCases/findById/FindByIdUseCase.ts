@@ -1,18 +1,19 @@
-import { inject, injectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Empresas } from "../../infra/typeorm/entities/Empresas";
-import { IEmpresasRepositories } from "../../repositories/IEmpresasRepositories";
+import { EmpresasRepositories } from "../../infra/typeorm/repositories/EmpresasRepositories";
 
 @injectable()
 export class FindByIdUseCase {
 
   constructor(
-    @inject("EmpresasRepositories")
-    private empresasRepositories: IEmpresasRepositories
+    // @inject("EmpresasRepositories")
+    // private empresasRepositories: IEmpresasRepositories
   ) { }
 
-  async execute(id: string): Promise<Empresas> {
-    const result = await this.empresasRepositories.findById(id);
+  async execute(cod_cliente: string, id: string): Promise<Empresas> {
+    const empresasRepositories = new EmpresasRepositories(cod_cliente);
+    const result = await empresasRepositories.findById(id);
 
     if (!result)
       throw new AppError("Empresa não encontrada");

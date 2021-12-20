@@ -5,8 +5,8 @@ import { Cidades } from "../entities/Cidades";
 export class CidadesRepositories implements ICidadesRespositories {
   private repository: Repository<Cidades>;
 
-  constructor() {
-    this.repository = getRepository(Cidades);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Cidades, connectionName);
   }
 
   async findById(id: number): Promise<Cidades> {

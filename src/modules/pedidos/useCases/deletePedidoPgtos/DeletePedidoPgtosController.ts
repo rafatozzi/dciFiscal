@@ -8,7 +8,7 @@ export class DeletePedidoPgtosController {
 
     const useCase = container.resolve(DeletePedidoPgtosUseCase);
 
-    await useCase.execute(id);
+    await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).send();
   }

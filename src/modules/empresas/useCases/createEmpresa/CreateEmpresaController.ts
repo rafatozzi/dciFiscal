@@ -26,7 +26,7 @@ export class CreateEmpresaController {
 
     const useCase = container.resolve(CreateEmpresaUseCase);
 
-    const result = await useCase.execute({
+    const result = await useCase.execute(request.cod_cliente, {
       id,
       id_cidades,
       razao,

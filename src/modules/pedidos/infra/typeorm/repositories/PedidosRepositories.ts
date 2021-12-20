@@ -8,11 +8,12 @@ import { Pedidos } from "../entities/Pedidos";
 export class PedidosRepositories implements IPedidosRepositories {
   private repository: Repository<Pedidos>;
 
-  constructor() {
-    this.repository = getRepository(Pedidos);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Pedidos, connectionName);
   }
 
   async create(data: ICreatePedidosDTO): Promise<Pedidos> {
+
     const pedido = this.repository.create({ ...data });
 
     await this.repository.save(pedido);

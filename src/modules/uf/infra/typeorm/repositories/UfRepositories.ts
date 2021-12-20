@@ -5,8 +5,8 @@ import { Uf } from "../entities/Uf";
 export class UfRepositories implements IUfRepositories {
   private repository: Repository<Uf>;
 
-  constructor() {
-    this.repository = getRepository(Uf);
+  constructor(connectionName: string) {
+    this.repository = getRepository(Uf, connectionName);
   }
 
   async findById(id: number): Promise<Uf> {

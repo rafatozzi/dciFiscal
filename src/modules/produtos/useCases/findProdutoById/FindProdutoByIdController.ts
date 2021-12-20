@@ -9,7 +9,7 @@ export class FindProdutoByIdController {
 
     const useCase = container.resolve(FindProdutoByIdUseCase);
 
-    const result = await useCase.execute(id);
+    const result = await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).json(result);
   }

@@ -8,7 +8,7 @@ export class AuthenticateUserController {
 
     const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
 
-    const token = await authenticateUserUseCase.execute({ user, senha });
+    const token = await authenticateUserUseCase.execute(request.cod_cliente, { user, senha });
 
     return response.status(200).json(token);
   }
