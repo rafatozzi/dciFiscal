@@ -35,6 +35,9 @@ export class Pedidos {
   total: number;
 
   @Column()
+  desconto: number;
+
+  @Column()
   excluir: boolean;
 
   @CreateDateColumn()

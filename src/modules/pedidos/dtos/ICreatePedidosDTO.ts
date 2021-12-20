@@ -3,4 +3,5 @@ export interface ICreatePedidosDTO {
   id_empresa: string;
   id_cliente: string;
   total: number;
+  desconto: number;
 }
