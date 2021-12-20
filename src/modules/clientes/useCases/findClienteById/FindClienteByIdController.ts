@@ -4,7 +4,7 @@ import { FindClienteByIdUseCase } from "./FindClienteById";
 
 export class FindClienteByIdController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id } = request.body;
+    const { id } = request.params;
 
     const useCase = container.resolve(FindClienteByIdUseCase);
 

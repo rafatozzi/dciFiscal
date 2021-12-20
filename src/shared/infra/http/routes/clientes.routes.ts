@@ -15,7 +15,7 @@ const findClienteById = new FindClienteByIdController();
 const clientesRoutes = Router();
 
 clientesRoutes.get("/", EnsureAuthenticated, findAllClientes.handle);
-clientesRoutes.get("/find", EnsureAuthenticated, findClienteById.handle);
+clientesRoutes.get("/:id", EnsureAuthenticated, findClienteById.handle);
 
 clientesRoutes.post("/", EnsureAuthenticated, createCliente.handle);
 

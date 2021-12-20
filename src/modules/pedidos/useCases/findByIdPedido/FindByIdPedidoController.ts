@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { FindProdutoByIdUseCase } from "./FindProdutoUseCase";
+import { FindByIdPedidoUseCase } from "./FindByIdPedidoUseCase";
 
-
-export class FindProdutoByIdController {
+export class FindByIdPedidoController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const useCase = container.resolve(FindProdutoByIdUseCase);
+    const useCase = container.resolve(FindByIdPedidoUseCase);
 
     const result = await useCase.execute(id);
 

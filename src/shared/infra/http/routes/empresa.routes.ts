@@ -23,7 +23,7 @@ const empresaRoutes = Router();
 
 empresaRoutes.get("/", EnsureAuthenticated, listEmpresas.handle);
 
-empresaRoutes.get("/find", EnsureAuthenticated, findById.handle);
+empresaRoutes.get("/:id", EnsureAuthenticated, findById.handle);
 
 empresaRoutes.post("/", EnsureAuthenticated, createEmpresa.handle);
 

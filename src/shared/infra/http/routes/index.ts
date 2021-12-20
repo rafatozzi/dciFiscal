@@ -7,6 +7,7 @@ import { empresaRoutes } from "./empresa.routes";
 import { variantesRoutes } from "./variantes.routes";
 import { produtosRoutes } from "./produtos.routes";
 import { clientesRoutes } from "./clientes.routes";
+import { pedidosRoutes } from "./pedidos.routes";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use("/empresas", empresaRoutes);
 router.use("/variantes", variantesRoutes);
 router.use("/produtos", produtosRoutes);
 router.use("/clientes", clientesRoutes);
+router.use("/pedidos", pedidosRoutes);
 
 router.use(authenticateRoutes);
 
