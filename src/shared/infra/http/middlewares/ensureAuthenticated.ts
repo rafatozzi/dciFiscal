@@ -34,9 +34,9 @@ export async function EnsureAuthenticated(request: Request, response: Response, 
     next();
 
   } catch {
-    // throw new AppError("Token inválido", 401);
+    throw new AppError("Token inválido", 401);
 
-    request.user = { id: "33124ad9-1da7-4dc2-a57b-3c8c450a897c" };
-    next();
+    // request.user = { id: "33124ad9-1da7-4dc2-a57b-3c8c450a897c" };
+    // next();
   }
 }

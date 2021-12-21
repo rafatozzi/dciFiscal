@@ -10,6 +10,10 @@ export class UserTokensRepositories implements IUseTokensRepositories {
     this.repository = getRepository(UserToken, connectionName);
   }
 
+  async findByUserId(user_id: string): Promise<UserToken[]> {
+    return this.repository.find({ user_id });
+  }
+
   async create(data: ICreateUserTokensDTO): Promise<UserToken> {
     const userToken = this.repository.create({ ...data });
 

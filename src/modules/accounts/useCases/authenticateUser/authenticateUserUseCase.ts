@@ -60,6 +60,12 @@ export class AuthenticateUserUseCase {
 
     const refresh_token_expires_date = this.dayjsDateProvider.addDays(auth.expires_in_refresh_token_days);
 
+    const listOldTokens = await userTokensRepositories.findByUserId(rsUser.id);
+
+    listOldTokens.map(async (item) => {
+      await userTokensRepositories.deleteById(item.id);
+    })
+
     await userTokensRepositories.create({
       expires_date: refresh_token_expires_date,
       refresh_token,
