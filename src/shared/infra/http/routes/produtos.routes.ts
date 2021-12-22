@@ -20,6 +20,8 @@ const findProdutoById = new FindProdutoByIdController();
 const produtosRoutes = Router();
 
 produtosRoutes.get("/", EnsureAuthenticated, findAllProdutos.handle);
+produtosRoutes.post("/findAll", EnsureAuthenticated, findAllProdutos.handle);
+
 produtosRoutes.get("/:id", EnsureAuthenticated, findProdutoById.handle);
 produtosRoutes.get("/codBar", EnsureAuthenticated, findProdutoByCodBar.handle);
 

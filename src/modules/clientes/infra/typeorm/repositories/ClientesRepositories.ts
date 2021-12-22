@@ -27,7 +27,7 @@ export class ClientesRepositories implements IClientesRepositories {
 
     if (pesquisa)
       where = [
-        { razao: Like(`%${pesquisa}%`), excluir: false },
+        { razao_social: Like(`%${pesquisa}%`), excluir: false },
         { fantasia: Like(`%${pesquisa}%`), excluir: false }
       ];
 

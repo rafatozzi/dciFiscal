@@ -16,6 +16,7 @@ const listVariantesController = new ListVariantesController();
 const variantesRoutes = Router();
 
 variantesRoutes.get("/", EnsureAuthenticated, listVariantesController.handle);
+variantesRoutes.post("/findAll", EnsureAuthenticated, listVariantesController.handle);
 
 variantesRoutes.post("/", EnsureAuthenticated, createVarianteController.handle);
 

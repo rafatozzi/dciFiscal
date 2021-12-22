@@ -21,6 +21,7 @@ const findByIdPedido = new FindByIdPedidoController();
 const pedidosRoutes = Router();
 
 pedidosRoutes.get("/", EnsureAuthenticated, findAllPedidos.handle);
+pedidosRoutes.post("/findAll", EnsureAuthenticated, findAllPedidos.handle);
 pedidosRoutes.get("/:id", EnsureAuthenticated, findByIdPedido.handle);
 
 pedidosRoutes.post("/", EnsureAuthenticated, createPedido.handle);

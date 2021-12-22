@@ -22,6 +22,7 @@ const uploadCert = multer(uploadConfig)
 const empresaRoutes = Router();
 
 empresaRoutes.get("/", EnsureAuthenticated, listEmpresas.handle);
+empresaRoutes.post("/findAll", EnsureAuthenticated, listEmpresas.handle);
 
 empresaRoutes.get("/:id", EnsureAuthenticated, findById.handle);
 
