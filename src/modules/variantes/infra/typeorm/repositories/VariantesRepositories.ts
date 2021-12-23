@@ -24,7 +24,7 @@ export class VariantesRepositories implements IVariantesRepositories {
   }
 
   async findById(id: string): Promise<Variantes> {
-    return await this.repository.findOne(id);
+    return await this.repository.findOne(id, { relations: ["variante_valores"] });
   }
 
   async findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListVariantesResponseDTO> {
