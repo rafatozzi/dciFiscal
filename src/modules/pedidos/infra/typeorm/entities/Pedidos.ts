@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { Cidades } from "../../../../cidades/infra/typeorm/entities/Cidades";
 import { Clientes } from "../../../../clientes/infra/typeorm/entities/Clientes";
 import { Empresas } from "../../../../empresas/infra/typeorm/entities/Empresas";
 import { PedidosPgtos } from "./PedidosPgtos";
@@ -25,6 +26,13 @@ export class Pedidos {
   @OneToMany(() => PedidosPgtos, p => p.pedido)
   pgtos: PedidosPgtos[];
 
+  @ManyToOne(() => Cidades)
+  @JoinColumn({ name: "id_cidades" })
+  cidade: Cidades;
+
+  @Column()
+  id_cidades: number;
+
   @Column()
   id_empresa: string;
 
@@ -36,6 +44,21 @@ export class Pedidos {
 
   @Column()
   desconto: number;
+
+  @Column()
+  endereco: string;
+
+  @Column()
+  numero: number;
+
+  @Column()
+  complemento: string;
+
+  @Column()
+  bairro: string;
+
+  @Column()
+  cep: string;
 
   @Column()
   excluir: boolean;
