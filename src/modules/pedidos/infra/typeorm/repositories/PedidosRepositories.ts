@@ -65,7 +65,11 @@ export class PedidosRepositories implements IPedidosRepositories {
           "empresa",
           "cliente",
           "pedidos",
-          "pgtos"
+          "pedidos.produto",
+          "pedidos.produto.variantes",
+          "pgtos",
+          "cidade",
+          "cidade.uf",
         ]
       }
     )
