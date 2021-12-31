@@ -20,6 +20,8 @@ export async function EnsureAuthenticated(request: Request, response: Response, 
 
   try {
 
+    //asd
+
     const { sub: user_id } = verify(token, auth.secret) as IPayload;
 
     const user = await usersRepositories.findById(user_id);
