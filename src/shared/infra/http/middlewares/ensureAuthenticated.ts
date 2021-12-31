@@ -14,7 +14,7 @@ export async function EnsureAuthenticated(request: Request, response: Response, 
   const usersRepositories = new UsersRepositories(request.cod_cliente);
 
   if (!authHeader)
-    throw new AppError("Token não informado");
+    throw new AppError("Token não informado", 401);
 
   const [, token] = authHeader.split(" ");
 
