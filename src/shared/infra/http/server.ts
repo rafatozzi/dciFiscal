@@ -18,9 +18,9 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(midConnection);
-
 app.use("/certificado", express.static(`${upload.tmpFolder}/cert`));
+
+app.use(midConnection);
 
 app.use(router);
 
