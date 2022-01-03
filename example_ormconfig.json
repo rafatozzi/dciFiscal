@@ -1,0 +1,38 @@
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "port": 3306,
+    "host": "192.168.57.16",
+    "username": "dci_fiscal",
+    "password": "dci_fiscal",
+    "database": "dci_fiscal",
+    "migrations": [
+      "./src/shared/infra/typeorm/migrations/*.ts"
+    ],
+    "entities": [
+      "./src/modules/**/entities/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    }
+  },
+  {
+    "name": "dcifiscal2",
+    "type": "mysql",
+    "port": 3306,
+    "host": "192.168.57.16",
+    "username": "dci_fiscal",
+    "password": "dci_fiscal",
+    "database": "dci_fiscal2",
+    "migrations": [
+      "./src/shared/infra/typeorm/migrations/*.ts"
+    ],
+    "entities": [
+      "./src/modules/**/entities/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    }
+  }
+]
