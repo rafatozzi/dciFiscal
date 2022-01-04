@@ -5,6 +5,7 @@ export interface ICreatePedidosDTO {
   id_cidades: number;
   total: number;
   desconto: number;
+  valor_pago: number;
   endereco: string;
   numero: number;
   complemento: string;

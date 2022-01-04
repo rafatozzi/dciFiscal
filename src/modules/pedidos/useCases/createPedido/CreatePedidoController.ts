@@ -5,11 +5,37 @@ import { CreatePedidoUseCase } from "./CreatePedidoUseCase";
 
 export class CreatePedidoController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id_cliente, id, id_empresa, total, desconto, endereco, numero, bairro, id_cidades, cep, complemento } = request.body as ICreatePedidosDTO;
+    const {
+      id_cliente,
+      id,
+      id_empresa,
+      total,
+      desconto,
+      endereco,
+      numero,
+      bairro,
+      id_cidades,
+      cep,
+      complemento,
+      valor_pago
+    } = request.body as ICreatePedidosDTO;
 
     const useCase = container.resolve(CreatePedidoUseCase);
 
-    const result = await useCase.execute(request.cod_cliente, { id_cliente, id, id_empresa, total, desconto, endereco, numero, bairro, id_cidades, cep, complemento });
+    const result = await useCase.execute(request.cod_cliente, {
+      id_cliente,
+      id,
+      id_empresa,
+      total,
+      desconto,
+      endereco,
+      numero,
+      bairro,
+      id_cidades,
+      cep,
+      complemento,
+      valor_pago
+    });
 
     return response.status(200).json(result);
   }

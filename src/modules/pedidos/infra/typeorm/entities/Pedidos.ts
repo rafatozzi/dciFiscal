@@ -46,6 +46,9 @@ export class Pedidos {
   desconto: number;
 
   @Column()
+  valor_pago: number;
+
+  @Column()
   endereco: string;
 
   @Column()
