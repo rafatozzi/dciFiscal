@@ -3,4 +3,5 @@ export interface IFiltersPedidosDTO {
   cliente?: string;
   date_ini?: Date;
   date_fin?: Date;
+  pago?: "s" | "n" | "a";
 }

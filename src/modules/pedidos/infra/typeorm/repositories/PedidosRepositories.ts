@@ -1,4 +1,4 @@
-import { getRepository, Repository, MoreThanOrEqual, LessThanOrEqual } from "typeorm";
+import { getRepository, Repository, MoreThanOrEqual, LessThanOrEqual, Raw } from "typeorm";
 import { ICreatePedidosDTO } from "../../../dtos/ICreatePedidosDTO";
 import { IFiltersPedidosDTO } from "../../../dtos/IFiltersPedidosDTO";
 import { IListPedidosDTO } from "../../../dtos/IListPedidosDTO";
@@ -39,6 +39,19 @@ export class PedidosRepositories implements IPedidosRepositories {
 
       if (pesquisa.date_fin)
         where = { ...where, created_at: LessThanOrEqual(pesquisa.date_fin) };
+
+      if (pesquisa.pago) {
+        switch (pesquisa.pago) {
+          case "s":
+            where = { ...where, valor_pago: Raw((alias) => `${alias} >= total - desconto`) }
+            break;
+
+          case "n":
+            where = { ...where, valor_pago: Raw((alias) => `${alias} < total - desconto`) }
+            break;
+        }
+      }
+
     }
 
     const [result, total] = await this.repository.findAndCount(
