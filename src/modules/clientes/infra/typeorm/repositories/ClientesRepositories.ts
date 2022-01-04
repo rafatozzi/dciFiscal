@@ -19,6 +19,23 @@ export class ClientesRepositories implements IClientesRepositories {
     return cliente;
   }
 
+  async findFavoritos(): Promise<IListClientesResponse> {
+    const [result, total] = await this.repository.findAndCount(
+      {
+        order: { razao_social: "ASC" },
+        where: {
+          favorito: true,
+          excluir: false
+        }
+      }
+    );
+
+    return {
+      total,
+      result
+    };
+  }
+
   async findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListClientesResponse> {
     const limitPage = limit ? limit : 25;
     const cursorPage = cursor ? cursor : 0;

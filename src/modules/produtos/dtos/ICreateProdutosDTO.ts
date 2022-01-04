@@ -6,4 +6,5 @@ export interface ICreateProdutosDTO {
   cfop: number;
   unid_med: string;
   preco: number;
+  favorito: boolean;
 }

@@ -7,5 +7,6 @@ export interface IClientesRepositories {
   findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListClientesResponse>;
   findById(id: string): Promise<Clientes>;
   findByCpfCnpj(cpf_cnpj: number): Promise<Clientes>;
+  findFavoritos(): Promise<IListClientesResponse>;
   deleteById(id: string): Promise<void>;
 }

@@ -8,5 +8,6 @@ export interface IProdutosRepositories {
   findById(id: string): Promise<Produtos>;
   findByCodBarras(codigo_barras: string): Promise<Produtos>;
   findByNome(nome: string): Promise<Produtos>;
+  findFavoritos(): Promise<IListProdutosDTO>;
   deleteProduto(id: string): Promise<void>;
 }

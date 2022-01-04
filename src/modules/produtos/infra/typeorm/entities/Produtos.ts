@@ -30,6 +30,9 @@ export class Produtos {
   variantes: ProdutosVariantes[];
 
   @Column()
+  favorito: boolean;
+
+  @Column()
   excluir: boolean;
 
   @CreateDateColumn()

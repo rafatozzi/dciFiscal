@@ -15,6 +15,23 @@ export class ProdutosRepositories implements IProdutosRepositories {
     return await this.repository.findOne({ nome });
   }
 
+  async findFavoritos(): Promise<IListProdutosDTO> {
+    const [result, total] = await this.repository.findAndCount(
+      {
+        order: { nome: "ASC" },
+        where: {
+          favorito: true,
+          excluir: false
+        }
+      }
+    );
+
+    return {
+      total,
+      result
+    };
+  }
+
   async create(data: ICreateProdutosDTO): Promise<Produtos> {
     const produto = this.repository.create({ ...data });
 

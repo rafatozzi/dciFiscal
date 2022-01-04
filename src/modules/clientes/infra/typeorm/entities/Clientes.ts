@@ -52,6 +52,9 @@ export class Clientes {
   cep: string;
 
   @Column()
+  favorito: boolean;
+
+  @Column()
   excluir: boolean;
 
   @CreateDateColumn()

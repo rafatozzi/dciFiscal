@@ -7,6 +7,7 @@ import { DeleteProdutoVarianteController } from "../../../../modules/produtos/us
 import { FindAllProdutosController } from "../../../../modules/produtos/useCases/findAllProdutos/FindAllProdutosController";
 import { FindProdutoByCodBarController } from "../../../../modules/produtos/useCases/findProdutoByCodBar/FindProdutoByCodBarController";
 import { FindProdutoByIdController } from "../../../../modules/produtos/useCases/findProdutoById/FindProdutoByIdController";
+import { FindFavoritosController } from "../../../../modules/produtos/useCases/findFavoritos/FindFavoritosController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const createProdutos = new CreateProdutosController();
@@ -16,11 +17,13 @@ const deleteProdutoVariante = new DeleteProdutoVarianteController();
 const findAllProdutos = new FindAllProdutosController();
 const findProdutoByCodBar = new FindProdutoByCodBarController();
 const findProdutoById = new FindProdutoByIdController();
+const findFavoritos = new FindFavoritosController();
 
 const produtosRoutes = Router();
 
 produtosRoutes.get("/", EnsureAuthenticated, findAllProdutos.handle);
 produtosRoutes.post("/findAll", EnsureAuthenticated, findAllProdutos.handle);
+produtosRoutes.get("/favoritos", EnsureAuthenticated, findFavoritos.handle);
 
 produtosRoutes.get("/:id", EnsureAuthenticated, findProdutoById.handle);
 produtosRoutes.get("/codBar", EnsureAuthenticated, findProdutoByCodBar.handle);

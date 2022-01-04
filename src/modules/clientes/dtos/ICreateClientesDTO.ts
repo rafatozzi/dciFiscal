@@ -13,4 +13,5 @@ export interface ICreateClientesDTO {
   complemento: string;
   bairro: string;
   cep: string;
+  favorito: boolean;
 }

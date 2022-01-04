@@ -19,6 +19,7 @@ export class CreateClienteController {
       razao_social,
       rg_ie,
       telefone,
+      favorito,
       id
     } = request.body as ICreateClientesDTO;
 
@@ -38,6 +39,7 @@ export class CreateClienteController {
       razao_social,
       rg_ie,
       telefone,
+      favorito,
       id
     });
 
