@@ -61,6 +61,9 @@ export class Empresas {
   @Column()
   senha_cert: string;
 
+  @Column()
+  venc_cert: Date;
+
   @Expose({ name: "cert" })
   cert(): string {
     switch (process.env.DISK) {
