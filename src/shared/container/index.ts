@@ -15,6 +15,9 @@ import { IClientesRepositories } from "../../modules/clientes/repositories/IClie
 import { IPedidosRepositories } from "../../modules/pedidos/repositories/IPedidosRepositories";
 import { IPedidosPgtosRepositories } from "../../modules/pedidos/repositories/IPedidosPgtosRepositories";
 import { IPedidosProdutosRepositories } from "../../modules/pedidos/repositories/IPedidosProdutosRepositories";
+import { INfeRepositories } from "../../modules/nfe/repositories/INfeRepositories";
+import { INfePgtosRepositories } from "../../modules/nfe/repositories/INfePgtosRepositories";
+import { INfeProdutosRepositories } from "../../modules/nfe/repositories/INfeProdutosRepositories";
 
 
 // REPOSITORIES
@@ -32,6 +35,9 @@ import { ClientesRepositories } from "../../modules/clientes/infra/typeorm/repos
 import { PedidosRepositories } from "../../modules/pedidos/infra/typeorm/repositories/PedidosRepositories";
 import { PedidosPgtosRepositories } from "../../modules/pedidos/infra/typeorm/repositories/PedidosPgtosRepositories";
 import { PedidosProdutosRepositories } from "../../modules/pedidos/infra/typeorm/repositories/PedidosProdutosRepositories";
+import { NfeRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeRepositories";
+import { NfePgtosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfePgtosRepositories";
+import { NfeProdutosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeProdutosRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -53,6 +59,9 @@ container.registerSingleton<IClientesRepositories>("ClientesRepositories", delay
 container.registerSingleton<IPedidosRepositories>("PedidosRepositories", delay(() => PedidosRepositories));
 container.registerSingleton<IPedidosPgtosRepositories>("PedidosPgtosRepositories", delay(() => PedidosPgtosRepositories));
 container.registerSingleton<IPedidosProdutosRepositories>("PedidosProdutosRepositories", delay(() => PedidosProdutosRepositories));
+container.registerSingleton<INfeRepositories>("NfeRepositories", delay(() => NfeRepositories));
+container.registerSingleton<INfePgtosRepositories>("NfePgtosRepositories", delay(() => NfePgtosRepositories));
+container.registerSingleton<INfeProdutosRepositories>("NfeProdutosRepositories", delay(() => NfeProdutosRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 

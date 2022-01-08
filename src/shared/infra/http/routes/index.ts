@@ -8,6 +8,7 @@ import { variantesRoutes } from "./variantes.routes";
 import { produtosRoutes } from "./produtos.routes";
 import { clientesRoutes } from "./clientes.routes";
 import { pedidosRoutes } from "./pedidos.routes";
+import { nfeRoutes } from "./nfe.routes";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.use("/variantes", variantesRoutes);
 router.use("/produtos", produtosRoutes);
 router.use("/clientes", clientesRoutes);
 router.use("/pedidos", pedidosRoutes);
+router.use("/nfe", nfeRoutes);
 
 router.use(authenticateRoutes);
 
