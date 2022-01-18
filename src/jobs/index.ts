@@ -1,0 +1,1 @@
+export { default as GeraXmlAssinado } from "./useCases/geraXmlAssinado/geraXmlAssinadoController";
