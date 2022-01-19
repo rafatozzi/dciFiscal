@@ -3,10 +3,10 @@
     "name": "default",
     "type": "mysql",
     "port": 3306,
-    "host": "162.241.41.45",
-    "username": "dcifisca_db",
-    "password": "dC@1155l$!",
-    "database": "dcifisca_datacontrol",
+    "host": "192.168.57.16",
+    "username": "dci_fiscal",
+    "password": "dci_fiscal",
+    "database": "dci_fiscal",
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
     ],
