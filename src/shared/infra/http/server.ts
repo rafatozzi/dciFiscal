@@ -34,6 +34,12 @@ app.use(express.json());
 serverAdapter.setBasePath('/queues')
 app.use("/queues", serverAdapter.getRouter());
 
+app.get("/teste", (req, res) => {
+  QueueList.add("GeraXmlAssinado", { idNfe: "idTeste" });
+
+  return res.json({"msg": "Foi"})
+} )
+
 app.use("/certificado", express.static(`${upload.tmpFolder}/cert`));
 
 app.use(midConnection);

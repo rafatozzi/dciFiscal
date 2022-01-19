@@ -19,3 +19,9 @@ services:
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
+    links:
+      - redis
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis_nfe

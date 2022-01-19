@@ -3,8 +3,6 @@ import redisConfig from "../../config/redis";
 
 import * as jobs from "../index";
 
-// const queue = new Queue(GeraXmlAssinado.key, redisConfig);
-
 const queues = Object.values(jobs).map(job => ({
   bull: new Queue(job.key, {
     redis: {
@@ -21,6 +19,9 @@ export default {
   queues,
   add(name, data) {
     const queue = this.queues.find(queue => queue.name === name);
+    
+    console.log("H: ", redisConfig.host);
+    console.log("P: ", parseInt(redisConfig.port));
 
     return queue.bull.add(data, queue.options);
   },
