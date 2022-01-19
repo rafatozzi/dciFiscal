@@ -6,13 +6,16 @@ import * as jobs from "../index";
 // const queue = new Queue(GeraXmlAssinado.key, redisConfig);
 
 const queues = Object.values(jobs).map(job => ({
-  bull: new Queue(job.key, redisConfig),
+  bull: new Queue(job.key, {
+    redis: {
+      host: redisConfig.host,
+      port: parseInt(redisConfig.port)
+    }
+  }),
   name: job.key,
   handle: job.handle,
   options: job.options,
-}))
-
-
+}));
 
 export default {
   queues,

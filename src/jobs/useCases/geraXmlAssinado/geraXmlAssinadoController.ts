@@ -2,8 +2,11 @@ import { IGeraXmlAssinado } from "../../dtos/IGeraXmlAssinado";
 import { IJobsProps } from "../../dtos/IJobsProps";
 
 const job: IJobsProps = {
-  key: "geraXmlAssinado",
-  handle: async ({ idNfe }: IGeraXmlAssinado) => { }
+  key: "GeraXmlAssinado",
+  handle: async ({ idNfe }: IGeraXmlAssinado) => {
+    console.log("Teste 123");
+    
+  }
   // async handle({ idNfe }: IGeraXmlAssinado) { }
 }
 
