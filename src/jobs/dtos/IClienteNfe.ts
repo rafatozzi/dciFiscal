@@ -4,7 +4,7 @@ export interface IClienteNfe {
   ie: number;
   telefone: number;
   endereco: string;
-  nr: number
+  nr: number;
   complemento: string;
   bairro: string;
   cidade_ibge: number;
