@@ -7,6 +7,7 @@ import { DeleteNfePgtosController } from "../../../../modules/nfe/useCases/delet
 import { DeleteNfeProdutosController } from "../../../../modules/nfe/useCases/deleteNfeProdutos/DeleteNfeProdutosController";
 import { FindAllNfeController } from "../../../../modules/nfe/useCases/findAllNfe/FindAllNfeController";
 import { FindByIdNfeController } from "../../../../modules/nfe/useCases/findByIdNfe/FindByIdNfeController";
+import { EmitirNfeController } from "../../../../modules/nfe/useCases/emitirNfe/EmitirNfeController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const createNfe = new CreateNfeController();
@@ -17,6 +18,7 @@ const deleteNfePgtos = new DeleteNfePgtosController();
 const deleteNfeProdutos = new DeleteNfeProdutosController();
 const findAllNfe = new FindAllNfeController();
 const findByIdNfe = new FindByIdNfeController();
+const emitirNfe = new EmitirNfeController();
 
 const nfeRoutes = Router();
 
@@ -31,5 +33,7 @@ nfeRoutes.post("/produtos", EnsureAuthenticated, createNfeProdutos.handle);
 nfeRoutes.delete("/", EnsureAuthenticated, deleteNfe.handle);
 nfeRoutes.delete("/pgtos", EnsureAuthenticated, deleteNfePgtos.handle);
 nfeRoutes.delete("/produtos", EnsureAuthenticated, deleteNfeProdutos.handle);
+
+nfeRoutes.post("/emitir", EnsureAuthenticated, emitirNfe.handle);
 
 export { nfeRoutes };

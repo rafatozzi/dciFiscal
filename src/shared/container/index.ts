@@ -18,6 +18,7 @@ import { IPedidosProdutosRepositories } from "../../modules/pedidos/repositories
 import { INfeRepositories } from "../../modules/nfe/repositories/INfeRepositories";
 import { INfePgtosRepositories } from "../../modules/nfe/repositories/INfePgtosRepositories";
 import { INfeProdutosRepositories } from "../../modules/nfe/repositories/INfeProdutosRepositories";
+import { INfeXmlRepositories } from "../../modules/nfe/repositories/INfeXmlRepositories";
 
 
 // REPOSITORIES
@@ -38,6 +39,7 @@ import { PedidosProdutosRepositories } from "../../modules/pedidos/infra/typeorm
 import { NfeRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeRepositories";
 import { NfePgtosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfePgtosRepositories";
 import { NfeProdutosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeProdutosRepositories";
+import { NfeXmlRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeXmlRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -62,9 +64,9 @@ container.registerSingleton<IPedidosProdutosRepositories>("PedidosProdutosReposi
 container.registerSingleton<INfeRepositories>("NfeRepositories", delay(() => NfeRepositories));
 container.registerSingleton<INfePgtosRepositories>("NfePgtosRepositories", delay(() => NfePgtosRepositories));
 container.registerSingleton<INfeProdutosRepositories>("NfeProdutosRepositories", delay(() => NfeProdutosRepositories));
+container.registerSingleton<INfeXmlRepositories>("NfeProdutosRepositories", delay(() => NfeXmlRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
-
 
 const diskStorage = {
   local: LocalStorageProvider

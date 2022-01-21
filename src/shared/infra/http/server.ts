@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction, query } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import "reflect-metadata";
 import "dotenv/config";
@@ -20,7 +20,7 @@ const serverAdapter = new ExpressAdapter();
 
 const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
   queues: QueueList.queues.map(q => (
-    new BullAdapter( q.bull )
+    new BullAdapter(q.bull)
   )),
   serverAdapter: serverAdapter
 });
@@ -37,8 +37,8 @@ app.use("/queues", serverAdapter.getRouter());
 app.get("/teste", (req, res) => {
   QueueList.add("GeraXmlAssinado", { idNfe: "idTeste" });
 
-  return res.json({"msg": "Foi"})
-} )
+  return res.json({ "msg": "Foi" })
+})
 
 app.use("/certificado", express.static(`${upload.tmpFolder}/cert`));
 
