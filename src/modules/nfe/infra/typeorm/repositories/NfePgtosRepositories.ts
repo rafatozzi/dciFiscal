@@ -1,4 +1,4 @@
-import { getCustomRepository, getRepository, Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import { ICreateNfePgtosDTO } from "../../../dtos/ICreateNfePgtosDTO";
 import { INfePgtosRepositories } from "../../../repositories/INfePgtosRepositories";
 import { NfePgtos } from "../entities/NfePgtos";

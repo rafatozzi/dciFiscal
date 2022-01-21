@@ -1,14 +1,12 @@
+import fs from "fs";
 import axios from "axios";
 import FormData from "form-data";
-import fs from "fs";
 import { EmpresasRepositories } from "../../../modules/empresas/infra/typeorm/repositories/EmpresasRepositories";
 import { NfeRepositories } from "../../../modules/nfe/infra/typeorm/repositories/NfeRepositories";
+import { NfeXmlRepositories } from "../../../modules/nfe/infra/typeorm/repositories/NfeXmlRepositories";
 import { DaysJsDateProvider } from "../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
-import { IClienteNfe } from "../../dtos/IClienteNfe";
-import { IEmpresaApiNfe } from "../../dtos/IEmpresaApiNfe";
 import { IGeraXmlAssinado } from "../../dtos/IGeraXmlAssinado";
 import { IIbpt } from "../../dtos/IIBPT";
-import { IInfoNfe } from "../../dtos/IInfoNfe";
 import { IJobsProps } from "../../dtos/IJobsProps";
 import { IProdutosApiNfe } from "../../dtos/IProdutosApiNfe";
 import { IXmlAssinadoDTO } from "../../dtos/IXmlAssinadoDTO";
@@ -126,9 +124,17 @@ const job: IJobsProps = {
     await axios.post(`${process.env.URL_NFE_PHP}/xml_assinado.php`, formData, {
       headers: { ...formData.getHeaders() }
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.data)
           throw new Error("Erro os gerar xml da NFe");
+
+        const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
+
+        await nfeXmlRepository.create({
+          id_nfe: nfe.id,
+          acao: "xml assinado",
+          xml: res.data.xml
+        });
 
       })
       .catch((err) => {
