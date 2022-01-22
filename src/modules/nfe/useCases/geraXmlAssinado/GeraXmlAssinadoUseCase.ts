@@ -17,7 +17,7 @@ import { IIbpt } from "../../dtos/IIbpt";
 export class GeraXmlAssinadoUseCase {
   constructor(
     @inject("DaysJsDateProvider")
-    private dayJs: IDateProvider
+    private dayjsDateProvider: IDateProvider
   ) { }
 
   async execute({ idNfe, cod_cliente }: IGeraXmlAssinado) {
@@ -88,7 +88,7 @@ export class GeraXmlAssinadoUseCase {
       },
       info_nfe: {
         ambiente: empresa.ambiente,
-        data_hora: this.dayJs.dateNow(),
+        data_hora: this.dayjsDateProvider.dateNow(),
         nr_nfe: nrNFe,
         serie_nfe: empresa.serie_nfe
       },
