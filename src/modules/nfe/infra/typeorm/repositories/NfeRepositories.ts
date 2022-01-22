@@ -64,6 +64,8 @@ export class NfeRepositories implements INfeRepositories {
         relations: [
           "empresa",
           "cliente",
+          "cliente.cidade",
+          "cliente.cidade.uf",
           "pedidos",
           "pedidos.produto",
           "pedidos.produto.variantes",

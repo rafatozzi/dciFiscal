@@ -53,7 +53,15 @@ export class EmpresasRepositories implements IEmpresasRepositories {
   }
 
   async findById(id: string): Promise<Empresas> {
-    return await this.repository.findOne(id);
+    return await this.repository.findOne(
+      id,
+      {
+        relations: [
+          "cidade",
+          "cidade.uf"
+        ]
+      }
+    );
   }
 
   async deleteById(id: string): Promise<void> {

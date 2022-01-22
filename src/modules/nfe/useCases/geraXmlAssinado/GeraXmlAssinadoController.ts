@@ -11,9 +11,6 @@ const job: IJobsProps = {
 
     const { idNfe, cod_cliente } = queue.data as IGeraXmlAssinado;
 
-    console.log("idNFe: ", idNfe);
-    console.log("cod_cliente: ", cod_cliente);
-
     await useCase.execute({ idNfe, cod_cliente });
   }
 }

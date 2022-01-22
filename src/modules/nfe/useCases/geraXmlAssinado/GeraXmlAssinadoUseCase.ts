@@ -29,7 +29,12 @@ export class GeraXmlAssinadoUseCase {
     if (!nfe)
       throw new Error("NFe não encontrada");
 
-    const empresa = await empresaRepositories.findById(nfe.id);
+    const empresa = await empresaRepositories.findById(nfe.id_empresa);
+
+    if (!empresa)
+      throw new Error("Empresa não encontrada");
+
+    // console.log("***** NFe *****", nfe);
 
     const nrNFe = empresa.nr_nfe + 1;
 
@@ -112,7 +117,7 @@ export class GeraXmlAssinadoUseCase {
     await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
 
     const formData = new FormData();
-    const file = fs.readFileSync(`../../../../archives/cert/${empresa.id}.pfx`, { encoding: 'base64' });
+    const file = fs.readFileSync(`../../../../../archives/cert/${empresa.id}.pfx`, { encoding: 'base64' });
 
     formData.append("json", JSON.stringify(jsonRequest));
     formData.append("certificado", file, "certificado.pfx");
