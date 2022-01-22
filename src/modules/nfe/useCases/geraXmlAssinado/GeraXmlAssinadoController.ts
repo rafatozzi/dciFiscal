@@ -1,12 +1,12 @@
 import { container } from "tsyringe";
 import { IGeraXmlAssinado } from "../../dtos/IGeraXmlAssinado";
 import { IJobsProps } from "../../dtos/IJobsProps";
-import { GeraXmlAssinado } from "../../../modules/nfe/useCases/geraXmlAssinado/GeraXmlAssinadoUseCase"
+import { GeraXmlAssinadoUseCase } from "./GeraXmlAssinadoUseCase";
 
 const job: IJobsProps = {
   key: "GeraXmlAssinado",
   handle: async ({ idNfe, cod_cliente }: IGeraXmlAssinado) => {
-    const useCase = container.resolve(GeraXmlAssinado);
+    const useCase = container.resolve(GeraXmlAssinadoUseCase);
 
     useCase.execute({ idNfe, cod_cliente });
   }

@@ -2,19 +2,19 @@ import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
 import { inject, injectable } from "tsyringe";
-import { IGeraXmlAssinado } from "../../../../jobs/dtos/IGeraXmlAssinado";
-import { IIbpt } from "../../../../jobs/dtos/IIbpt";
-import { IProdutosApiNfe } from "../../../../jobs/dtos/IProdutosApiNfe";
-import { IXmlAssinadoDTO } from "../../../../jobs/dtos/IXmlAssinadoDTO";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { EmpresasRepositories } from "../../../empresas/infra/typeorm/repositories/EmpresasRepositories";
 import { NfeRepositories } from "../../infra/typeorm/repositories/NfeRepositories";
 import { NfeXmlRepositories } from "../../infra/typeorm/repositories/NfeXmlRepositories";
 import { NfeXml } from "../../infra/typeorm/entities/NfeXml";
 import { ICreateNfeXmlDTO } from "../../dtos/ICreateNfeXmlDTO";
+import { IGeraXmlAssinado } from "../../dtos/IGeraXmlAssinado";
+import { IProdutosApiNfe } from "../../dtos/IProdutosApiNfe";
+import { IXmlAssinadoDTO } from "../../dtos/IXmlAssinadoDTO";
+import { IIbpt } from "../../dtos/IIbpt";
 
 @injectable()
-export class GeraXmlAssinado {
+export class GeraXmlAssinadoUseCase {
   constructor(
     @inject("DaysJsDateProvider")
     private dayJs: IDateProvider

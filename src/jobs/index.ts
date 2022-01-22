@@ -1,1 +1,1 @@
-export { default as GeraXmlAssinado } from "./useCases/geraXmlAssinado/geraXmlAssinadoController";
+export { default as GeraXmlAssinado } from "../modules/nfe/useCases/geraXmlAssinado/GeraXmlAssinadoController";
