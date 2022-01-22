@@ -4,7 +4,7 @@ import { EmitirNfeUseCase } from "./EmitirNfeUseCase";
 
 export class EmitirNfeController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const { id } = request.body;
 
     const useCase = container.resolve(EmitirNfeUseCase);
 
