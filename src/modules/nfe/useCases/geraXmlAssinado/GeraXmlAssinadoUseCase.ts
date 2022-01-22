@@ -1,6 +1,7 @@
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
+import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { EmpresasRepositories } from "../../../empresas/infra/typeorm/repositories/EmpresasRepositories";
@@ -26,15 +27,15 @@ export class GeraXmlAssinadoUseCase {
 
     const nfe = await nfeRepositories.findById(idNfe);
 
-    if (!nfe)
+    if (!nfe) {
+      console.log("NFe não encontrada");
       throw new Error("NFe não encontrada");
+    }
 
     const empresa = await empresaRepositories.findById(nfe.id_empresa);
 
     if (!empresa)
       throw new Error("Empresa não encontrada");
-
-    // console.log("***** NFe *****", nfe);
 
     const nrNFe = empresa.nr_nfe + 1;
 
@@ -47,8 +48,10 @@ export class GeraXmlAssinadoUseCase {
         .then((res) => {
           resIbpt = res.data as IIbpt;
 
-          if (resIbpt.Codigo === null)
+          if (resIbpt.Codigo === null) {
+            console.log(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
             throw new Error(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
+          }
 
           produtos.push({
             cfop: item.produto.cfop,
@@ -64,10 +67,13 @@ export class GeraXmlAssinadoUseCase {
 
         })
         .catch((err) => {
-          if (err.response.data.message)
+          if (err.response.data.message) {
+            console.log(err.response.data.message);
             throw new Error(err.response.data.message);
-          else
+          } else {
+            console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
             throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+          }
         });
     })
 
@@ -117,7 +123,9 @@ export class GeraXmlAssinadoUseCase {
     await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
 
     const formData = new FormData();
-    const file = fs.readFileSync(`../../../../../archives/cert/${empresa.id}.pfx`, { encoding: 'base64' });
+
+    const certFolder = resolve(__dirname, "..", "..", "..", "..", "..", "archives", "cert");
+    const file = fs.readFileSync(`${certFolder}/${empresa.id}.pfx`, { encoding: 'base64' });
 
     formData.append("json", JSON.stringify(jsonRequest));
     formData.append("certificado", file, "certificado.pfx");
@@ -126,8 +134,12 @@ export class GeraXmlAssinadoUseCase {
       headers: { ...formData.getHeaders() }
     })
       .then(async (res) => {
-        if (!res.data)
+        if (!res.data) {
+          console.log("Erro os gerar xml da NFe");
           throw new Error("Erro os gerar xml da NFe");
+        }
+
+        console.log(res.data);
 
         const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
