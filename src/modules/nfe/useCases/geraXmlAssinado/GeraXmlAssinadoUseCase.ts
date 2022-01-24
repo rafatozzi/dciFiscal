@@ -1,6 +1,6 @@
 import axios from "axios";
 import fs from "fs";
-import FormData from "form-data";
+import FormData, { promises } from "form-data";
 import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
@@ -41,41 +41,45 @@ export class GeraXmlAssinadoUseCase {
 
     const produtos: IProdutosApiNfe[] = [];
 
-    nfe.pedidos.map(async (item) => {
-      let resIbpt = {} as IIbpt;
+    console.log("***** PEDIDOS *****", nfe.pedidos);
 
-      await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
-        .then((res) => {
-          resIbpt = res.data as IIbpt;
+    await Promise.all(
+      nfe.pedidos.map(async (item) => {
+        let resIbpt = {} as IIbpt;
 
-          if (resIbpt.Codigo === null) {
-            console.log(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
-            throw new Error(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
-          }
+        await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
+          .then((res) => {
+            resIbpt = res.data as IIbpt;
 
-          produtos.push({
-            cfop: item.produto.cfop,
-            codigo: item.produto.id.substring(0, 5),
-            imp_estadual: resIbpt.Estadual,
-            imp_federal: resIbpt.Nacional,
-            ncm: item.produto.ncm,
-            nome: item.produto.nome,
-            quantidade: item.qtd,
-            unid_medida: item.produto.unid_med,
-            valor_uni: item.valor_unit
+            if (resIbpt.Codigo === null) {
+              console.log(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
+              throw new Error(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
+            }
+
+            produtos.push({
+              cfop: item.produto.cfop,
+              codigo: item.produto.id.substring(0, 5),
+              imp_estadual: resIbpt.Estadual,
+              imp_federal: resIbpt.Nacional,
+              ncm: item.produto.ncm,
+              nome: item.produto.nome,
+              quantidade: item.qtd,
+              unid_medida: item.produto.unid_med,
+              valor_uni: item.valor_unit
+            })
+
           })
-
-        })
-        .catch((err) => {
-          if (err.response.data.message) {
-            console.log(err.response.data.message);
-            throw new Error(err.response.data.message);
-          } else {
-            console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
-            throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
-          }
-        });
-    })
+          .catch((err) => {
+            if (err.response.data.message) {
+              console.log(err.response.data.message);
+              throw new Error(err.response.data.message);
+            } else {
+              console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+              throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+            }
+          });
+      })
+    );
 
     const jsonRequest: IXmlAssinadoDTO = {
       senha_certificado: empresa.senha_cert,
@@ -139,7 +143,7 @@ export class GeraXmlAssinadoUseCase {
           throw new Error("Erro os gerar xml da NFe");
         }
 
-        console.log(res.data);
+        // console.log(res.data);
 
         const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
