@@ -5,12 +5,13 @@ import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { EmpresasRepositories } from "../../../empresas/infra/typeorm/repositories/EmpresasRepositories";
-import { IEnviaLoteDTO } from "../../dtos/IEnviaLoteDTO";
+import { IConsultaNfeDTO } from "../../dtos/IConsultaNfeDTO";
 import { NfeRepositories } from "../../infra/typeorm/repositories/NfeRepositories";
-import Queue from "../../../../jobs/lib/queue";
+import { ICreateNfeXmlDTO } from "../../dtos/ICreateNfeXmlDTO";
+import { NfeXmlRepositories } from "../../infra/typeorm/repositories/NfeXmlRepositories";
 
 @injectable()
-export class EnviaLoteUseCase {
+export class ConsultaNfeUseCase {
   constructor(
     @inject("DaysJsDateProvider")
     private dayjsDateProvider: IDateProvider
@@ -19,6 +20,7 @@ export class EnviaLoteUseCase {
   async execute({ idNfe, cod_cliente }) {
     const nfeRepositories = new NfeRepositories(cod_cliente);
     const empresaRepositories = new EmpresasRepositories(cod_cliente);
+    const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
 
     const nfe = await nfeRepositories.findById(idNfe);
 
@@ -32,7 +34,7 @@ export class EnviaLoteUseCase {
     if (!empresa)
       throw new Error("Empresa não encontrada");
 
-    const jsonRequest: IEnviaLoteDTO = {
+    const jsonRequest: IConsultaNfeDTO = {
       senha_certificado: empresa.senha_cert,
       empresa: {
         razao: empresa.razao,
@@ -57,7 +59,8 @@ export class EnviaLoteUseCase {
         nr_nfe: nfe.nr_nfe,
         serie_nfe: empresa.serie_nfe
       },
-      xml: nfe.list_xml.find(i => i.acao === "xml").xml
+      xmlAssinado: nfe.list_xml.find(i => i.acao === "xml").xml,
+      recibo: nfe.recibo
     }
 
     const formData = new FormData();
@@ -77,15 +80,26 @@ export class EnviaLoteUseCase {
           throw new Error("Erro enviar lote da NFe para SEFAZ");
         }
 
-        await nfeRepositories.create({ ...nfe, recibo: res.data.recibo });
+        const newMotivo = `${res.data.situacao} ${res.data.motivo}`;
+        await nfeRepositories.create({
+          ...nfe,
+          status: res.data.status,
+          motivo: newMotivo.trim()
+        });
 
-        await Queue.add("ConsultaNfe", { idNfe, cod_cliente });
+        let newXml = {
+          id: nfe.list_xml.find(i => i.acao === "xml").id,
+          id_nfe: nfe.id,
+          acao: "xml",
+          xml: res.data.xmlProtocolado
+        } as ICreateNfeXmlDTO;
+
+        await nfeXmlRepository.create(newXml);
 
       })
       .catch((err) => {
         console.log(err.response.data);
         throw new Error(err.response.data);
       });
-
   }
 }
