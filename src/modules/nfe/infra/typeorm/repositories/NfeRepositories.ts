@@ -70,6 +70,7 @@ export class NfeRepositories implements INfeRepositories {
           "pedidos.produto",
           "pedidos.produto.variantes",
           "pgtos",
+          "list_xml"
         ]
       }
     )

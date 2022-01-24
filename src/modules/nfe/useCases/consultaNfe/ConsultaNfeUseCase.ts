@@ -66,13 +66,16 @@ export class ConsultaNfeUseCase {
     const formData = new FormData();
 
     const certFolder = resolve(__dirname, "..", "..", "..", "..", "..", "archives", "cert");
-    const file = fs.readFileSync(`${certFolder}/${empresa.id}.pfx`, { encoding: 'base64' });
+    const file = fs.createReadStream(`${certFolder}/${empresa.id}.pfx`);
 
     formData.append("json", JSON.stringify(jsonRequest));
-    formData.append("certificado", file, "certificado.pfx");
+    formData.append("certificado", file, { knownLength: fs.statSync(`${certFolder}/${empresa.id}.pfx`).size });
 
     await axios.post(`${process.env.URL_NFE_PHP}/envia_lote.php`, formData, {
-      headers: { ...formData.getHeaders() }
+      headers: {
+        ...formData.getHeaders(),
+        "Content-Length": formData.getLengthSync()
+      },
     })
       .then(async (res) => {
         if (!res.data || !res.data.idLote || !res.data.recibo) {
