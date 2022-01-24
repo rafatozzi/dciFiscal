@@ -4,6 +4,7 @@ import { Clientes } from "../../../../clientes/infra/typeorm/entities/Clientes";
 import { Empresas } from "../../../../empresas/infra/typeorm/entities/Empresas";
 import { NfePgtos } from "./NfePgtos";
 import { NfeProdutos } from "./NfeProdutos";
+import { NfeXml } from "./NfeXml";
 
 @Entity("nfe")
 export class Nfe {
@@ -24,6 +25,9 @@ export class Nfe {
 
   @OneToMany(() => NfePgtos, p => p.nfe)
   pgtos: NfePgtos[];
+
+  @OneToMany(() => NfeXml, p => p.nfe)
+  list_xml: NfeXml[];
 
   @Column()
   id_empresa: string;

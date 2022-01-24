@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Nfe } from "./Nfe";
 
 @Entity("nfe_xml")
 export class NfeXml {
@@ -9,6 +10,10 @@ export class NfeXml {
 
   @Column()
   id_nfe: string;
+
+  @ManyToOne(() => Nfe)
+  @JoinColumn({ name: "id_nfe" })
+  nfe: Nfe;
 
   @Column()
   acao: string;

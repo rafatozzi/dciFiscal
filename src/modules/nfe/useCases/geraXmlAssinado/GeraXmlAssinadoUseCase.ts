@@ -1,6 +1,6 @@
 import axios from "axios";
 import fs from "fs";
-import FormData, { promises } from "form-data";
+import FormData from "form-data";
 import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
@@ -13,6 +13,7 @@ import { IGeraXmlAssinado } from "../../dtos/IGeraXmlAssinado";
 import { IProdutosApiNfe } from "../../dtos/IProdutosApiNfe";
 import { IXmlAssinadoDTO } from "../../dtos/IXmlAssinadoDTO";
 import { IIbpt } from "../../dtos/IIbpt";
+import Queue from "../../../../jobs/lib/queue";
 
 @injectable()
 export class GeraXmlAssinadoUseCase {
@@ -37,11 +38,16 @@ export class GeraXmlAssinadoUseCase {
     if (!empresa)
       throw new Error("Empresa não encontrada");
 
-    const nrNFe = empresa.nr_nfe + 1;
+    let nrNFe = 0;
+
+    if (nfe.nr_nfe && nfe.nr_nfe > 0)
+      nrNFe = nfe.nr_nfe;
+    else {
+      nrNFe = empresa.nr_nfe + 1;
+      await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
+    }
 
     const produtos: IProdutosApiNfe[] = [];
-
-    console.log("***** PEDIDOS *****", nfe.pedidos);
 
     await Promise.all(
       nfe.pedidos.map(async (item) => {
@@ -124,8 +130,6 @@ export class GeraXmlAssinadoUseCase {
       produtos
     }
 
-    await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
-
     const formData = new FormData();
 
     const certFolder = resolve(__dirname, "..", "..", "..", "..", "..", "archives", "cert");
@@ -138,13 +142,12 @@ export class GeraXmlAssinadoUseCase {
       headers: { ...formData.getHeaders() }
     })
       .then(async (res) => {
-        if (!res.data) {
-          console.log("Erro os gerar xml da NFe");
-          throw new Error("Erro os gerar xml da NFe");
+        if (!res.data || !res.data.xml || !res.data.chave) {
+          console.log("Erro ao gerar xml da NFe");
+          throw new Error("Erro ao gerar xml da NFe");
         }
 
         // console.log(res.data);
-
         const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
 
@@ -158,6 +161,10 @@ export class GeraXmlAssinadoUseCase {
           newXml = { ...newXml, id: dbXml.find(i => i.acao === "xml").id };
 
         await nfeXmlRepository.create(newXml);
+
+        await nfeRepositories.create({ ...nfe, chave: res.data.chave, nr_nfe: nrNFe });
+
+        await Queue.add("EnviaLote", { idNfe, cod_cliente });
 
       })
       .catch((err) => {
