@@ -86,7 +86,8 @@ export class EnviaLoteUseCase {
         await Queue.add("ConsultaNfe", { idNfe, cod_cliente });
 
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO ENVIAR LOTE", status: 0 });
         console.log(err.response);
         throw new Error(err);
       });

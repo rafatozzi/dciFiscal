@@ -188,7 +188,8 @@ export class GeraXmlAssinadoUseCase {
 
         await Queue.add("EnviaLote", { idNfe, cod_cliente });
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO GERAR XML", status: 0 });
         console.log(err.response);
         throw new Error(err);
       });

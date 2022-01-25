@@ -101,7 +101,8 @@ export class ConsultaNfeUseCase {
         await nfeXmlRepository.create(newXml);
 
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO CONSULTAR", status: 0 });
         console.log(err.response.data);
         throw new Error(err.response.data);
       });
