@@ -14,6 +14,7 @@ import { IProdutosApiNfe } from "../../dtos/IProdutosApiNfe";
 import { IXmlAssinadoDTO } from "../../dtos/IXmlAssinadoDTO";
 import { IIbpt } from "../../dtos/IIbpt";
 import Queue from "../../../../jobs/lib/queue";
+import { IPgtosApiNfe } from "../../dtos/IPgtosApiNfe";
 
 @injectable()
 export class GeraXmlAssinadoUseCase {
@@ -87,6 +88,22 @@ export class GeraXmlAssinadoUseCase {
       })
     );
 
+    const pgtos: IPgtosApiNfe[] = [];
+    nfe.pgtos.map((item) => {
+      pgtos.push({
+        indpag: 0,
+        tpag: ("00" + item.forma_pgto).slice(-2),
+        vpag: parseFloat(`${item.valor}`)
+      });
+    });
+
+    if (nfe.desconto > 0)
+      pgtos.push({
+        indpag: 0,
+        tpag: "05",
+        vpag: parseFloat(`${nfe.desconto}`)
+      });
+
     const jsonRequest: IXmlAssinadoDTO = {
       senha_certificado: empresa.senha_cert,
       chave: nfe.chave,
@@ -127,7 +144,8 @@ export class GeraXmlAssinadoUseCase {
         telefone: nfe.cliente.telefone,
         uf: nfe.cliente.cidade.uf.uf
       },
-      produtos
+      produtos,
+      pgtos
     }
 
     const formData = new FormData();
@@ -146,12 +164,12 @@ export class GeraXmlAssinadoUseCase {
       },
     })
       .then(async (res) => {
+        console.log(res.data);
         if (!res.data || !res.data.xml || !res.data.chave) {
           console.log("Erro ao gerar xml da NFe");
           throw new Error("Erro ao gerar xml da NFe");
         }
 
-        // console.log(res.data);
         const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
 
