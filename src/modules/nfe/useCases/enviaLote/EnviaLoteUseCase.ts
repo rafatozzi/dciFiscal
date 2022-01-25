@@ -75,7 +75,6 @@ export class EnviaLoteUseCase {
       },
     })
       .then(async (res) => {
-        console.log(res.data);
 
         if (!res.data || !res.data.idLote || !res.data.recibo) {
           console.log("Erro ao enviar lote da NFe para SEFAZ");

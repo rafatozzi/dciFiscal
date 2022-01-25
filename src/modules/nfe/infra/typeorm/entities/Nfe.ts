@@ -54,6 +54,9 @@ export class Nfe {
   status: number;
 
   @Column()
+  situacao: string;
+
+  @Column()
   motivo: string;
 
   @Column()

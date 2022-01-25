@@ -8,6 +8,7 @@ export interface ICreateNfeDTO {
   recibo?: string;
   chave?: string;
   status?: number;
+  situacao?: string;
   motivo?: string;
   cancelado?: boolean;
   cancel_motivo?: string;

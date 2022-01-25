@@ -78,16 +78,17 @@ export class ConsultaNfeUseCase {
       },
     })
       .then(async (res) => {
-        if (!res.data || !res.data.idLote || !res.data.recibo) {
-          console.log("Erro enviar lote da NFe para SEFAZ");
-          throw new Error("Erro enviar lote da NFe para SEFAZ");
+
+        if (!res.data || !res.data.processado || !res.data.situacao) {
+          console.log("Erro consultar NFe na SEFAZ");
+          throw new Error("Erro consultar NFe na SEFAZ");
         }
 
-        const newMotivo = `${res.data.situacao} ${res.data.motivo}`;
         await nfeRepositories.create({
           ...nfe,
           status: res.data.status,
-          motivo: newMotivo.trim()
+          situacao: res.data.situacao,
+          motivo: res.data.motivo
         });
 
         let newXml = {
