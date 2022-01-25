@@ -6,6 +6,11 @@ import { GeraXmlAssinadoUseCase } from "./GeraXmlAssinadoUseCase";
 
 const job: IJobsProps = {
   key: "GeraXmlAssinado",
+  options: {
+    delay: 2000,
+    attempts: 2,
+    backoff: 1000
+  },
   async handle(queue) {
     const useCase = container.resolve(GeraXmlAssinadoUseCase);
 

@@ -5,6 +5,6 @@ export interface IConsultaNfeDTO {
   senha_certificado: string;
   empresa: IEmpresaApiNfe;
   info_nfe: IInfoNfe;
-  xmlAssinado: string;
+  xml_assinado: string;
   recibo: string;
 }

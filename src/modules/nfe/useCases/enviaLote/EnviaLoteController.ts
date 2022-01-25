@@ -4,6 +4,9 @@ import { EnviaLoteUseCase } from "./EnviaLoteUseCase";
 
 const job: IJobsProps = {
   key: "EnviaLote",
+  options: {
+    delay: 1000
+  },
   async handle(queue) {
     const useCase = container.resolve(EnviaLoteUseCase);
 

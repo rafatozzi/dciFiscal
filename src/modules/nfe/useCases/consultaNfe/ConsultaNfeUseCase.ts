@@ -59,7 +59,7 @@ export class ConsultaNfeUseCase {
         nr_nfe: nfe.nr_nfe,
         serie_nfe: empresa.serie_nfe
       },
-      xmlAssinado: nfe.list_xml.find(i => i.acao === "xml").xml,
+      xml_assinado: nfe.list_xml.find(i => i.acao === "xml").xml,
       recibo: nfe.recibo
     }
 
@@ -71,7 +71,7 @@ export class ConsultaNfeUseCase {
     formData.append("json", JSON.stringify(jsonRequest));
     formData.append("certificado", file, { knownLength: fs.statSync(`${certFolder}/${empresa.id}.pfx`).size });
 
-    await axios.post(`${process.env.URL_NFE_PHP}/envia_lote.php`, formData, {
+    await axios.post(`${process.env.URL_NFE_PHP}/consulta.php`, formData, {
       headers: {
         ...formData.getHeaders(),
         "Content-Length": formData.getLengthSync()
