@@ -12,4 +12,5 @@ export interface ICreateNfeDTO {
   motivo?: string;
   cancelado?: boolean;
   cancel_motivo?: string;
+  protocolo?: string;
 }

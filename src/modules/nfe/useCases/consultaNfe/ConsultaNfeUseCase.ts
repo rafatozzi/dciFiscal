@@ -88,7 +88,8 @@ export class ConsultaNfeUseCase {
           ...nfe,
           status: res.data.status,
           situacao: res.data.situacao,
-          motivo: res.data.motivo
+          motivo: res.data.motivo,
+          protocolo: res.data.numeroProtocolo
         });
 
         let newXml = {

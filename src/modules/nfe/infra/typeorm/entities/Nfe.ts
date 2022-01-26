@@ -48,6 +48,9 @@ export class Nfe {
   recibo: string;
 
   @Column()
+  protocolo: string;
+
+  @Column()
   chave: string;
 
   @Column()
