@@ -66,8 +66,8 @@ export class GeraXmlAssinadoUseCase {
             produtos.push({
               cfop: item.produto.cfop,
               codigo: item.produto.id.substring(0, 5),
-              imp_estadual: resIbpt.Estadual,
-              imp_federal: resIbpt.Nacional,
+              imp_estadual: resIbpt.ValorTributoEstadual,
+              imp_federal: resIbpt.ValorTributoNacional,
               ncm: item.produto.ncm,
               nome: item.produto.nome,
               quantidade: item.qtd,
