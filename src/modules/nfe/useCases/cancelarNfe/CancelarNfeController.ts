@@ -13,3 +13,5 @@ const job: IJobsProps = {
     await useCase.execute({ idNfe, cod_cliente, motivo });
   }
 }
+
+export default job;

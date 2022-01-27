@@ -9,7 +9,7 @@ export class EmitirNfeUseCase {
 
   async execute(cod_cliente: string, idNfe: string): Promise<void> {
     const nfeRepositories = new NfeRepositories(cod_cliente);
-    const nfe = nfeRepositories.findById(idNfe);
+    const nfe = await nfeRepositories.findById(idNfe);
 
     if (!nfe)
       throw new Error("NFe não encontrada");

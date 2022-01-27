@@ -70,7 +70,12 @@ export class CancelaNfeUseCase {
     formData.append("json", JSON.stringify(jsonRequest));
     formData.append("certificado", file, { knownLength: fs.statSync(`${certFolder}/${empresa.id}.pfx`).size });
 
-    await axios.post(`${process.env.URL_NFE_PHP}/cancelamento.php`)
+    await axios.post(`${process.env.URL_NFE_PHP}/cancelamento.php`, formData, {
+      headers: {
+        ...formData.getHeaders(),
+        "Content-Length": formData.getLengthSync()
+      },
+    })
       .then(async (res) => {
 
         if (!res.data || !res.data.xml) {
@@ -96,7 +101,10 @@ export class CancelaNfeUseCase {
 
       })
       .catch(async (err) => {
-        await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO CANCELAR", status: 0 });
+        if (err.response.data.erro)
+          await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: err.response.data.erro, status: 0 });
+        else
+          await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO CANCELAR", status: 0 });
         console.log(err.response.data);
         throw new Error(err.response.data);
       });

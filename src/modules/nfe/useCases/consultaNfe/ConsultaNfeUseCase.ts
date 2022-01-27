@@ -103,7 +103,10 @@ export class ConsultaNfeUseCase {
 
       })
       .catch(async (err) => {
-        await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO CONSULTAR", status: 0 });
+        if (err.response.data.erro)
+          await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: err.response.data.erro, status: 0 });
+        else
+          await nfeRepositories.create({ ...nfe, situacao: "ERRO", motivo: "ERRO AO CONSULTAR", status: 0 });
         console.log(err.response.data);
         throw new Error(err.response.data);
       });
