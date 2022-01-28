@@ -9,6 +9,10 @@ export class CidadesRepositories implements ICidadesRespositories {
     this.repository = getRepository(Cidades, connectionName);
   }
 
+  async findByIbge(ibge: number): Promise<Cidades> {
+    return await this.repository.findOne({ ibge });
+  }
+
   async findById(id: number): Promise<Cidades> {
     return await this.repository.findOne(id);
   }
