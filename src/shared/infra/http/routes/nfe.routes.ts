@@ -8,8 +8,12 @@ import { DeleteNfeProdutosController } from "../../../../modules/nfe/useCases/de
 import { FindAllNfeController } from "../../../../modules/nfe/useCases/findAllNfe/FindAllNfeController";
 import { FindByIdNfeController } from "../../../../modules/nfe/useCases/findByIdNfe/FindByIdNfeController";
 import { EmitirNfeController } from "../../../../modules/nfe/useCases/emitirNfe/EmitirNfeController";
-import { SolicitarCancelController } from "../../../../modules/nfe/useCases/solicitarCancel/SolicitarCancelController"
+import { SolicitarCancelController } from "../../../../modules/nfe/useCases/solicitarCancel/SolicitarCancelController";
+import { ImportarXmlController } from "../../../../modules/nfe/useCases/importarXml/ImportarXmlController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
+
+import multer from "multer";
+import uploadConfig from "../../../../config/upload";
 
 const createNfe = new CreateNfeController();
 const createNfePgtos = new CreateNfePgtosController();
@@ -21,6 +25,9 @@ const findAllNfe = new FindAllNfeController();
 const findByIdNfe = new FindByIdNfeController();
 const emitirNfe = new EmitirNfeController();
 const solicitarCancel = new SolicitarCancelController();
+const importarXmlController = new ImportarXmlController();
+
+const uploadXml = multer(uploadConfig)
 
 const nfeRoutes = Router();
 
@@ -36,8 +43,10 @@ nfeRoutes.delete("/", EnsureAuthenticated, deleteNfe.handle);
 nfeRoutes.delete("/pgtos", EnsureAuthenticated, deleteNfePgtos.handle);
 nfeRoutes.delete("/produtos", EnsureAuthenticated, deleteNfeProdutos.handle);
 
-nfeRoutes.delete("/cancelar", EnsureAuthenticated, solicitarCancel.handle)
+nfeRoutes.delete("/cancelar", EnsureAuthenticated, solicitarCancel.handle);
 
 nfeRoutes.post("/emitir", EnsureAuthenticated, emitirNfe.handle);
+
+nfeRoutes.post("/importar", EnsureAuthenticated, uploadXml.array("xml"), importarXmlController.handle);
 
 export { nfeRoutes };
