@@ -11,6 +11,9 @@ import { CidadesRepositories } from "../../../cidades/infra/typeorm/repositories
 import { NfeProdutosRepositories } from "../../infra/typeorm/repositories/NfeProdutosRepositories";
 import { ICreateNfeProdutosDTO } from "../../dtos/ICreateNfeProdutosDTO";
 import { ProdutosRepositories } from "../../../produtos/infra/typeorm/repositories/ProdutosRepositories";
+import { NfePgtosRepositories } from "../../infra/typeorm/repositories/NfePgtosRepositories";
+import { ICreateNfePgtosDTO } from "../../dtos/ICreateNfePgtosDTO";
+import { NfeXmlRepositories } from "../../infra/typeorm/repositories/NfeXmlRepositories";
 
 @injectable()
 export class JobImportaXmlUseCase {
@@ -18,6 +21,8 @@ export class JobImportaXmlUseCase {
   async execute({ cod_cliente, filePath }: IImportaXmlDTO) {
     const nfeRepositories = new NfeRepositories(cod_cliente);
     const nfeProdutosRepositories = new NfeProdutosRepositories(cod_cliente);
+    const nfePgtosRepositories = new NfePgtosRepositories(cod_cliente);
+    const nfeXmlRepositories = new NfeXmlRepositories(cod_cliente);
     const empresasRepositories = new EmpresasRepositories(cod_cliente);
     const clientesRepositories = new ClientesRepositories(cod_cliente);
     const cidadesRepositories = new CidadesRepositories(cod_cliente);
@@ -88,6 +93,12 @@ export class JobImportaXmlUseCase {
           recibo: ""
         });
 
+        await nfeXmlRepositories.create({
+          id_nfe: nfe.id,
+          acao: "xml",
+          xml: data.toString()
+        });
+
         const produtos: ICreateNfeProdutosDTO[] = [];
         if (Array.isArray(infNFe.det)) {
           infNFe.det.map(async (item) => {
@@ -134,6 +145,25 @@ export class JobImportaXmlUseCase {
         }
 
         await nfeProdutosRepositories.create(produtos);
+
+        const pgtos: ICreateNfePgtosDTO[] = [];
+
+        if (Array.isArray(infNFe.pag.detPag)) {
+          infNFe.pag.detPag.map((item) => {
+            pgtos.push({
+              id_nfe: nfe.id,
+              forma_pgto: parseInt(item.tPag),
+              valor: item.vPag
+            });
+          });
+        } else {
+          pgtos.push({
+            id_nfe: nfe.id,
+            forma_pgto: parseInt(infNFe.pag.detPag.tPag),
+            valor: infNFe.pag.detPag.vPag
+          });
+        }
+        await nfePgtosRepositories.create(pgtos);
 
       })
     } catch (err) {
