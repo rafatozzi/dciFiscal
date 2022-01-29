@@ -187,7 +187,7 @@ export interface IJsonXml {
         verAplic: string;
         chNFe: string;
         dhRecbto: Date;
-        nProt: number
+        nProt: string;
         digVal: string;
         cStat: number;
         xMotivo: string;
