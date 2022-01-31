@@ -28,110 +28,95 @@ export class JobImportaXmlUseCase {
     const cidadesRepositories = new CidadesRepositories(cod_cliente);
     const produtosRepositories = new ProdutosRepositories(cod_cliente);
 
-    try {
-      fs.readFile(filePath, async (err, data) => {
-        const jsonXml = Xml2Json.toJson(data);
+    fs.readFile(filePath, async (err, data) => {
+      if (err)
+        throw new Error("Erro ao carregar arquivo");
 
-        const xml = JSON.parse(jsonXml) as IJsonXml;
-        const infNFe = xml.nfeProc.NFe.infNFe;
+      const jsonXml = Xml2Json.toJson(data);
 
-        const empresa = await empresasRepositories.findByCNPJ(xml.nfeProc.NFe.infNFe.emit.CNPJ);
+      const xml = JSON.parse(jsonXml) as IJsonXml;
+      const infNFe = xml.nfeProc.NFe.infNFe;
 
-        if (!empresa)
-          throw new Error("Empresa não encontrada");
+      const empresa = await empresasRepositories.findByCNPJ(xml.nfeProc.NFe.infNFe.emit.CNPJ);
+      const checkNfe = await nfeRepositories.findByChave(infNFe.Id.replace(/[^0-9]/g, ''));
 
-        const cpf_cnpj = infNFe.dest.CPF ? infNFe.dest.CPF : infNFe.dest.CNPJ;
-        let cliente: Clientes = await clientesRepositories.findByCpfCnpj(cpf_cnpj);
+      if (!empresa)
+        throw new Error("Empresa não encontrada");
 
-        if (!cliente) {
-          const cidade = await cidadesRepositories.findByIbge(infNFe.dest.enderDest.cMun);
+      if (checkNfe)
+        throw new Error("NFe já cadastrada");
 
-          cliente = await clientesRepositories.create({
-            razao_social: infNFe.dest.xNome,
-            fantasia: infNFe.dest.xNome,
-            cpf_cnpj: infNFe.dest.CPF ? infNFe.dest.CPF : infNFe.dest.CNPJ,
-            id_cidades: cidade.id,
-            bairro: infNFe.dest.enderDest.xBairro,
-            celular: 0,
-            cep: `${infNFe.dest.enderDest.CEP}`,
-            complemento: "",
-            email: "",
-            endereco: infNFe.dest.enderDest.xLgr,
-            favorito: false,
-            numero: parseInt(infNFe.dest.enderDest.nro),
-            rg_ie: infNFe.dest.IE ? infNFe.dest.IE : 0,
-            telefone: infNFe.dest.enderDest.fone
-          });
-        }
+      const cpf_cnpj = infNFe.dest.CPF ? infNFe.dest.CPF : infNFe.dest.CNPJ;
+      let cliente: Clientes = await clientesRepositories.findByCpfCnpj(cpf_cnpj);
 
-        let situacao = "";
+      if (!cliente) {
+        const cidade = await cidadesRepositories.findByIbge(infNFe.dest.enderDest.cMun);
 
-        switch (xml.nfeProc.protNFe.infProt.cStat) {
-          case 100:
-            situacao = "AUTORIZADA";
-            break;
-          case 101:
-          case 135:
-          case 155:
-            situacao = "CANCELADA"
-            break;
-          default:
-            situacao = "VERIFICAR";
-            break;
-        }
-
-        const nfe = await nfeRepositories.create({
-          id_cliente: cliente.id,
-          id_empresa: empresa.id,
-          chave: infNFe.Id.replace(/[^0-9]/g, ''),
-          desconto: 0,
-          total: infNFe.total.ICMSTot.vNF,
-          nr_nfe: infNFe.ide.nNF,
-          protocolo: xml.nfeProc.protNFe.infProt.nProt,
-          situacao,
-          status: xml.nfeProc.protNFe.infProt.cStat,
-          recibo: ""
+        cliente = await clientesRepositories.create({
+          razao_social: infNFe.dest.xNome,
+          fantasia: infNFe.dest.xNome,
+          cpf_cnpj: infNFe.dest.CPF ? infNFe.dest.CPF : infNFe.dest.CNPJ,
+          id_cidades: cidade.id,
+          bairro: infNFe.dest.enderDest.xBairro,
+          celular: 0,
+          cep: `${infNFe.dest.enderDest.CEP}`,
+          complemento: "",
+          email: "",
+          endereco: infNFe.dest.enderDest.xLgr,
+          favorito: false,
+          numero: parseInt(infNFe.dest.enderDest.nro),
+          rg_ie: infNFe.dest.IE ? infNFe.dest.IE : 0,
+          telefone: infNFe.dest.enderDest.fone
         });
+      }
 
-        await nfeXmlRepositories.create({
-          id_nfe: nfe.id,
-          acao: "xml",
-          xml: data.toString()
-        });
+      let situacao = "";
 
-        const produtos: ICreateNfeProdutosDTO[] = [];
-        if (Array.isArray(infNFe.det)) {
-          infNFe.det.map(async (item) => {
-            let produto = await produtosRepositories.findByNome(item.prod.xProd);
-            if (!produto) {
-              produto = await produtosRepositories.create({
-                nome: item.prod.xProd,
-                cod_barras: item.prod.cEAN !== "SEM GTIN" ? item.prod.cEAN : "",
-                ncm: item.prod.NCM,
-                cfop: item.prod.CFOP,
-                unid_med: item.prod.uCom,
-                preco: item.prod.vUnCom,
-                favorito: false,
-              });
-            }
+      switch (`${xml.nfeProc.protNFe.infProt.cStat}`) {
+        case "100":
+          situacao = "AUTORIZADA";
+          break;
+        case "101":
+        case "135":
+        case "155":
+          situacao = "CANCELADA"
+          break;
+        default:
+          situacao = "VERIFICAR";
+          break;
+      }
 
-            produtos.push({
-              id_nfe: nfe.id,
-              id_produto: produto.id,
-              qtd: item.prod.qCom,
-              valor_unit: item.prod.vUnCom
-            });
-          });
-        } else {
-          let produto = await produtosRepositories.findByNome(infNFe.det.prod.xProd);
+      const nfe = await nfeRepositories.create({
+        id_cliente: cliente.id,
+        id_empresa: empresa.id,
+        chave: infNFe.Id.replace(/[^0-9]/g, ''),
+        desconto: 0,
+        total: infNFe.total.ICMSTot.vNF,
+        nr_nfe: infNFe.ide.nNF,
+        protocolo: xml.nfeProc.protNFe.infProt.nProt,
+        situacao,
+        status: xml.nfeProc.protNFe.infProt.cStat,
+        recibo: ""
+      });
+
+      await nfeXmlRepositories.create({
+        id_nfe: nfe.id,
+        acao: "xml",
+        xml: data.toString()
+      });
+
+      const produtos: ICreateNfeProdutosDTO[] = [];
+      if (Array.isArray(infNFe.det)) {
+        infNFe.det.map(async (item) => {
+          let produto = await produtosRepositories.findByNome(item.prod.xProd);
           if (!produto) {
             produto = await produtosRepositories.create({
-              nome: infNFe.det.prod.xProd,
-              cod_barras: infNFe.det.prod.cEAN !== "SEM GTIN" ? infNFe.det.prod.cEAN : "",
-              ncm: infNFe.det.prod.NCM,
-              cfop: infNFe.det.prod.CFOP,
-              unid_med: infNFe.det.prod.uCom,
-              preco: infNFe.det.prod.vUnCom,
+              nome: item.prod.xProd,
+              cod_barras: item.prod.cEAN !== "SEM GTIN" ? item.prod.cEAN : "",
+              ncm: item.prod.NCM,
+              cfop: item.prod.CFOP,
+              unid_med: item.prod.uCom,
+              preco: item.prod.vUnCom,
               favorito: false,
             });
           }
@@ -139,37 +124,54 @@ export class JobImportaXmlUseCase {
           produtos.push({
             id_nfe: nfe.id,
             id_produto: produto.id,
-            qtd: infNFe.det.prod.qCom,
-            valor_unit: infNFe.det.prod.vUnCom
+            qtd: item.prod.qCom,
+            valor_unit: item.prod.vUnCom
+          });
+        });
+      } else {
+        let produto = await produtosRepositories.findByNome(infNFe.det.prod.xProd);
+        if (!produto) {
+          produto = await produtosRepositories.create({
+            nome: infNFe.det.prod.xProd,
+            cod_barras: infNFe.det.prod.cEAN !== "SEM GTIN" ? infNFe.det.prod.cEAN : "",
+            ncm: infNFe.det.prod.NCM,
+            cfop: infNFe.det.prod.CFOP,
+            unid_med: infNFe.det.prod.uCom,
+            preco: infNFe.det.prod.vUnCom,
+            favorito: false,
           });
         }
 
-        await nfeProdutosRepositories.create(produtos);
+        produtos.push({
+          id_nfe: nfe.id,
+          id_produto: produto.id,
+          qtd: infNFe.det.prod.qCom,
+          valor_unit: infNFe.det.prod.vUnCom
+        });
+      }
 
-        const pgtos: ICreateNfePgtosDTO[] = [];
+      await nfeProdutosRepositories.create(produtos);
 
-        if (Array.isArray(infNFe.pag.detPag)) {
-          infNFe.pag.detPag.map((item) => {
-            pgtos.push({
-              id_nfe: nfe.id,
-              forma_pgto: parseInt(item.tPag),
-              valor: item.vPag
-            });
-          });
-        } else {
+      const pgtos: ICreateNfePgtosDTO[] = [];
+
+      if (Array.isArray(infNFe.pag.detPag)) {
+        infNFe.pag.detPag.map((item) => {
           pgtos.push({
             id_nfe: nfe.id,
-            forma_pgto: parseInt(infNFe.pag.detPag.tPag),
-            valor: infNFe.pag.detPag.vPag
+            forma_pgto: parseInt(item.tPag),
+            valor: item.vPag
           });
-        }
-        await nfePgtosRepositories.create(pgtos);
+        });
+      } else {
+        pgtos.push({
+          id_nfe: nfe.id,
+          forma_pgto: parseInt(infNFe.pag.detPag.tPag),
+          valor: infNFe.pag.detPag.vPag
+        });
+      }
+      await nfePgtosRepositories.create(pgtos);
 
-      })
-    } catch (err) {
-      throw new Error(err);
-    } finally {
       await fs.promises.unlink(filePath);
-    }
+    })
   }
 }

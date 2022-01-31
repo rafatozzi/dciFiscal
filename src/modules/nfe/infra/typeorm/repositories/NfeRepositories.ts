@@ -12,6 +12,25 @@ export class NfeRepositories implements INfeRepositories {
     this.repository = getRepository(Nfe, connectionName);
   }
 
+  async findByChave(chave: string): Promise<Nfe> {
+    return await this.repository.findOne(
+      { chave },
+      {
+        relations: [
+          "empresa",
+          "cliente",
+          "cliente.cidade",
+          "cliente.cidade.uf",
+          "pedidos",
+          "pedidos.produto",
+          "pedidos.produto.variantes",
+          "pgtos",
+          "list_xml"
+        ]
+      }
+    )
+  }
+
   async create(data: ICreateNfeDTO): Promise<Nfe> {
 
     const pedido = this.repository.create({ ...data });

@@ -7,5 +7,6 @@ export interface INfeRepositories {
   create(data: ICreateNfeDTO): Promise<Nfe>;
   findAll(pesquisa?: IFiltersNfeDTO, limit?: number, cursor?: number): Promise<IListNfeDTO>
   findById(id: string): Promise<Nfe>;
+  findByChave(chave: string): Promise<Nfe>;
   deletePedido(id: string): Promise<void>;
 }
