@@ -62,7 +62,17 @@ export class NfeRepositories implements INfeRepositories {
 
     const [result, total] = await this.repository.findAndCount(
       {
-        relations: ["empresa", "cliente"],
+        relations: [
+          "empresa",
+          "cliente",
+          "cliente.cidade",
+          "cliente.cidade.uf",
+          "pedidos",
+          "pedidos.produto",
+          "pedidos.produto.variantes",
+          "pgtos",
+          "list_xml"
+        ],
         order: { created_at: "DESC" },
         take: limitPage,
         skip: cursorPage,

@@ -12,11 +12,15 @@ export class EtherealMailProvider implements IMailProvider {
 
   constructor() {
     this.client = nodemailer.createTransport({
+      pool: true,
       host: process.env.MAIL_HOST,
       port: parseInt(process.env.MAIL_PORT),
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     })
   }
@@ -32,10 +36,10 @@ export class EtherealMailProvider implements IMailProvider {
 
     const message = await this.client.sendMail({
       to,
-      from: "No-Replay DCI Suporte <noreplay@dcisuporte.com.br>",
+      from: "No-Reply DCI Suporte <noreply@dcisuporte.com.br>",
       subject,
       html: templateHTML,
-      // attachments
+      attachments
     });
   }
 
