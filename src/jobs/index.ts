@@ -3,3 +3,4 @@ export { default as EnviaLote } from "../modules/nfe/useCases/enviaLote/EnviaLot
 export { default as ConsultaNfe } from "../modules/nfe/useCases/consultaNfe/ConsultaNfeController";
 export { default as CancelaNfe } from "../modules/nfe/useCases/cancelarNfe/CancelarNfeController";
 export { default as ImportarXml } from "../modules/nfe/useCases/jobImportaXml/JobImportaXmlController";
+export { default as EnviaEmailContador } from "../modules/nfe/useCases/jobEnviaEmailContador/JobEnviaEmailContadorController";

@@ -44,6 +44,9 @@ import { NfeXmlRepositories } from "../../modules/nfe/infra/typeorm/repositories
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
 
+import { IMailProvider } from "./providers/MailProvider/IMailProvider";
+import { EtherealMailProvider } from "./providers/MailProvider/implementations/EtherealMailProvider";
+
 import { IStorageProvider } from "./providers/StorageProvider/IStorageProvider";
 import { LocalStorageProvider } from "./providers/StorageProvider/implementations/LocalStorageProvider";
 
@@ -71,5 +74,10 @@ container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => Day
 const diskStorage = {
   local: LocalStorageProvider
 };
-
 container.registerSingleton<IStorageProvider>("StorageProvider", delay(() => diskStorage[process.env.DISK]));
+
+
+const mailProvider = {
+  ethereal: EtherealMailProvider,
+}
+container.registerInstance<IMailProvider>("MailProvider", new mailProvider[process.env.MAIL_PROVIDER]);

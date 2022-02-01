@@ -10,6 +10,7 @@ import { FindByIdNfeController } from "../../../../modules/nfe/useCases/findById
 import { EmitirNfeController } from "../../../../modules/nfe/useCases/emitirNfe/EmitirNfeController";
 import { SolicitarCancelController } from "../../../../modules/nfe/useCases/solicitarCancel/SolicitarCancelController";
 import { ImportarXmlController } from "../../../../modules/nfe/useCases/importarXml/ImportarXmlController";
+import { EnviaEmailContadorController } from "../../../../modules/nfe/useCases/enviaEmailContador/EnviaEmailContadorController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 import multer from "multer";
@@ -26,6 +27,7 @@ const findByIdNfe = new FindByIdNfeController();
 const emitirNfe = new EmitirNfeController();
 const solicitarCancel = new SolicitarCancelController();
 const importarXmlController = new ImportarXmlController();
+const enviaEmailContadorController = new EnviaEmailContadorController();
 
 const uploadXml = multer(uploadConfig)
 
@@ -48,5 +50,7 @@ nfeRoutes.delete("/cancelar", EnsureAuthenticated, solicitarCancel.handle);
 nfeRoutes.post("/emitir", EnsureAuthenticated, emitirNfe.handle);
 
 nfeRoutes.post("/importar", EnsureAuthenticated, uploadXml.array("xml"), importarXmlController.handle);
+
+nfeRoutes.post("/envia_contabilidade", EnsureAuthenticated, enviaEmailContadorController.handle);
 
 export { nfeRoutes };
