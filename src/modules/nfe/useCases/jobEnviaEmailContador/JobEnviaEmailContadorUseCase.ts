@@ -30,8 +30,6 @@ export class JobEnviaEmailContadorUseCase {
 
     const zip = new JSZip();
 
-    const pathXmlZip = resolve(__dirname, "..", "..", "..", "..", "..", "archives");
-
     if (listNfe.total <= 0)
       return;
 
@@ -51,7 +49,6 @@ export class JobEnviaEmailContadorUseCase {
 
     const zipFile = await zip.generateAsync({ type: "nodebuffer" });
 
-    // fs.createWriteStream(`${pathXmlZip}/${mes}-${ano} ${empresa.id.substring(0, 5)}.zip`).write(zipFile);
     const templatePath = resolve(__dirname, "..", "..", "views", "emails", "envioXml.hbs");
 
     const variables = {
@@ -67,7 +64,7 @@ export class JobEnviaEmailContadorUseCase {
       templatePath,
       [
         {
-          filename: `${pathXmlZip}/${mes}-${ano}.zip`,
+          filename: `${mes}-${ano}.zip`,
           content: zipFile
         }
       ]
