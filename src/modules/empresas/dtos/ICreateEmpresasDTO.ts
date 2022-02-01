@@ -16,5 +16,6 @@ export interface ICreateEmpresasDTO {
   serie_nfe: number;
   ambiente: number;
   senha_cert: string;
+  email_contabilidade: string;
   venc_cert?: Date;
 }

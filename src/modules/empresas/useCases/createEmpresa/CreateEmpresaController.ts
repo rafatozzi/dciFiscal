@@ -21,7 +21,8 @@ export class CreateEmpresaController {
       nr_nfe,
       serie_nfe,
       ambiente,
-      senha_cert
+      senha_cert,
+      email_contabilidade
     } = request.body;
 
     const useCase = container.resolve(CreateEmpresaUseCase);
@@ -43,7 +44,8 @@ export class CreateEmpresaController {
       nr_nfe,
       serie_nfe,
       ambiente,
-      senha_cert
+      senha_cert,
+      email_contabilidade
     });
 
     return response.status(200).json(result);

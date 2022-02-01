@@ -62,6 +62,9 @@ export class Empresas {
   senha_cert: string;
 
   @Column()
+  email_contabilidade: string;
+
+  @Column()
   venc_cert: Date;
 
   @Expose({ name: "cert" })
