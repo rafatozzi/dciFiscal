@@ -11,21 +11,14 @@ export class EtherealMailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor() {
-    nodemailer.createTestAccount()
-      .then(account => {
-        const transporter = nodemailer.createTransport({
-          host: account.smtp.host,
-          port: account.smtp.port,
-          secure: account.smtp.secure,
-          auth: {
-            user: account.user,
-            pass: account.pass
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.client = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: parseInt(process.env.MAIL_PORT),
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+      }
+    })
   }
 
   async sendMail(to: string, subject: string, variables: any, path: string, attachments?: Mail.Attachment[]): Promise<void> {
@@ -35,12 +28,14 @@ export class EtherealMailProvider implements IMailProvider {
 
     const templateHTML = templateParse(variables);
 
+    console.log(templateHTML);
+
     const message = await this.client.sendMail({
       to,
       from: "No-Replay DCI Suporte <noreplay@dcisuporte.com.br>",
       subject,
       html: templateHTML,
-      attachments
+      // attachments
     });
   }
 
