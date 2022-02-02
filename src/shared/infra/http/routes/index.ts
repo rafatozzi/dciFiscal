@@ -9,6 +9,7 @@ import { produtosRoutes } from "./produtos.routes";
 import { clientesRoutes } from "./clientes.routes";
 import { pedidosRoutes } from "./pedidos.routes";
 import { nfeRoutes } from "./nfe.routes";
+import { histEnvioContabilRoutes } from "./hist_envio_contabil.routes";
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.use("/produtos", produtosRoutes);
 router.use("/clientes", clientesRoutes);
 router.use("/pedidos", pedidosRoutes);
 router.use("/nfe", nfeRoutes);
+router.use("/envio_contabil", histEnvioContabilRoutes);
 
 router.use(authenticateRoutes);
 

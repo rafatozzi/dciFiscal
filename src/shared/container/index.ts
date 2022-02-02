@@ -19,6 +19,7 @@ import { INfeRepositories } from "../../modules/nfe/repositories/INfeRepositorie
 import { INfePgtosRepositories } from "../../modules/nfe/repositories/INfePgtosRepositories";
 import { INfeProdutosRepositories } from "../../modules/nfe/repositories/INfeProdutosRepositories";
 import { INfeXmlRepositories } from "../../modules/nfe/repositories/INfeXmlRepositories";
+import { IHistEnvioContabilRepositories } from "../../modules/histEnvioContabil/repositories/IHistEnvioContabilRepositories";
 
 
 // REPOSITORIES
@@ -40,6 +41,7 @@ import { NfeRepositories } from "../../modules/nfe/infra/typeorm/repositories/Nf
 import { NfePgtosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfePgtosRepositories";
 import { NfeProdutosRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeProdutosRepositories";
 import { NfeXmlRepositories } from "../../modules/nfe/infra/typeorm/repositories/NfeXmlRepositories";
+import { HistEnvioContabilRepositories } from "../../modules/histEnvioContabil/infra/typeorm/repositories/HistEnvioContabilRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -68,6 +70,7 @@ container.registerSingleton<INfeRepositories>("NfeRepositories", delay(() => Nfe
 container.registerSingleton<INfePgtosRepositories>("NfePgtosRepositories", delay(() => NfePgtosRepositories));
 container.registerSingleton<INfeProdutosRepositories>("NfeProdutosRepositories", delay(() => NfeProdutosRepositories));
 container.registerSingleton<INfeXmlRepositories>("NfeProdutosRepositories", delay(() => NfeXmlRepositories));
+container.registerSingleton<IHistEnvioContabilRepositories>("IHistEnvioContabilRepositories", delay(() => HistEnvioContabilRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
