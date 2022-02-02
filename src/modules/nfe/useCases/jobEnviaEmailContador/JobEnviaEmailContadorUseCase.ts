@@ -5,6 +5,8 @@ import { IEnviaEmailContadorDTO } from "../../dtos/IEnviaEmailContadorDTO";
 import { NfeRepositories } from "../../infra/typeorm/repositories/NfeRepositories";
 import JSZip from "jszip";
 import { resolve } from "path";
+import { ICreateHistEnvioContabil } from "../../../histEnvioContabil/dtos/ICreateHistEnvioContabil";
+import { HistEnvioContabilRepositories } from "../../../histEnvioContabil/infra/typeorm/repositories/HistEnvioContabilRepositories";
 
 @injectable()
 export class JobEnviaEmailContadorUseCase {
@@ -16,6 +18,7 @@ export class JobEnviaEmailContadorUseCase {
   async execute({ cod_cliente, idEmpresa, mes, ano }: IEnviaEmailContadorDTO) {
     const empresasRepositories = new EmpresasRepositories(cod_cliente);
     const nfeRepositories = new NfeRepositories(cod_cliente);
+    const histEnvioContabilRepositories = new HistEnvioContabilRepositories(cod_cliente);
 
     const empresa = await empresasRepositories.findById(idEmpresa);
 
@@ -70,6 +73,12 @@ export class JobEnviaEmailContadorUseCase {
       ]
     );
 
+    const newHistEnvioContabil: ICreateHistEnvioContabil = {
+      id_empresa: empresa.id,
+      mes: `${mes}/${ano}`
+    }
+
+    await histEnvioContabilRepositories.create(newHistEnvioContabil);
 
   }
 }

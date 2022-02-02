@@ -1,10 +1,11 @@
 import { Router } from "express";
-// import { } from "../../../../modules/nfe/useCases/enviaEmailContador/EnviaEmailContadorController";
-// import {  } from "../../../../modules/histEnvioContabil/";
+import { FindAllHistEnvioContabilController } from "../../../../modules/histEnvioContabil/useCases/findAllHistEnvioContabil/FindAllHistEnvioContabilController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
+
+const findAllHistEnvioContabilController = new FindAllHistEnvioContabilController();
 
 const histEnvioContabilRoutes = Router();
 
-histEnvioContabilRoutes.get("/", EnsureAuthenticated);
+histEnvioContabilRoutes.get("/", EnsureAuthenticated, findAllHistEnvioContabilController.handle);
 
 export { histEnvioContabilRoutes };
