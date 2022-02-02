@@ -164,7 +164,6 @@ export class GeraXmlAssinadoUseCase {
       },
     })
       .then(async (res) => {
-        console.log(res.data);
         if (!res.data || !res.data.xml || !res.data.chave) {
           console.log("Erro ao gerar xml da NFe");
           throw new Error("Erro ao gerar xml da NFe");
