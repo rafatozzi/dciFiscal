@@ -32,8 +32,6 @@ export class EtherealMailProvider implements IMailProvider {
 
     const templateHTML = templateParse(variables);
 
-    console.log(templateHTML);
-
     const message = await this.client.sendMail({
       to,
       from: "No-Reply DCI Suporte <noreply@dcisuporte.com.br>",
