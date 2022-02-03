@@ -12,7 +12,6 @@ export class EtherealMailProvider implements IMailProvider {
 
   constructor() {
     this.client = nodemailer.createTransport({
-      pool: true,
       host: process.env.MAIL_HOST,
       port: parseInt(process.env.MAIL_PORT),
       auth: {
@@ -24,6 +23,18 @@ export class EtherealMailProvider implements IMailProvider {
       }
     })
   }
+
+  /*
+  constructor() {
+    this.client = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "datacontrolcontabil@gmail.com",
+        pass: "dci@1365"
+      }
+    })
+  }
+  */
 
   async sendMail(to: string, subject: string, variables: any, path: string, attachments?: Mail.Attachment[]): Promise<void> {
     const templateFileContent = fs.readFileSync(path).toString("utf-8");
