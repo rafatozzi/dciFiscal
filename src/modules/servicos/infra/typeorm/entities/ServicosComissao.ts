@@ -15,7 +15,7 @@ export class ServicosComissao {
   @Column()
   id_user: string;
 
-  @ManyToOne(() => Servicos, p => p.ckecklist)
+  @ManyToOne(() => Servicos, p => p.comissao)
   @JoinColumn({ name: "id_servico" })
   servico: Servicos;
 

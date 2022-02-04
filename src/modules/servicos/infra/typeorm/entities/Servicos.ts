@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { ServicosCkeckList } from "./ServicosCkeckList";
+import { ServicosComissao } from "./ServicosComissao";
 
 @Entity("servicos")
 export class Servicos {
@@ -25,6 +26,9 @@ export class Servicos {
 
   @OneToMany(() => ServicosCkeckList, v => v.servico)
   ckecklist: ServicosCkeckList[];
+
+  @OneToMany(() => ServicosComissao, v => v.servico)
+  comissao: ServicosComissao[];
 
   @CreateDateColumn()
   created_at: Date;
