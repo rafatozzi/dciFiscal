@@ -11,6 +11,10 @@ export class ServicosRepositories implements IServicosRepositories {
     this.repository = getRepository(Servicos, connectionName);
   }
 
+  async findByNome(nome: string): Promise<Servicos> {
+    return await this.repository.findOne({ nome });
+  }
+
   async create(data: ICreateServicoDTO): Promise<Servicos> {
     const servico = this.repository.create({ ...data });
 

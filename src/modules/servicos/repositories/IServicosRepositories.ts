@@ -6,5 +6,6 @@ export interface IServicosRepositories {
   create(data: ICreateServicoDTO): Promise<Servicos>;
   findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListServicosDTO>
   findById(id: string): Promise<Servicos>;
+  findByNome(nome: string): Promise<Servicos>;
   deleteServico(id: string): Promise<void>;
 }
