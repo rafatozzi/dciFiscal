@@ -11,10 +11,12 @@ export class CreateServicosUseCase {
   async execute(cod_cliente: string, data: ICreateServicoDTO): Promise<Servicos> {
     const repositories = new ServicosRepositories(cod_cliente);
 
-    const exists = await repositories.findByNome(data.nome);
+    if (!data.id) {
+      const exists = await repositories.findByNome(data.nome);
 
-    if (exists)
-      throw new AppError("Serviço já cadastrado");
+      if (exists)
+        throw new AppError("Serviço já cadastrado");
+    }
 
     const servico = await repositories.create(data);
 
