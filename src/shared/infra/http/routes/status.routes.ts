@@ -13,6 +13,7 @@ const findAllStatusController = new FindAllStatusController();
 const statusRoutes = Router();
 
 statusRoutes.get("/", EnsureAuthenticated, findAllStatusController.handle);
+statusRoutes.post("/findAll", EnsureAuthenticated, findAllStatusController.handle);
 
 statusRoutes.post("/", EnsureAuthenticated, createStatusController.handle);
 
