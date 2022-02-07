@@ -1,4 +1,4 @@
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Like, Repository } from "typeorm";
 import { ICreateStatusDTO } from "../../../dtos/ICreateStatusDTO";
 import { IListStatusDTO } from "../../../dtos/IListStatusDTO";
 import { IStatusRepositories } from "../../../repositories/IStatusRepositories";
@@ -19,9 +19,16 @@ export class StatusRepositories implements IStatusRepositories {
     return status;
   }
 
-  async findAll(): Promise<IListStatusDTO> {
+  async findAll(pesquisa?: string): Promise<IListStatusDTO> {
+
+    const where =
+      pesquisa && pesquisa.length > 0 ?
+        { nome: Like(`%${pesquisa}%`), excluir: false }
+        :
+        { excluir: false };
+
     const [result, total] = await this.repository.findAndCount({
-      where: { excluir: false },
+      where,
       order: { ordem: "ASC", nome: "ASC" }
     });
 
