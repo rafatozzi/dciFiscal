@@ -11,6 +11,7 @@ import { pedidosRoutes } from "./pedidos.routes";
 import { nfeRoutes } from "./nfe.routes";
 import { histEnvioContabilRoutes } from "./hist_envio_contabil.routes";
 import { servicosRoutes } from "./servicos.routes";
+import { statusRoutes } from "./status.routes";
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.use("/pedidos", pedidosRoutes);
 router.use("/nfe", nfeRoutes);
 router.use("/envio_contabil", histEnvioContabilRoutes);
 router.use("/servicos", servicosRoutes);
+router.use("/status", statusRoutes);
 
 router.use(authenticateRoutes);
 

@@ -23,6 +23,7 @@ import { IHistEnvioContabilRepositories } from "../../modules/histEnvioContabil/
 import { IServicosRepositories } from "../../modules/servicos/repositories/IServicosRepositories";
 import { IServicosCkeckListRepositories } from "../../modules/servicos/repositories/IServicosCkeckListRepositories";
 import { IServicosComissaoRepositories } from "../../modules/servicos/repositories/IServicosComissaoRepositories";
+import { IStatusRepositories } from "../../modules/status/repositories/IStatusRepositories";
 
 
 // REPOSITORIES
@@ -48,6 +49,7 @@ import { HistEnvioContabilRepositories } from "../../modules/histEnvioContabil/i
 import { ServicosRepositories } from "../../modules/servicos/infra/typeorm/repositories/ServicosRepositories";
 import { ServicosCkeckListRepositories } from "../../modules/servicos/infra/typeorm/repositories/ServicosCkeckListRepositories";
 import { ServicosComissaoRepositories } from "../../modules/servicos/infra/typeorm/repositories/ServicosComissaoRepositories";
+import { StatusRepositories } from "../../modules/status/infra/typeorm/repositories/StatusRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -80,6 +82,7 @@ container.registerSingleton<IHistEnvioContabilRepositories>("IHistEnvioContabilR
 container.registerSingleton<IServicosRepositories>("IServicosRepositories", delay(() => ServicosRepositories));
 container.registerSingleton<IServicosCkeckListRepositories>("IServicosCkeckListRepositories", delay(() => ServicosCkeckListRepositories));
 container.registerSingleton<IServicosComissaoRepositories>("IServicosComissaoRepositories", delay(() => ServicosComissaoRepositories));
+container.registerSingleton<IStatusRepositories>("IStatusRepositories", delay(() => StatusRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
