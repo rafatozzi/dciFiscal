@@ -67,7 +67,7 @@ export class CreateFormaPgto1644327164720 implements MigrationInterface {
                 },
                 {
                     name: "taxa_recebimento",
-                    type: "int(4)"
+                    type: "decimal(12,2)"
                 },
                 {
                     name: "recebimento_dias",
@@ -119,11 +119,11 @@ export class CreateFormaPgto1644327164720 implements MigrationInterface {
                 },
                 {
                     name: "porcentagem",
-                    type: "int(4)"
+                    type: "decimal(12,2)"
                 },
                 {
                     name: "taxa_adiantamento",
-                    type: "int(4)"
+                    type: "decimal(12,2)"
                 },
                 {
                     name: "excluir",
@@ -155,9 +155,9 @@ export class CreateFormaPgto1644327164720 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("forma_pgto");
-        await queryRunner.dropTable("forma_pgto_band");
         await queryRunner.dropTable("forma_pgto_band_taxas");
+        await queryRunner.dropTable("forma_pgto_band");
+        await queryRunner.dropTable("forma_pgto");
     }
 
 }

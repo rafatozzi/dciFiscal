@@ -150,9 +150,9 @@ export class CreateServico1643976282762 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("servicos");
-        await queryRunner.dropTable("servicos_ckecklist");
         await queryRunner.dropTable("servicos_comissao");
+        await queryRunner.dropTable("servicos_ckecklist");
+        await queryRunner.dropTable("servicos");
     }
 
 }

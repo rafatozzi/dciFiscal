@@ -8,7 +8,7 @@ export class FindAllFormaPgtoController {
 
     const useCase = container.resolve(FindAllFormaPgtoUseCase);
 
-    const result = useCase.execute(request.cod_cliente, pesquisa);
+    const result = await useCase.execute(request.cod_cliente, pesquisa);
 
     return response.status(200).json(result);
   }
