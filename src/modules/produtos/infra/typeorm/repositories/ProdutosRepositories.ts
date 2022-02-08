@@ -12,7 +12,7 @@ export class ProdutosRepositories implements IProdutosRepositories {
   }
 
   async findByNome(nome: string): Promise<Produtos> {
-    return await this.repository.findOne({ nome });
+    return await this.repository.findOne({ nome, excluir: false });
   }
 
   async findFavoritos(): Promise<IListProdutosDTO> {

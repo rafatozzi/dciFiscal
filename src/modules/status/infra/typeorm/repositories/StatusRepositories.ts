@@ -43,7 +43,7 @@ export class StatusRepositories implements IStatusRepositories {
   }
 
   async findByName(nome: string): Promise<Status> {
-    return await this.repository.findOne({ nome });
+    return await this.repository.findOne({ nome, excluir: false });
   }
 
   async deleteStatus(id: string): Promise<void> {

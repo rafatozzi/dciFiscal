@@ -12,7 +12,7 @@ export class ServicosRepositories implements IServicosRepositories {
   }
 
   async findByNome(nome: string): Promise<Servicos> {
-    return await this.repository.findOne({ nome });
+    return await this.repository.findOne({ nome, excluir: false });
   }
 
   async create(data: ICreateServicoDTO): Promise<Servicos> {
