@@ -122,6 +122,10 @@ export class CreateFormaPgto1644327164720 implements MigrationInterface {
                     type: "int(4)"
                 },
                 {
+                    name: "taxa_adiantamento",
+                    type: "int(4)"
+                },
+                {
                     name: "excluir",
                     type: "boolean",
                     default: false
