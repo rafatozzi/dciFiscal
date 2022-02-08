@@ -19,7 +19,7 @@ export class FormaPgtoRepositories implements IFormaPgtoRepositories {
     return formaPgto;
   }
 
-  async findAll(pesquisa: string): Promise<IListFormaPgtosDTO> {
+  async findAll(pesquisa?: string): Promise<IListFormaPgtosDTO> {
 
     const where =
       pesquisa && pesquisa.length > 0 ?

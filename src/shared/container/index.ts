@@ -24,7 +24,9 @@ import { IServicosRepositories } from "../../modules/servicos/repositories/IServ
 import { IServicosCkeckListRepositories } from "../../modules/servicos/repositories/IServicosCkeckListRepositories";
 import { IServicosComissaoRepositories } from "../../modules/servicos/repositories/IServicosComissaoRepositories";
 import { IStatusRepositories } from "../../modules/status/repositories/IStatusRepositories";
-
+import { IFormaPgtoRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoRepositories";
+import { IFormaPgtoBandRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoBandRepositories";
+import { IFormaPgtoBandTaxasRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoBandTaxasRepositories";
 
 // REPOSITORIES
 import { UsersRepositories } from "../../modules/accounts/infra/typeorm/repositories/UsersRepositories";
@@ -50,6 +52,9 @@ import { ServicosRepositories } from "../../modules/servicos/infra/typeorm/repos
 import { ServicosCkeckListRepositories } from "../../modules/servicos/infra/typeorm/repositories/ServicosCkeckListRepositories";
 import { ServicosComissaoRepositories } from "../../modules/servicos/infra/typeorm/repositories/ServicosComissaoRepositories";
 import { StatusRepositories } from "../../modules/status/infra/typeorm/repositories/StatusRepositories";
+import { FormaPgtoRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoRepositories";
+import { FormaPgtoBandRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoBandRepositories";
+import { FormaPgtoBandTaxasRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoBandTaxasRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -83,6 +88,9 @@ container.registerSingleton<IServicosRepositories>("IServicosRepositories", dela
 container.registerSingleton<IServicosCkeckListRepositories>("IServicosCkeckListRepositories", delay(() => ServicosCkeckListRepositories));
 container.registerSingleton<IServicosComissaoRepositories>("IServicosComissaoRepositories", delay(() => ServicosComissaoRepositories));
 container.registerSingleton<IStatusRepositories>("IStatusRepositories", delay(() => StatusRepositories));
+container.registerSingleton<IFormaPgtoRepositories>("IFormaPgtoRepositories", delay(() => FormaPgtoRepositories));
+container.registerSingleton<IFormaPgtoBandRepositories>("IFormaPgtoBandRepositories", delay(() => FormaPgtoBandRepositories));
+container.registerSingleton<IFormaPgtoBandTaxasRepositories>("IFormaPgtoBandTaxasRepositories", delay(() => FormaPgtoBandTaxasRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 

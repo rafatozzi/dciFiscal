@@ -7,9 +7,9 @@ export class FindAllStatusUseCase {
 
   constructor() { }
 
-  async execute(cod_cliente: string): Promise<IListStatusDTO> {
+  async execute(cod_cliente: string, pesquisa?: string): Promise<IListStatusDTO> {
     const repositories = new StatusRepositories(cod_cliente);
-    const result = await repositories.findAll();
+    const result = await repositories.findAll(pesquisa);
 
     return result;
   }

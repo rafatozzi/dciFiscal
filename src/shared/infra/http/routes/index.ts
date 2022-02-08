@@ -12,6 +12,7 @@ import { nfeRoutes } from "./nfe.routes";
 import { histEnvioContabilRoutes } from "./hist_envio_contabil.routes";
 import { servicosRoutes } from "./servicos.routes";
 import { statusRoutes } from "./status.routes";
+import { formaPgtoRoutes } from "./forma_pgto.routes";
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.use("/nfe", nfeRoutes);
 router.use("/envio_contabil", histEnvioContabilRoutes);
 router.use("/servicos", servicosRoutes);
 router.use("/status", statusRoutes);
+router.use("/formaPgto", formaPgtoRoutes);
 
 router.use(authenticateRoutes);
 
