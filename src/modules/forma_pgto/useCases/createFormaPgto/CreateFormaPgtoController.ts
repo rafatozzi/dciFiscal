@@ -16,7 +16,7 @@ export class CreateFormaPgtoController {
 
     const useCase = container.resolve(CreateFormaPgtoUseCase);
 
-    const result = useCase.execute(request.cod_cliente, {
+    const result = await useCase.execute(request.cod_cliente, {
       id,
       nome,
       intervalo_parcelas,
