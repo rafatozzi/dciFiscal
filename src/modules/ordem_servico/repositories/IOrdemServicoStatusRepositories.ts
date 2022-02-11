@@ -5,5 +5,4 @@ export interface IOrdemServicoStatusRepositories {
   create(data: ICreateOrdemServicoStatusDTO[]): Promise<void>;
   findById(id: string): Promise<OrdemServicoStatus>;
   findByOrdemServico(id: string): Promise<OrdemServicoStatus[]>;
-  deleteById(id: string): Promise<void>;
 }
