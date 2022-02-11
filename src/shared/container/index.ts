@@ -27,6 +27,12 @@ import { IStatusRepositories } from "../../modules/status/repositories/IStatusRe
 import { IFormaPgtoRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoRepositories";
 import { IFormaPgtoBandRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoBandRepositories";
 import { IFormaPgtoBandTaxasRepositories } from "../../modules/forma_pgto/repositories/IFormaPgtoBandTaxasRepositories";
+import { IOrdemServicoObsRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoObsRepositories";
+import { IOrdemServicoPgtosRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoPgtosRepositories";
+import { IOrdemServicoProdutosRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoProdutosRepositories";
+import { IOrdemServicoRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoRepositories";
+import { IOrdemServicoServicosRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoServicosRepositories";
+import { IOrdemServicoStatusRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoStatusRepositories";
 
 // REPOSITORIES
 import { UsersRepositories } from "../../modules/accounts/infra/typeorm/repositories/UsersRepositories";
@@ -55,6 +61,12 @@ import { StatusRepositories } from "../../modules/status/infra/typeorm/repositor
 import { FormaPgtoRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoRepositories";
 import { FormaPgtoBandRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoBandRepositories";
 import { FormaPgtoBandTaxasRepositories } from "../../modules/forma_pgto/infra/typeorm/repositories/FormaPgtoBandTaxasRepositories";
+import { OrdemServicoObsRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoObsRepositories";
+import { OrdemServicoPgtosRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoPgtosRepositories";
+import { OrdemServicoProdutosRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoProdutosRepositories";
+import { OrdemServicoRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoRepositories";
+import { OrdemServicoServicosRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoServicosRepositories";
+import { OrdemServicoStatusRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoStatusRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -91,6 +103,12 @@ container.registerSingleton<IStatusRepositories>("IStatusRepositories", delay(()
 container.registerSingleton<IFormaPgtoRepositories>("IFormaPgtoRepositories", delay(() => FormaPgtoRepositories));
 container.registerSingleton<IFormaPgtoBandRepositories>("IFormaPgtoBandRepositories", delay(() => FormaPgtoBandRepositories));
 container.registerSingleton<IFormaPgtoBandTaxasRepositories>("IFormaPgtoBandTaxasRepositories", delay(() => FormaPgtoBandTaxasRepositories));
+container.registerSingleton<IOrdemServicoObsRepositories>("IOrdemServicoObsRepositories", delay(() => OrdemServicoObsRepositories));
+container.registerSingleton<IOrdemServicoPgtosRepositories>("IOrdemServicoPgtosRepositories", delay(() => OrdemServicoPgtosRepositories));
+container.registerSingleton<IOrdemServicoProdutosRepositories>("IOrdemServicoProdutosRepositories", delay(() => OrdemServicoProdutosRepositories));
+container.registerSingleton<IOrdemServicoRepositories>("IOrdemServicoRepositories", delay(() => OrdemServicoRepositories));
+container.registerSingleton<IOrdemServicoServicosRepositories>("IOrdemServicoServicosRepositories", delay(() => OrdemServicoServicosRepositories));
+container.registerSingleton<IOrdemServicoStatusRepositories>("IOrdemServicoStatusRepositories", delay(() => OrdemServicoStatusRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
