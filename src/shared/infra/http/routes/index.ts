@@ -13,6 +13,7 @@ import { histEnvioContabilRoutes } from "./hist_envio_contabil.routes";
 import { servicosRoutes } from "./servicos.routes";
 import { statusRoutes } from "./status.routes";
 import { formaPgtoRoutes } from "./forma_pgto.routes";
+import { ordemServicoRouter } from "./ordem_servico.routes";
 
 const router = Router();
 
@@ -29,6 +30,7 @@ router.use("/envio_contabil", histEnvioContabilRoutes);
 router.use("/servicos", servicosRoutes);
 router.use("/status", statusRoutes);
 router.use("/formaPgto", formaPgtoRoutes);
+router.use("/ordemServico", ordemServicoRouter);
 
 router.use(authenticateRoutes);
 
