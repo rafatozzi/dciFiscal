@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { FindFormaPgtoByIdUseCase } from "./FindFormaPgtoByIdUseCase";
+import { FindOrdemServicoByIdUseCase } from "./FindOrdemServicoByIdUseCase";
 
-export class FindFormaPgtoByIdController {
+export class FindOrdemServicoByIdController {
   async handle(request: Request, response: Response): Promise<Response> {
+
     const { id } = request.params;
 
-    const useCase = container.resolve(FindFormaPgtoByIdUseCase);
+    const useCase = container.resolve(FindOrdemServicoByIdUseCase);
 
     const result = await useCase.execute(request.cod_cliente, id);
 

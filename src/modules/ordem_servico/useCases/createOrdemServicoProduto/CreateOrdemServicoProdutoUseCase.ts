@@ -1,7 +1,9 @@
+import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateOrdemServicoProdutosDTO } from "../../dtos/ICreateOrdemServicoProdutosDTO";
 import { OrdemServicoProdutosRepositories } from "../../infra/typeorm/repositories/OrdemServicoProdutosRepositories";
 
+@injectable()
 export class CreateOrdemServicoProdutoUseCase {
   async execute(cod_cliente: string, data: ICreateOrdemServicoProdutosDTO[]): Promise<void> {
     if (data.length <= 0)
