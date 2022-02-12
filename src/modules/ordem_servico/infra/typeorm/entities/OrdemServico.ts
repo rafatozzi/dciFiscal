@@ -1,5 +1,8 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { Users } from "../../../../accounts/infra/typeorm/entities/Users";
+import { Clientes } from "../../../../clientes/infra/typeorm/entities/Clientes";
+import { Empresas } from "../../../../empresas/infra/typeorm/entities/Empresas";
 import { OrdemServicoObs } from "./OrdemServicoObs";
 import { OrdemServicoPgtos } from "./OrdemServicoPgtos";
 import { OrdemServicoProdutos } from "./OrdemServicoProdutos";
@@ -10,6 +13,9 @@ import { OrdemServicoStatus } from "./OrdemServicoStatus";
 export class OrdemServico {
   @PrimaryColumn()
   id: string;
+
+  @Column()
+  id_empresa: string;
 
   @Column()
   id_cliente: string;
@@ -28,6 +34,18 @@ export class OrdemServico {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => Empresas)
+  @JoinColumn({ name: "id_empresa" })
+  empresa: Empresas;
+
+  @ManyToOne(() => Clientes)
+  @JoinColumn({ name: "id_cliente" })
+  cliente: Clientes;
+
+  @ManyToOne(() => Users)
+  @JoinColumn({ name: "id_user" })
+  usuario: Users;
 
   @OneToMany(() => OrdemServicoObs, i => i.ordemServico)
   observacoes: OrdemServicoObs[];

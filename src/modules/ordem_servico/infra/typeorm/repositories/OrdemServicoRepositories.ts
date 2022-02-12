@@ -71,6 +71,9 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
       id,
       {
         relations: [
+          "empresa",
+          "cliente",
+          "usuario",
           "observacoes",
           "pgtos",
           "pgtos.formaPgto",

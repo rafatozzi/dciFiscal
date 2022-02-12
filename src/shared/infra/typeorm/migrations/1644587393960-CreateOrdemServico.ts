@@ -12,6 +12,10 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                     isPrimary: true,
                 },
                 {
+                    name: "id_empresa",
+                    type: "varchar",
+                },
+                {
                     name: "id_cliente",
                     type: "varchar",
                 },
@@ -40,6 +44,14 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                 }
             ],
             foreignKeys: [
+                {
+                    name: "FKOrdemServicoEmpresa",
+                    referencedTableName: "empresas",
+                    referencedColumnNames: ["id"],
+                    columnNames: ["id_empresa"],
+                    onDelete: "CASCADE",
+                    onUpdate: "CASCADE"
+                },
                 {
                     name: "FKOrdemServicoCliente",
                     referencedTableName: "clientes",
