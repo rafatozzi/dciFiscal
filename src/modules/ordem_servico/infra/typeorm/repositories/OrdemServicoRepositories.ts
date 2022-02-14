@@ -35,6 +35,9 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
     const [result, total] = await this.repository.findAndCount(
       {
         relations: [
+          "empresa",
+          "cliente",
+          "usuario",
           "observacoes",
           "pgtos",
           "pgtos.formaPgto",
