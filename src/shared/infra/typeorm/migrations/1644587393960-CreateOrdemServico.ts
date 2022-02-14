@@ -109,7 +109,7 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                 },
                 {
                     name: "FKOrdemServicoStatusStatus",
-                    referencedTableName: "ordem_servico",
+                    referencedTableName: "status",
                     referencedColumnNames: ["id"],
                     columnNames: ["id_status"],
                     onDelete: "CASCADE",
@@ -299,6 +299,22 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                     type: "varchar"
                 },
                 {
+                    name: "id_forma_pgto_band",
+                    type: "varchar"
+                },
+                {
+                    name: "qtd_parcela",
+                    type: "int(4)"
+                },
+                {
+                    name: "taxa_recebimento",
+                    type: "decimal(12,2)"
+                },
+                {
+                    name: "parc_procentagem",
+                    type: "decimal(12,2)"
+                },
+                {
                     name: "excluir",
                     type: "boolean",
                     default: false
@@ -328,6 +344,14 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                     referencedTableName: "forma_pgto",
                     referencedColumnNames: ["id"],
                     columnNames: ["id_forma_pgto"],
+                    onDelete: "CASCADE",
+                    onUpdate: "CASCADE"
+                },
+                {
+                    name: "FKOrdemServicoFormaPgtoPgtoBand",
+                    referencedTableName: "forma_pgto_band",
+                    referencedColumnNames: ["id"],
+                    columnNames: ["id_forma_pgto_band"],
                     onDelete: "CASCADE",
                     onUpdate: "CASCADE"
                 }
