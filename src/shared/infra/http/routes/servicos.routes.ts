@@ -8,6 +8,7 @@ import { DeleteServicosCheckListController } from "../../../../modules/servicos/
 import { DeleteServicosComissaoController } from "../../../../modules/servicos/useCases/deleteServicosComissa/DeleteServicosComissaController";
 import { FindAllServicosController } from "../../../../modules/servicos/useCases/findAllServicos/FindAllServicosController";
 import { FindServicoByIdController } from "../../../../modules/servicos/useCases/findServicoById/FindServicoByIdController";
+import { FindFavoritosController } from "../../../../modules/servicos/useCases/findFavoritos/FindFavoritosController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 
@@ -19,11 +20,13 @@ const deleteServicosCheckListController = new DeleteServicosCheckListController(
 const deleteServicosComissaoController = new DeleteServicosComissaoController();
 const findAllServicosController = new FindAllServicosController();
 const findServicoByIdController = new FindServicoByIdController();
+const findFavoritos = new FindFavoritosController();
 
 const servicosRoutes = Router();
 
 servicosRoutes.get("/", EnsureAuthenticated, findAllServicosController.handle);
 servicosRoutes.post("/findAll", EnsureAuthenticated, findAllServicosController.handle);
+servicosRoutes.get("/favoritos", EnsureAuthenticated, findFavoritos.handle);
 
 servicosRoutes.get("/:id", EnsureAuthenticated, findServicoByIdController.handle);
 

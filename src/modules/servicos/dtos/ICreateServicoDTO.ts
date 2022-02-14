@@ -4,4 +4,5 @@ export interface ICreateServicoDTO {
   recorrente: boolean;
   recorrente_dias: number;
   valor: number;
+  favorito: boolean;
 }

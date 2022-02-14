@@ -22,6 +22,9 @@ export class Servicos {
   valor: number;
 
   @Column()
+  favorito: boolean;
+
+  @Column()
   excluir: boolean;
 
   @OneToMany(() => ServicosCkeckList, v => v.servico)

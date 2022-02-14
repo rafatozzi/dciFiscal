@@ -11,6 +11,23 @@ export class ServicosRepositories implements IServicosRepositories {
     this.repository = getRepository(Servicos, connectionName);
   }
 
+  async findFavoritos(): Promise<IListServicosDTO> {
+    const [result, total] = await this.repository.findAndCount(
+      {
+        order: { nome: "ASC" },
+        where: {
+          favorito: true,
+          excluir: false
+        }
+      }
+    );
+
+    return {
+      total,
+      result
+    };
+  }
+
   async findByNome(nome: string): Promise<Servicos> {
     return await this.repository.findOne({ nome, excluir: false });
   }

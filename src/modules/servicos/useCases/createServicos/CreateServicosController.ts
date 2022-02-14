@@ -10,6 +10,7 @@ export class CreateServicosController {
       recorrente,
       recorrente_dias,
       valor,
+      favorito,
       id
     } = request.body as ICreateServicoDTO;
 
@@ -20,6 +21,7 @@ export class CreateServicosController {
       recorrente,
       recorrente_dias,
       valor,
+      favorito,
       id
     })
 

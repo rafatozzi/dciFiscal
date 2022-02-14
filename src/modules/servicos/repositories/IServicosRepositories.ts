@@ -7,5 +7,6 @@ export interface IServicosRepositories {
   findAll(pesquisa?: string, limit?: number, cursor?: number): Promise<IListServicosDTO>
   findById(id: string): Promise<Servicos>;
   findByNome(nome: string): Promise<Servicos>;
+  findFavoritos(): Promise<IListServicosDTO>;
   deleteServico(id: string): Promise<void>;
 }
