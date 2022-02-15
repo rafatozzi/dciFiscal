@@ -31,6 +31,9 @@ export class OrdemServicoPgtos {
   bandeira: FormaPgtoBand;
 
   @Column()
+  valor: number;
+
+  @Column()
   qtd_parcela: number;
 
   @Column()
