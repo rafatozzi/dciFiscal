@@ -8,7 +8,7 @@ export class CreateOrdemServicoObsController {
 
     const useCase = container.resolve(CreateOrdemServicoObsUseCase);
 
-    await useCase.execute(request.cod_cliente, data);
+    await useCase.execute(request.cod_cliente, data, request.user.id);
 
     return response.status(200).send();
   }

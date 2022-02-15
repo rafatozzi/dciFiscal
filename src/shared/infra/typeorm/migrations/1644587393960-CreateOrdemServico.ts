@@ -251,6 +251,10 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                     type: "varchar"
                 },
                 {
+                    name: "id_user",
+                    type: "varchar"
+                },
+                {
                     name: "observacao",
                     type: "varchar"
                 },
@@ -276,6 +280,14 @@ export class CreateOrdemServico1644587393960 implements MigrationInterface {
                     referencedTableName: "ordem_servico",
                     referencedColumnNames: ["id"],
                     columnNames: ["id_ordem_servico"],
+                    onDelete: "CASCADE",
+                    onUpdate: "CASCADE"
+                },
+                {
+                    name: "FKOrdemServicoObsUser",
+                    referencedTableName: "users",
+                    referencedColumnNames: ["id"],
+                    columnNames: ["id_user"],
                     onDelete: "CASCADE",
                     onUpdate: "CASCADE"
                 }

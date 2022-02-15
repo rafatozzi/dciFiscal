@@ -5,7 +5,7 @@ import { OrdemServicoObsRepositories } from "../../infra/typeorm/repositories/Or
 
 @injectable()
 export class CreateOrdemServicoObsUseCase {
-  async execute(cod_cliente: string, data: ICreateOrdemServicoObsDTO[]): Promise<void> {
+  async execute(cod_cliente: string, data: ICreateOrdemServicoObsDTO[], id_user: string): Promise<void> {
     if (data.length <= 0)
       return;
 
@@ -14,6 +14,6 @@ export class CreateOrdemServicoObsUseCase {
 
     const repositories = new OrdemServicoObsRepositories(cod_cliente);
 
-    await repositories.create(data);
+    await repositories.create(data, id_user);
   }
 }

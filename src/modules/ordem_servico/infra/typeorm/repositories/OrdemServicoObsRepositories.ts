@@ -10,8 +10,12 @@ export class OrdemServicoObsRepositories implements IOrdemServicoObsRepositories
     this.repository = getRepository(OrdemServicoObs, connectionName);
   }
 
-  async create(data: ICreateOrdemServicoObsDTO[]): Promise<void> {
+  async create(data: ICreateOrdemServicoObsDTO[], id_user: string): Promise<void> {
     data.map(async (item) => {
+
+      if (!item.id)
+        item.id_user = id_user;
+
       const obs = this.repository.create({ ...item });
 
       await this.repository.save(obs);
