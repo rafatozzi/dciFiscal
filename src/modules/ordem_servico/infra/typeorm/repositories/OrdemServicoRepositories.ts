@@ -39,6 +39,7 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
           "cliente",
           "usuario",
           "observacoes",
+          "observacoes.usuario",
           "pgtos",
           "pgtos.formaPgto",
           "pgtos.bandeira",
