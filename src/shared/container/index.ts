@@ -33,6 +33,7 @@ import { IOrdemServicoProdutosRepositories } from "../../modules/ordem_servico/r
 import { IOrdemServicoRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoRepositories";
 import { IOrdemServicoServicosRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoServicosRepositories";
 import { IOrdemServicoStatusRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoStatusRepositories";
+import { IAgendamentoRepositories } from "../../modules/agendamento/repositories/IAgendamentoRepositories";
 
 // REPOSITORIES
 import { UsersRepositories } from "../../modules/accounts/infra/typeorm/repositories/UsersRepositories";
@@ -67,6 +68,7 @@ import { OrdemServicoProdutosRepositories } from "../../modules/ordem_servico/in
 import { OrdemServicoRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoRepositories";
 import { OrdemServicoServicosRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoServicosRepositories";
 import { OrdemServicoStatusRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoStatusRepositories";
+import { AgendamentoRepositories } from "../../modules/agendamento/infra/typeorm/repositories/AgendamentoRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -109,6 +111,7 @@ container.registerSingleton<IOrdemServicoProdutosRepositories>("IOrdemServicoPro
 container.registerSingleton<IOrdemServicoRepositories>("IOrdemServicoRepositories", delay(() => OrdemServicoRepositories));
 container.registerSingleton<IOrdemServicoServicosRepositories>("IOrdemServicoServicosRepositories", delay(() => OrdemServicoServicosRepositories));
 container.registerSingleton<IOrdemServicoStatusRepositories>("IOrdemServicoStatusRepositories", delay(() => OrdemServicoStatusRepositories));
+container.registerSingleton<IAgendamentoRepositories>("IAgendamentoRepositories", delay(() => AgendamentoRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
