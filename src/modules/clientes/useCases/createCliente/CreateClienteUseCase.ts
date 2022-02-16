@@ -26,9 +26,9 @@ export class CreateClienteUseCase {
         throw new AppError("Cliente já cadastrado");
     }
 
-    const empresa = await clientesRepositories.create(data);
+    const cliente = await clientesRepositories.create(data);
 
-    return empresa;
+    return cliente;
   }
 
 }
