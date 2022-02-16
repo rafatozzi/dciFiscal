@@ -26,7 +26,8 @@ export class ClientesRepositories implements IClientesRepositories {
         where: {
           favorito: true,
           excluir: false
-        }
+        },
+        relations: ["cidade", "cidade.uf"]
       }
     );
 
@@ -53,7 +54,8 @@ export class ClientesRepositories implements IClientesRepositories {
         order: { razao_social: "ASC" },
         take: limitPage,
         skip: cursorPage,
-        where
+        where,
+        relations: ["cidade", "cidade.uf"]
       }
     )
 
@@ -64,7 +66,12 @@ export class ClientesRepositories implements IClientesRepositories {
   }
 
   async findById(id: string): Promise<Clientes> {
-    return await this.repository.findOne(id);
+    return await this.repository.findOne(
+      id,
+      {
+        relations: ["cidade", "cidade.uf"]
+      }
+    );
   }
 
   async findByCpfCnpj(cpf_cnpj: number): Promise<Clientes> {
