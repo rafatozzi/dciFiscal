@@ -27,6 +27,9 @@ export class OrdemServico {
   descricao: string;
 
   @Column()
+  previsao: Date;
+
+  @Column()
   excluir: boolean;
 
   @CreateDateColumn()

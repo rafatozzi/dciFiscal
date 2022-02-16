@@ -4,4 +4,5 @@ export interface ICreateOrdemServicoDTO {
   id_cliente: string;
   id_user: string;
   descricao: string;
+  previsao: Date;
 }
