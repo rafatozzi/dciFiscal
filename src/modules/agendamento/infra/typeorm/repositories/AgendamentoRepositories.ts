@@ -30,6 +30,9 @@ export class AgendamentoRepositories implements IAgendamentoRepositories {
       if (pesquisa.cliente)
         where = { ...where, id_cliente: pesquisa.cliente };
 
+      if (pesquisa.concluido)
+        where = { ...where, concluido: pesquisa.concluido };
+
       if (pesquisa.date_ini)
         where = { ...where, data_agendamento: MoreThanOrEqual(pesquisa.date_ini) };
 
