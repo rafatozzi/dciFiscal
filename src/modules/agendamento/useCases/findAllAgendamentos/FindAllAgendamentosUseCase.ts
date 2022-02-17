@@ -7,10 +7,10 @@ import { AgendamentoRepositories } from "../../infra/typeorm/repositories/Agenda
 export class FindAllAgendamentosUseCase {
   constructor() { }
 
-  async execute(cod_cliente: string, pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number): Promise<IListAgendamentoDTO> {
+  async execute(cod_cliente: string, pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number, orderBy?: any): Promise<IListAgendamentoDTO> {
     const repositories = new AgendamentoRepositories(cod_cliente);
 
-    const result = await repositories.findAll(pesquisa, limit, cursor);
+    const result = await repositories.findAll(pesquisa, limit, cursor, orderBy);
 
     return result;
   }

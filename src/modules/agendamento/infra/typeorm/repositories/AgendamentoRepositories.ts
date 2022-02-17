@@ -20,7 +20,7 @@ export class AgendamentoRepositories implements IAgendamentoRepositories {
     return agendamento;
   }
 
-  async findAll(pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number): Promise<IListAgendamentoDTO> {
+  async findAll(pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number, orderBy?: any): Promise<IListAgendamentoDTO> {
     const limitPage = limit ? limit : 25;
     const cursorPage = cursor ? cursor : 0;
 
@@ -39,7 +39,7 @@ export class AgendamentoRepositories implements IAgendamentoRepositories {
 
     const [result, total] = await this.repository.findAndCount(
       {
-        order: { created_at: "DESC" },
+        order: orderBy ? orderBy : { created_at: "DESC" },
         take: limitPage,
         skip: cursorPage,
         where,

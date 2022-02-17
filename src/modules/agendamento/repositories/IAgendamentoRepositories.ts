@@ -5,7 +5,7 @@ import { Agendamentos } from "../infra/typeorm/entities/Agendamento";
 
 export interface IAgendamentoRepositories {
   create(data: ICreateAgendamentoDTO): Promise<Agendamentos>;
-  findAll(pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number): Promise<IListAgendamentoDTO>;
+  findAll(pesquisa?: IFiltersAgendamentoDTO, limit?: number, cursor?: number, orderBy?: any): Promise<IListAgendamentoDTO>;
   findById(id: string): Promise<Agendamentos>;
   deleteById(id: string): Promise<void>;
 }
