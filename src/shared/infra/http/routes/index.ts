@@ -14,6 +14,7 @@ import { servicosRoutes } from "./servicos.routes";
 import { statusRoutes } from "./status.routes";
 import { formaPgtoRoutes } from "./forma_pgto.routes";
 import { ordemServicoRouter } from "./ordem_servico.routes";
+import { agendamentoRoutes } from "./agendamento.routes";
 
 const router = Router();
 
@@ -31,6 +32,7 @@ router.use("/servicos", servicosRoutes);
 router.use("/status", statusRoutes);
 router.use("/formaPgto", formaPgtoRoutes);
 router.use("/ordemServico", ordemServicoRouter);
+router.use("/agendamento", agendamentoRoutes);
 
 router.use(authenticateRoutes);
 
