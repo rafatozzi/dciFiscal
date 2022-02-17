@@ -30,7 +30,7 @@ export class AgendamentoRepositories implements IAgendamentoRepositories {
       if (pesquisa.cliente)
         where = { ...where, id_cliente: pesquisa.cliente };
 
-      if (pesquisa.concluido)
+      if (typeof pesquisa.concluido === "boolean")
         where = { ...where, concluido: pesquisa.concluido };
 
       if (pesquisa.date_ini)
