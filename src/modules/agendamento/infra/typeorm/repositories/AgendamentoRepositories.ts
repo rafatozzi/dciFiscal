@@ -31,10 +31,10 @@ export class AgendamentoRepositories implements IAgendamentoRepositories {
         where = { ...where, id_cliente: pesquisa.cliente };
 
       if (pesquisa.date_ini)
-        where = { ...where, created_at: MoreThanOrEqual(pesquisa.date_ini) };
+        where = { ...where, data_agendamento: MoreThanOrEqual(pesquisa.date_ini) };
 
       if (pesquisa.date_fin)
-        where = { ...where, created_at: LessThanOrEqual(pesquisa.date_fin) };
+        where = { ...where, data_agendamento: LessThanOrEqual(pesquisa.date_fin) };
     }
 
     const [result, total] = await this.repository.findAndCount(
