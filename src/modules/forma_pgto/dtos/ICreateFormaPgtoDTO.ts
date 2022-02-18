@@ -5,4 +5,5 @@ export interface ICreateFormaPgtoDTO {
   intervalo_parcelas: number;
   primeira_parcela_dias: number;
   tipo_recebimento: string;
+  tipo_caixa: number;
 }

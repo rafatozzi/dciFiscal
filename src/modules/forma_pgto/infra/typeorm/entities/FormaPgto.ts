@@ -23,6 +23,9 @@ export class FormaPgto {
   @Column()
   tipo_recebimento: string;
 
+  @Column()
+  tipo_caixa: number;
+
   @OneToMany(() => FormaPgtoBand, v => v.formaPgto)
   bandeiras: FormaPgtoBand[];
 

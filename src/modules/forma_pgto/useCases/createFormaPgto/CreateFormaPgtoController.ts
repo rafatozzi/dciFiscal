@@ -11,7 +11,8 @@ export class CreateFormaPgtoController {
       intervalo_parcelas,
       max_parcelas,
       primeira_parcela_dias,
-      tipo_recebimento
+      tipo_recebimento,
+      tipo_caixa
     } = request.body as ICreateFormaPgtoDTO;
 
     const useCase = container.resolve(CreateFormaPgtoUseCase);
@@ -22,7 +23,8 @@ export class CreateFormaPgtoController {
       intervalo_parcelas,
       max_parcelas,
       primeira_parcela_dias,
-      tipo_recebimento
+      tipo_recebimento,
+      tipo_caixa
     });
 
     return response.status(200).json(result);
