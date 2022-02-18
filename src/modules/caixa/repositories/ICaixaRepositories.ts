@@ -7,4 +7,5 @@ export interface ICaixaRepositories {
   create(data: ICreateCaixaDTO): Promise<Caixa>;
   findAll(pesquisa?: IFiltersCaixaDTO, limit?: number, cursor?: number): Promise<IListCaixaDTO>;
   findById(id: string): Promise<Caixa>;
+  getCaixaAberto(): Promise<Caixa>;
 }

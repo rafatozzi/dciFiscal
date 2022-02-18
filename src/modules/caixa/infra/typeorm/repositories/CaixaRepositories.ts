@@ -12,6 +12,15 @@ export class CaixaRepositories implements ICaixaRepositories {
     this.repository = getRepository(Caixa, connectionName);
   }
 
+  async getCaixaAberto(): Promise<Caixa> {
+    return await this.repository.findOne(
+      {
+        where: { fechado: false },
+        order: { created_at: "DESC" }
+      }
+    );
+  }
+
   async create(data: ICreateCaixaDTO): Promise<Caixa> {
     const caixa = this.repository.create({ ...data });
 
