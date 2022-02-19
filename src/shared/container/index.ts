@@ -34,6 +34,8 @@ import { IOrdemServicoRepositories } from "../../modules/ordem_servico/repositor
 import { IOrdemServicoServicosRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoServicosRepositories";
 import { IOrdemServicoStatusRepositories } from "../../modules/ordem_servico/repositories/IOrdemServicoStatusRepositories";
 import { IAgendamentoRepositories } from "../../modules/agendamento/repositories/IAgendamentoRepositories";
+import { ICaixaRepositories } from "../../modules/caixa/repositories/ICaixaRepositories";
+import { IFinanceiroRepositories } from "../../modules/financeiro/repositories/IFinanceiroRepositories";
 
 // REPOSITORIES
 import { UsersRepositories } from "../../modules/accounts/infra/typeorm/repositories/UsersRepositories";
@@ -69,6 +71,8 @@ import { OrdemServicoRepositories } from "../../modules/ordem_servico/infra/type
 import { OrdemServicoServicosRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoServicosRepositories";
 import { OrdemServicoStatusRepositories } from "../../modules/ordem_servico/infra/typeorm/repositories/OrdemServicoStatusRepositories";
 import { AgendamentoRepositories } from "../../modules/agendamento/infra/typeorm/repositories/AgendamentoRepositories";
+import { CaixaRepositories } from "../../modules/caixa/infra/typeorm/repositories/CaixaRepositories";
+import { FinanceiroRepositories } from "../../modules/financeiro/infra/typeorm/repositories/FinanceiroRepositories";
 
 import { IDateProvider } from "./providers/DateProvider/IDateProvider";
 import { DaysJsDateProvider } from "./providers/DateProvider/implementations/DayjsDateProvider";
@@ -112,6 +116,8 @@ container.registerSingleton<IOrdemServicoRepositories>("IOrdemServicoRepositorie
 container.registerSingleton<IOrdemServicoServicosRepositories>("IOrdemServicoServicosRepositories", delay(() => OrdemServicoServicosRepositories));
 container.registerSingleton<IOrdemServicoStatusRepositories>("IOrdemServicoStatusRepositories", delay(() => OrdemServicoStatusRepositories));
 container.registerSingleton<IAgendamentoRepositories>("IAgendamentoRepositories", delay(() => AgendamentoRepositories));
+container.registerSingleton<ICaixaRepositories>("ICaixaRepositories", delay(() => CaixaRepositories));
+container.registerSingleton<IFinanceiroRepositories>("IFinanceiroRepositories", delay(() => FinanceiroRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
 
