@@ -10,12 +10,12 @@ export class OrdemServicoPgtosRepositories implements IOrdemServicoPgtosReposito
     this.repository = getRepository(OrdemServicoPgtos, connectionName);
   }
 
-  async create(data: ICreateOrdemServicoPgtosDTO[]): Promise<void> {
-    data.map(async (item) => {
-      const obs = this.repository.create({ ...item });
+  async create(data: ICreateOrdemServicoPgtosDTO): Promise<OrdemServicoPgtos> {
+    const obs = this.repository.create({ ...data });
 
-      await this.repository.save(obs);
-    });
+    await this.repository.save(obs);
+
+    return obs;
   }
 
   async findById(id: string): Promise<OrdemServicoPgtos> {

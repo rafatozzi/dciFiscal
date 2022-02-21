@@ -5,10 +5,7 @@ import { OrdemServicoPgtosRepositories } from "../../infra/typeorm/repositories/
 
 @injectable()
 export class CreateOrdemServicoPgtoUseCase {
-  async execute(cod_cliente: string, data: ICreateOrdemServicoPgtosDTO[]): Promise<void> {
-    if (data.length <= 0)
-      return;
-
+  async execute(cod_cliente: string, data: ICreateOrdemServicoPgtosDTO): Promise<void> {
     if (!data[0].id_ordem_servico && data[0].id_ordem_servico.length <= 0)
       throw new AppError("Ordem de Serviço não informada")
 
