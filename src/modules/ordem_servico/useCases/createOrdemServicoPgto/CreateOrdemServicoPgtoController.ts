@@ -8,8 +8,8 @@ export class CreateOrdemServicoPgtoController {
 
     const useCase = container.resolve(CreateOrdemServicoPgtoUseCase);
 
-    await useCase.execute(request.cod_cliente, data);
+    const result = await useCase.execute(request.cod_cliente, data);
 
-    return response.status(200).send();
+    return response.status(200).json(result);
   }
 }

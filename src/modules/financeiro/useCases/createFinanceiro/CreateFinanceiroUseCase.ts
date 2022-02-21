@@ -8,6 +8,7 @@ export class CreateFinanceiroUseCase {
   constructor() { }
 
   async execute(cod_cliente: string, data: ICreateFinanceiroDTO): Promise<Financeiro> {
+
     const repositories = new FinanceiroRepositories(cod_cliente);
 
     const financeiro = await repositories.create(data);
