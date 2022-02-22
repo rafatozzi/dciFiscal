@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { Financeiro } from "../../../../financeiro/infra/typeorm/entities/Financeiro";
 
 @Entity("caixa")
 export class Caixa {
@@ -21,6 +22,9 @@ export class Caixa {
 
   @Column()
   fechado: boolean;
+
+  @OneToMany(() => Financeiro, i => i.caixa)
+  financeiro: Financeiro[];
 
   @CreateDateColumn()
   created_at: Date;

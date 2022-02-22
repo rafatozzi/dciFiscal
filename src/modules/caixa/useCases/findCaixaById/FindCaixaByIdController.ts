@@ -8,7 +8,7 @@ export class FindCaixaByIdController {
 
     const useCase = container.resolve(FindCaixaByIdUseCase);
 
-    const result = useCase.execute(request.cod_cliente, id);
+    const result = await useCase.execute(request.cod_cliente, id);
 
     return response.status(200).json(result);
   }

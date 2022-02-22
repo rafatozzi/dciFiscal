@@ -10,7 +10,7 @@ export class FindCaixaByIdUseCase {
   async execute(cod_cliente: string, id: string): Promise<Caixa> {
     const repositories = new CaixaRepositories(cod_cliente);
 
-    const caixa = repositories.findById(id);
+    const caixa = await repositories.findById(id);
 
     if (!caixa)
       throw new AppError("Cadastro não encontrado");

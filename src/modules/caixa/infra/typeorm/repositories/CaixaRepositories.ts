@@ -63,6 +63,17 @@ export class CaixaRepositories implements ICaixaRepositories {
   }
 
   async findById(id: string): Promise<Caixa> {
-    return await this.repository.findOne(id);
+    return await this.repository.findOne(
+      id,
+      {
+        relations: [
+          "financeiro",
+          "financeiro.ordemServicoPgto",
+          "financeiro.ordemServicoPgto.formaPgto",
+          "financeiro.ordemServicoPgto.ordemServico",
+          "financeiro.ordemServicoPgto.ordemServico.cliente",
+        ]
+      }
+    );
   }
 }
