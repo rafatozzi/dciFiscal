@@ -11,10 +11,12 @@ export class CreateCaixaUseCase {
   async execute(cod_cliente: string, data: ICreateCaixaDTO): Promise<Caixa> {
     const repositories = new CaixaRepositories(cod_cliente);
 
-    const caixaAberto = await repositories.getCaixaAberto();
+    if (!data.id) {
+      const caixaAberto = await repositories.getCaixaAberto();
 
-    if (caixaAberto)
-      throw new AppError("Existe um caixa aberto ainda.");
+      if (caixaAberto)
+        throw new AppError("Existe um caixa aberto ainda.");
+    }
 
     const caixa = await repositories.create(data);
 
