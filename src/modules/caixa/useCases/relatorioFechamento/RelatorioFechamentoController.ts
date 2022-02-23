@@ -34,10 +34,10 @@ export class RelatorioFechamentoController {
       valor += mov.debito;
 
       const row = new Array();
-      row.push({ text: mov.created_at });
-      row.push({ text: tempTipo });
-      row.push({ text: descricao });
-      row.push({ text: valor, alignment: "right" });
+      row.push({ text: mov.created_at, border: [false, false, false, false] });
+      row.push({ text: tempTipo, border: [false, false, false, false] });
+      row.push({ text: descricao, border: [false, false, false, false] });
+      row.push({ text: valor, alignment: "right", border: [false, false, false, false] });
 
       tableBody.push(row);
     }
@@ -67,10 +67,10 @@ export class RelatorioFechamentoController {
             widths: [100, 'auto', 'auto', 100],
             body: [
               [
-                { text: "Data/Hora", style: "headerTable" },
-                { text: "Tipo", style: "headerTable" },
-                { text: "Descrição", style: "headerTable" },
-                { text: "Valor", style: "headerTable", alignment: "right" },
+                { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
+                { text: "Tipo", style: "headerTable", border: [false, false, false, false] },
+                { text: "Descrição", style: "headerTable", border: [false, false, false, false] },
+                { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
               ],
               ...tableBody
             ]
