@@ -9,7 +9,15 @@ export class RelatorioFechamentoController {
   async handle(request: Request, response: Response) {
     const { idCaixa } = request.body;
 
+    // console.log(idCaixa);
+
     const useCase = container.resolve(RelatorioFechamentoUseCase);
+
+    // const relatorio = await useCase.execute(request.cod_cliente, idCaixa);
+
+    // console.log(relatorio);
+    // const result = Buffer.concat(relatorio);
+    // return response.status(200).end(result);
 
     const caixa = await useCase.execute(request.cod_cliente, idCaixa) as Caixa;
 
@@ -34,10 +42,10 @@ export class RelatorioFechamentoController {
       valor += mov.debito;
 
       const row = new Array();
-      row.push({ text: mov.created_at, border: [false, false, false, false] });
-      row.push({ text: tempTipo, border: [false, false, false, false] });
-      row.push({ text: descricao, border: [false, false, false, false] });
-      row.push({ text: valor, alignment: "right", border: [false, false, false, false] });
+      row.push({ text: mov.created_at, border: [true, false, false, false], style: "rowTable" });
+      row.push({ text: tempTipo, border: [false, false, false, false], style: "rowTable" });
+      row.push({ text: descricao, border: [false, false, false, false], style: "rowTable" });
+      row.push({ text: valor, alignment: "right", border: [false, false, true, false], style: "rowTable" });
 
       tableBody.push(row);
     }
@@ -61,10 +69,10 @@ export class RelatorioFechamentoController {
         },
         {
           table: {
+            widths: [100, 'auto', 'auto', 100],
             heights: function (row) {
               return 30;
             },
-            widths: [100, 'auto', 'auto', 100],
             body: [
               [
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
@@ -72,8 +80,22 @@ export class RelatorioFechamentoController {
                 { text: "Descrição", style: "headerTable", border: [false, false, false, false] },
                 { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
               ],
-              ...tableBody
+              ...tableBody,
+              [
+                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF', },
+                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF', },
+                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF', },
+                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF', },
+              ]
             ]
+          },
+          layout: {
+            fillColor: function (rowIndex, node, columnIndex) {
+              if (rowIndex === 0)
+                return "#477ff4";
+              else
+                return (rowIndex % 2 === 0) ? "#CCCCCC" : null;
+            }
           }
         }
       ],
@@ -86,6 +108,11 @@ export class RelatorioFechamentoController {
         headerTable: {
           fontSize: 12,
           bold: true,
+          margin: [0, 10, 0, 0],
+          color: "#FFFFFF"
+        },
+        rowTable: {
+          fontSize: 12,
           margin: [0, 10, 0, 0]
         }
       }
@@ -103,8 +130,8 @@ export class RelatorioFechamentoController {
 
     pdfDoc.on("end", () => {
       const result = Buffer.concat(chunks);
-      return response.status(200).end(result);
+      response.setHeader('Content-Type', 'application/pdf');
+      return response.end(result);
     })
-
   }
 }

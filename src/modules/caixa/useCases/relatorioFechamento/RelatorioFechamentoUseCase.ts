@@ -1,6 +1,9 @@
 import { injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { CaixaRepositories } from "../../infra/typeorm/repositories/CaixaRepositories";
+import PDFPrinter from "pdfmake";
+import { TDocumentDefinitions } from "pdfmake/interfaces";
+import { Caixa } from "../../infra/typeorm/entities/Caixa";
 
 @injectable()
 export class RelatorioFechamentoUseCase {
