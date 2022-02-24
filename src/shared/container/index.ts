@@ -82,6 +82,8 @@ import { EtherealMailProvider } from "./providers/MailProvider/implementations/E
 
 import { IStorageProvider } from "./providers/StorageProvider/IStorageProvider";
 import { LocalStorageProvider } from "./providers/StorageProvider/implementations/LocalStorageProvider";
+import { ICurrencyFormatterProvider } from "./providers/CurrencyFormatter/ICurrencyFormatterProvider";
+import { CurrencyFormatterProvider } from "./providers/CurrencyFormatter/implementations/CurrencyFormatterProvider";
 
 container.registerSingleton<IUsersRepositories>("UsersRepositories", delay(() => UsersRepositories));
 container.registerSingleton<IUseTokensRepositories>("UserTokensRepositories", delay(() => UserTokensRepositories));
@@ -120,6 +122,7 @@ container.registerSingleton<ICaixaRepositories>("ICaixaRepositories", delay(() =
 container.registerSingleton<IFinanceiroRepositories>("IFinanceiroRepositories", delay(() => FinanceiroRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
+container.registerSingleton<ICurrencyFormatterProvider>("ICurrencyFormatterProvider", delay(() => CurrencyFormatterProvider));
 
 const diskStorage = {
   local: LocalStorageProvider
