@@ -30,6 +30,9 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
 
       if (pesquisa.date_fin)
         where = { ...where, created_at: LessThanOrEqual(pesquisa.date_fin) };
+
+      if (pesquisa.id_status)
+        where = { ...where, id_status: pesquisa.id_status };
     }
 
     const [result, total] = await this.repository.findAndCount(
