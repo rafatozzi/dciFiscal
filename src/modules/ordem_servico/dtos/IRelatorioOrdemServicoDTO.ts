@@ -1,5 +1,6 @@
 export interface IRelatorioOrdemServicoDTO {
   dataHora: string;
+  total: string;
   tableBody: any[];
 }
 

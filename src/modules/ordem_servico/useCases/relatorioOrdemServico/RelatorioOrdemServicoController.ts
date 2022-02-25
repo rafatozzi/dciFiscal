@@ -44,15 +44,18 @@ export class RelatorioOrdemServicoController {
                 { text: "Empresa", style: "headerTable", border: [false, false, false, false] },
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
                 { text: "Status", style: "headerTable", border: [false, false, false, false] },
-                { text: "Valor", style: "headerTable", border: [false, false, false, false] },
+                { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
               ],
               ...result.tableBody,
               [
-                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
-                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
-                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
-                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
-                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
+                {
+                  text: `Total: ${result.total}`,
+                  style: "rowTable",
+                  border: [false, true, false, false],
+                  fillColor: '#FFFFFF',
+                  colSpan: 5,
+                  alignment: "right"
+                },
               ]
             ]
           },

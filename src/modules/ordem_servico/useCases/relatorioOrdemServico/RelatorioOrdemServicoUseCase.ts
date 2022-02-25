@@ -25,6 +25,7 @@ export class RelatorioOrdemServicoUseCase {
     });
 
     const tableBody = [];
+    let totalGeral = 0;
 
     for await (let item of list) {
       let total = 0;
@@ -32,19 +33,22 @@ export class RelatorioOrdemServicoUseCase {
       item.produtos.map((rs) => { total += rs.valor_unit * rs.quantidade; })
       item.servicos.map((rs) => { total += rs.valor_unit * rs.quantidade; })
 
+      totalGeral += total;
+
       const row = new Array();
 
       row.push({ text: item.cliente.fantasia, style: "rowTable", border: [true, false, false, false] });
       row.push({ text: item.empresa.fantasia, style: "rowTable", border: [false, false, false, false] });
       row.push({ text: this.dayjsDateProvider.converToDataHora(item.created_at), style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${total}`)), style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: item.ult_status.nome, style: "rowTable", border: [false, false, true, false] });
+      row.push({ text: item.ult_status.nome, style: "rowTable", border: [false, false, false, false] });
+      row.push({ text: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${total}`)), style: "rowTable", border: [false, false, true, false] });
 
       tableBody.push(row);
     }
 
     return {
       dataHora: this.dayjsDateProvider.converToDataHora(this.dayjsDateProvider.dateNow()),
+      total: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${totalGeral}`)),
       tableBody
     };
 
