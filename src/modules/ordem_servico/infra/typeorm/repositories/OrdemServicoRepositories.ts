@@ -33,6 +33,9 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
 
       if (pesquisa.id_status)
         where = { ...where, id_status: pesquisa.id_status };
+
+      if (pesquisa.id_empresa)
+        where = { ...where, id_empresa: pesquisa.id_empresa };
     }
 
     const [result, total] = await this.repository.findAndCount(
