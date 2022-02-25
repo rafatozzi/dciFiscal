@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Users } from "../../../../accounts/infra/typeorm/entities/Users";
 import { Clientes } from "../../../../clientes/infra/typeorm/entities/Clientes";
 import { Empresas } from "../../../../empresas/infra/typeorm/entities/Empresas";
+import { Status } from "../../../../status/infra/typeorm/entities/Status";
 import { OrdemServicoObs } from "./OrdemServicoObs";
 import { OrdemServicoPgtos } from "./OrdemServicoPgtos";
 import { OrdemServicoProdutos } from "./OrdemServicoProdutos";
@@ -22,6 +23,9 @@ export class OrdemServico {
 
   @Column()
   id_user: string;
+
+  @Column()
+  id_status: string;
 
   @Column()
   descricao: string;
@@ -49,6 +53,10 @@ export class OrdemServico {
   @ManyToOne(() => Users)
   @JoinColumn({ name: "id_user" })
   usuario: Users;
+
+  @ManyToOne(() => Status)
+  @JoinColumn({ name: "id_status" })
+  ult_status: Status;
 
   @OneToMany(() => OrdemServicoObs, i => i.ordemServico)
   observacoes: OrdemServicoObs[];
