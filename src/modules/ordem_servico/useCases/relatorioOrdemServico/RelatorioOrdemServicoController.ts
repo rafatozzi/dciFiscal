@@ -30,7 +30,7 @@ export class RelatorioOrdemServicoController {
           text: "RELATÓRIO DE ORDEM DE SERVIÇO\n\n", style: "header"
         },
         {
-          text: `${result.dataHora}`, style: "label"
+          text: `${result.dataHora}\n\n`, style: "label"
         },
         {
           table: {
@@ -44,7 +44,7 @@ export class RelatorioOrdemServicoController {
                 { text: "Empresa", style: "headerTable", border: [false, false, false, false] },
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
                 { text: "Status", style: "headerTable", border: [false, false, false, false] },
-                { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
+                { text: "Valor", style: "headerTable", border: [false, false, false, false] },
               ],
               ...result.tableBody,
               [
@@ -79,7 +79,7 @@ export class RelatorioOrdemServicoController {
           color: "#FFFFFF"
         },
         rowTable: {
-          fontSize: 12,
+          fontSize: 10,
           margin: [0, 10, 0, 0]
         },
         label: {

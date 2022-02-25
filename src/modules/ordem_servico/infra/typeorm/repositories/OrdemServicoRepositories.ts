@@ -54,7 +54,8 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
           "servicos",
           "servicos.servico",
           "status",
-          "status.status"
+          "status.status",
+          "ult_status"
         ],
         order: { created_at: "DESC" },
         take: limitPage,
