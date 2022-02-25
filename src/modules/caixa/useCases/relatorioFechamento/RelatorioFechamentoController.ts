@@ -12,73 +12,9 @@ export class RelatorioFechamentoController {
   async handle(request: Request, response: Response) {
     const { idCaixa } = request.body;
 
-    // console.log(idCaixa);
-
     const useCase = container.resolve(RelatorioFechamentoUseCase);
 
-    // const relatorio = await useCase.execute(request.cod_cliente, idCaixa);
-
-    // console.log(relatorio);
-    // const result = Buffer.concat(relatorio);
-    // return response.status(200).end(result);
-
-    const caixa = await useCase.execute(request.cod_cliente, idCaixa) as Caixa;
-    const currencyFormatter = new CurrencyFormatterProvider();
-
-    const tableBody = [];
-    dayjs.extend(utc);
-
-    const list = caixa.financeiro.sort((a: any, b: any) => {
-      var result = (a["created_at"] < b["created_at"]) ? -1 : (a["created_at"] > b["created_at"]) ? 1 : 0;
-      return result * 1;
-    });
-
-
-    let movDinheiro = 0,
-      movCartaoCredito = 0,
-      movCartaoDebito = 0,
-      movOutros = 0,
-      movSangria = 0,
-      movReforco = 0;
-
-    for await (let mov of list) {
-      if (mov.ordemServicoPgto === null) {
-        movReforco += parseFloat(`${mov.credito}`);
-        movSangria += parseFloat(`${mov.debito}`);
-      } else {
-        switch (mov.ordemServicoPgto.formaPgto.tipo_caixa) {
-          case 1: movDinheiro += parseFloat(`${mov.credito}`); break;
-          case 2: movCartaoCredito += parseFloat(`${mov.credito}`); break;
-          case 3: movCartaoDebito += parseFloat(`${mov.credito}`); break;
-          case 4: movOutros += parseFloat(`${mov.credito}`); break;
-        }
-      }
-
-      let tempTipo = "";
-      let descricao = mov.descricao;
-      let valor = 0;
-
-      if (mov.ordemServicoPgto === null && mov.credito > 0)
-        tempTipo = "Reforço";
-      else
-        tempTipo = "Sangria";
-
-      if (mov.ordemServicoPgto !== null) {
-        tempTipo = "Pgto";
-        descricao = `${descricao} ( ${mov.ordemServicoPgto.ordemServico.cliente.fantasia} )`;
-      }
-
-      valor += parseFloat(`${mov.credito}`);
-      valor += parseFloat(`${mov.debito}`);
-
-      const row = new Array();
-      row.push({ text: dayjs(mov.created_at).utc().local().format("DD/MM/YYYY HH:mm"), border: [true, false, false, false], style: "rowTable" });
-      row.push({ text: tempTipo, border: [false, false, false, false], style: "rowTable" });
-      row.push({ text: descricao, border: [false, false, false, false], style: "rowTable" });
-      row.push({ text: currencyFormatter.CurrencyFormatter(valor), alignment: "right", border: [false, false, true, false], style: "rowTable" });
-
-      tableBody.push(row);
-    }
+    const relCaixa = await useCase.execute(request.cod_cliente, idCaixa);
 
     const fonts = {
       Helvetica: {
@@ -98,7 +34,7 @@ export class RelatorioFechamentoController {
           text: "FECHAMENTO DE CAIXA\n\n", style: "header"
         },
         { text: "Valor Inicial:", style: "label" },
-        { text: `${currencyFormatter.CurrencyFormatter(parseFloat(`${caixa.valor_inicial}`))}\n\n` },
+        { text: `${relCaixa.valor_inicial}\n\n` },
 
         {
           columns: [
@@ -108,8 +44,8 @@ export class RelatorioFechamentoController {
         },
         {
           columns: [
-            { text: `${currencyFormatter.CurrencyFormatter(movDinheiro)}\n\n` },
-            { text: `${currencyFormatter.CurrencyFormatter(caixa.dinheiro)}\n\n` }
+            { text: `${relCaixa.movDinheiro}\n\n` },
+            { text: `${relCaixa.dinheiro}\n\n` }
           ]
         },
 
@@ -121,8 +57,8 @@ export class RelatorioFechamentoController {
         },
         {
           columns: [
-            { text: `${currencyFormatter.CurrencyFormatter(movCartaoCredito)}\n\n` },
-            { text: `${currencyFormatter.CurrencyFormatter(caixa.cartao_credito)}\n\n` }
+            { text: `${relCaixa.movCartaoCredito}\n\n` },
+            { text: `${relCaixa.cartao_credito}\n\n` }
           ]
         },
 
@@ -134,19 +70,19 @@ export class RelatorioFechamentoController {
         },
         {
           columns: [
-            { text: `${currencyFormatter.CurrencyFormatter(movCartaoDebito)}\n\n` },
-            { text: `${currencyFormatter.CurrencyFormatter(caixa.cartao_debito)}\n\n` }
+            { text: `${relCaixa.movCartaoDebito}\n\n` },
+            { text: `${relCaixa.cartao_debito}\n\n` }
           ]
         },
 
         { text: "Outros:", style: "label" },
-        { text: `${currencyFormatter.CurrencyFormatter(movOutros)}\n\n` },
+        { text: `${relCaixa.movOutros}\n\n` },
 
         { text: "Sangria:", style: "label" },
-        { text: `${currencyFormatter.CurrencyFormatter(movSangria)}\n\n` },
+        { text: `${relCaixa.movSangria}\n\n` },
 
         { text: "Reforço:", style: "label" },
-        { text: `${currencyFormatter.CurrencyFormatter(movReforco)}\n\n` },
+        { text: `${relCaixa.movReforco}\n\n` },
 
         {
           table: {
@@ -161,7 +97,7 @@ export class RelatorioFechamentoController {
                 { text: "Descrição", style: "headerTable", border: [false, false, false, false] },
                 { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
               ],
-              ...tableBody,
+              ...relCaixa.tableBody,
               [
                 { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
                 { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },

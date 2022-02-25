@@ -122,7 +122,7 @@ container.registerSingleton<ICaixaRepositories>("ICaixaRepositories", delay(() =
 container.registerSingleton<IFinanceiroRepositories>("IFinanceiroRepositories", delay(() => FinanceiroRepositories));
 
 container.registerSingleton<IDateProvider>("DaysJsDateProvider", delay(() => DaysJsDateProvider));
-container.registerSingleton<ICurrencyFormatterProvider>("ICurrencyFormatterProvider", delay(() => CurrencyFormatterProvider));
+container.registerSingleton<ICurrencyFormatterProvider>("CurrencyFormatterProvider", delay(() => CurrencyFormatterProvider));
 
 const diskStorage = {
   local: LocalStorageProvider

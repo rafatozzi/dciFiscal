@@ -6,6 +6,11 @@ import { injectable } from "tsyringe";
 @injectable()
 export class DaysJsDateProvider implements IDateProvider {
 
+  converToDataHora(date: Date): string {
+    dayjs.extend(utc);
+    return dayjs(date).utc().local().format("DD/MM/YYYY HH:mm");
+  }
+
   compareIfBefore(start_date: Date, end_date: Date): boolean {
     return dayjs(start_date).isBefore(end_date);
   }
