@@ -4,7 +4,6 @@ export class AddColumnStatusOrdemServico1645797284243 implements MigrationInterf
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query("ALTER TABLE ordem_servico ADD COLUMN `id_status` varchar(255) NOT NULL AFTER `id_user`");
-
         await queryRunner.createForeignKey(
             "ordem_servico",
             new TableForeignKey({
@@ -19,8 +18,8 @@ export class AddColumnStatusOrdemServico1645797284243 implements MigrationInterf
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropForeignKey("ordem_servico", "FKOrdemServicoStatus");
         await queryRunner.dropColumn("ordem_servico", "id_status");
+        await queryRunner.dropForeignKey("ordem_servico", "FKOrdemServicoStatus");
     }
 
 }
