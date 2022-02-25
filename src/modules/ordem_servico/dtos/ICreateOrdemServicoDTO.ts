@@ -3,6 +3,7 @@ export interface ICreateOrdemServicoDTO {
   id_empresa: string;
   id_cliente: string;
   id_user: string;
+  id_status: string;
   descricao: string;
   previsao: Date;
 }
