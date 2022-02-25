@@ -13,6 +13,7 @@ import { DeleteOrdemServicoProdutoController } from "../../../../modules/ordem_s
 import { DeleteOrdemServicoServicoController } from "../../../../modules/ordem_servico/useCases/deleteOrdemServicoServico/DeleteOrdemServicoServicoController";
 import { FindAllOrdemServicoController } from "../../../../modules/ordem_servico/useCases/findAllOrdemServico/FindAllOrdemServicoController";
 import { FindOrdemServicoByIdController } from "../../../../modules/ordem_servico/useCases/findOrdemServicoById/FindOrdemServicoByIdController";
+import { RelatorioOrdemServicoController } from "../../../../modules/ordem_servico/useCases/relatorioOrdemServico/RelatorioOrdemServicoController";
 import { EnsureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 
@@ -29,6 +30,7 @@ const deleteOrdemServicoProdutoController = new DeleteOrdemServicoProdutoControl
 const deleteOrdemServicoServicoController = new DeleteOrdemServicoServicoController();
 const findAllOrdemServicoController = new FindAllOrdemServicoController();
 const findOrdemServicoByIdController = new FindOrdemServicoByIdController();
+const relatorioOrdemServicoController = new RelatorioOrdemServicoController();
 
 const ordemServicoRouter = Router();
 
@@ -43,6 +45,8 @@ ordemServicoRouter.post("/pgto", EnsureAuthenticated, createOrdemServicoPgtoCont
 ordemServicoRouter.post("/produto", EnsureAuthenticated, createOrdemServicoProdutoController.handle);
 ordemServicoRouter.post("/servico", EnsureAuthenticated, createOrdemServicoServicoController.handle);
 ordemServicoRouter.post("/status", EnsureAuthenticated, createOrdemServicoStatusController.handle);
+
+ordemServicoRouter.post("/relatorio", EnsureAuthenticated, relatorioOrdemServicoController.handle);
 
 ordemServicoRouter.delete("/", EnsureAuthenticated, deleteOrdemServicoController.handle);
 ordemServicoRouter.delete("/obs", EnsureAuthenticated, deleteOrdemServicoObsController.handle);

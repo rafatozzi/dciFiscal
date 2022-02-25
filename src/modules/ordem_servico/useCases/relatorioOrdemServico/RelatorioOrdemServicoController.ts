@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { RelatorioFechamentoUseCase } from "./RelatorioFechamentoUseCase";
+import { RelatorioOrdemServicoUseCase } from "./RelatorioOrdemServicoUseCase";
 import PDFPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 
-export class RelatorioFechamentoController {
+export class RelatorioOrdemServicoController {
   async handle(request: Request, response: Response) {
-    const { idCaixa } = request.body;
+    const { pesquisa } = request.body;
 
-    const useCase = container.resolve(RelatorioFechamentoUseCase);
+    const useCase = container.resolve(RelatorioOrdemServicoUseCase);
 
-    const relCaixa = await useCase.execute(request.cod_cliente, idCaixa);
+    const result = await useCase.execute(request.cod_cliente, pesquisa);
 
     const fonts = {
       Helvetica: {
@@ -27,74 +27,28 @@ export class RelatorioFechamentoController {
       defaultStyle: { font: "Helvetica" },
       content: [
         {
-          text: "FECHAMENTO DE CAIXA\n\n", style: "header"
-        },
-        { text: "Valor Inicial:", style: "label" },
-        { text: `${relCaixa.valor_inicial}\n\n` },
-
-        {
-          columns: [
-            { text: "Dinheiro:", style: "label" },
-            { text: "Dinheiro Conferido:", style: "label" }
-          ]
+          text: "RELATÓRIO DE ORDEM DE SERVIÇO\n\n", style: "header"
         },
         {
-          columns: [
-            { text: `${relCaixa.movDinheiro}\n\n` },
-            { text: `${relCaixa.dinheiro}\n\n` }
-          ]
+          text: `${result.dataHora}`, style: "label"
         },
-
-        {
-          columns: [
-            { text: "Cartão de Crédito:", style: "label" },
-            { text: "C. Crédito Conferido:", style: "label" }
-          ]
-        },
-        {
-          columns: [
-            { text: `${relCaixa.movCartaoCredito}\n\n` },
-            { text: `${relCaixa.cartao_credito}\n\n` }
-          ]
-        },
-
-        {
-          columns: [
-            { text: "Cartão de Débito:", style: "label" },
-            { text: "C. Débito Conferido:", style: "label" }
-          ]
-        },
-        {
-          columns: [
-            { text: `${relCaixa.movCartaoDebito}\n\n` },
-            { text: `${relCaixa.cartao_debito}\n\n` }
-          ]
-        },
-
-        { text: "Outros:", style: "label" },
-        { text: `${relCaixa.movOutros}\n\n` },
-
-        { text: "Sangria:", style: "label" },
-        { text: `${relCaixa.movSangria}\n\n` },
-
-        { text: "Reforço:", style: "label" },
-        { text: `${relCaixa.movReforco}\n\n` },
-
         {
           table: {
-            widths: [100, "auto", "*", 100],
+            widths: ["*", "auto", "auto", "auto", "auto"],
             heights: function (row) {
               return 30;
             },
             body: [
               [
+                { text: "Cliente", style: "headerTable", border: [false, false, false, false] },
+                { text: "Empresa", style: "headerTable", border: [false, false, false, false] },
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
-                { text: "Tipo", style: "headerTable", border: [false, false, false, false] },
-                { text: "Descrição", style: "headerTable", border: [false, false, false, false] },
+                { text: "Status", style: "headerTable", border: [false, false, false, false] },
                 { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
               ],
-              ...relCaixa.tableBody,
+              ...result.tableBody,
               [
+                { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
                 { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
                 { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
                 { text: "", border: [false, true, false, false], fillColor: '#FFFFFF' },
@@ -131,6 +85,7 @@ export class RelatorioFechamentoController {
         label: {
           fontSize: 12,
           bold: true,
+          alignment: "center"
         }
       }
     };
