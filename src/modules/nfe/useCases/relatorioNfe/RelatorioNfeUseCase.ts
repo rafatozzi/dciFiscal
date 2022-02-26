@@ -37,17 +37,25 @@ export class RelatorioNfeUseCase {
 
       const row = new Array();
 
-      row.push({ text: item.nr_nfe, style: "rowTable", border: [true, false, false, false] });
-      row.push({ text: item.cliente.fantasia, style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: item.empresa.fantasia, style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: this.dayjsDateProvider.converToDataHora(item.created_at), style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${item.total}`)), style: "rowTable", border: [false, false, false, false] });
-      row.push({ text: item.situacao, style: "rowTable", border: [false, false, true, false] });
+      row.push({ text: "1", style: "rowTable", border: [true, false, false, false] });
+      row.push({ text: "1", style: "rowTable", border: [false, false, false, false] });
+      row.push({ text: "1", style: "rowTable", border: [false, false, false, false] });
+      row.push({ text: "1", style: "rowTable", border: [false, false, false, false] });
+      row.push({ text: "1", style: "rowTable", border: [false, false, false, false] });
+      row.push({ text: "1", style: "rowTable", border: [false, false, true, false] });
+
+      // row.push({ text: item.nr_nfe, style: "rowTable", border: [true, false, false, false] });
+      // row.push({ text: item.cliente.fantasia, style: "rowTable", border: [false, false, false, false] });
+      // row.push({ text: item.empresa.fantasia, style: "rowTable", border: [false, false, false, false] });
+      // row.push({ text: this.dayjsDateProvider.converToDataHora(item.created_at), style: "rowTable", border: [false, false, false, false] });
+      // row.push({ text: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${item.total}`)), style: "rowTable", border: [false, false, false, false] });
+      // row.push({ text: item.situacao, style: "rowTable", border: [false, false, true, false] });
 
       tableBody.push(row);
     }
 
     return {
+      dataHora: this.dayjsDateProvider.converToDataHora(this.dayjsDateProvider.dateNow()),
       total: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${total}`)),
       totalCancelado: this.currencyFormatterProvider.CurrencyFormatter(parseFloat(`${totalCancelado}`)),
       tableBody

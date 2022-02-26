@@ -34,7 +34,7 @@ export class RelatorioNfeController {
         },
         {
           table: {
-            widths: ["*", "auto", "auto", "auto", "auto"],
+            widths: ["auto", "*", "auto", "auto", "auto", "auto"],
             heights: function (row) {
               return 30;
             },
@@ -54,7 +54,7 @@ export class RelatorioNfeController {
                   style: "rowTable",
                   border: [false, true, false, false],
                   fillColor: '#FFFFFF',
-                  colSpan: 5,
+                  colSpan: 6,
                   alignment: "right"
                 },
               ],
@@ -64,7 +64,7 @@ export class RelatorioNfeController {
                   style: "rowTable",
                   border: [false, true, false, false],
                   fillColor: '#FFFFFF',
-                  colSpan: 5,
+                  colSpan: 6,
                   alignment: "right"
                 },
               ]
