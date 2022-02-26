@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { RelatorioOrdemServicoUseCase } from "./RelatorioOrdemServicoUseCase";
+import { RelatorioNfeUseCase } from "./RelatorioNfeUseCase";
 import PDFPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 
-export class RelatorioOrdemServicoController {
+export class RelatorioNfeController {
   async handle(request: Request, response: Response) {
-    const { pesquisa, limit, cursor } = request.body;
+    const { pesquisa } = request.body;
 
-    const useCase = container.resolve(RelatorioOrdemServicoUseCase);
+    const useCase = container.resolve(RelatorioNfeUseCase);
 
-    const result = await useCase.execute(request.cod_cliente, pesquisa, limit, cursor);
+    const result = await useCase.execute(request.cod_cliente, pesquisa);
 
     const fonts = {
       Helvetica: {
@@ -40,16 +40,27 @@ export class RelatorioOrdemServicoController {
             },
             body: [
               [
+                { text: "Nrº NFe", style: "headerTable", border: [false, false, false, false] },
                 { text: "Cliente", style: "headerTable", border: [false, false, false, false] },
                 { text: "Empresa", style: "headerTable", border: [false, false, false, false] },
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
-                { text: "Status", style: "headerTable", border: [false, false, false, false] },
-                { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
+                { text: "valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
+                { text: "Situação", style: "headerTable", border: [false, false, false, false] },
               ],
               ...result.tableBody,
               [
                 {
                   text: `Total: ${result.total}`,
+                  style: "rowTable",
+                  border: [false, true, false, false],
+                  fillColor: '#FFFFFF',
+                  colSpan: 5,
+                  alignment: "right"
+                },
+              ],
+              [
+                {
+                  text: `Total Cancelado: ${result.totalCancelado}`,
                   style: "rowTable",
                   border: [false, true, false, false],
                   fillColor: '#FFFFFF',
@@ -107,6 +118,6 @@ export class RelatorioOrdemServicoController {
       const result = Buffer.concat(chunks);
       response.setHeader('Content-Type', 'application/pdf');
       return response.end(result);
-    })
+    });
   }
 }

@@ -14,10 +14,10 @@ export class RelatorioOrdemServicoUseCase {
     private currencyFormatterProvider: ICurrencyFormatterProvider
   ) { }
 
-  async execute(cod_cliente: string, pesquisa: IFilterOrdemServicoDTO): Promise<IRelatorioOrdemServicoDTO> {
+  async execute(cod_cliente: string, pesquisa: IFilterOrdemServicoDTO, limit?: number, cursor?: number): Promise<IRelatorioOrdemServicoDTO> {
     const repositories = new OrdemServicoRepositories(cod_cliente);
 
-    const result = await repositories.findAll(pesquisa, 5000, 0);
+    const result = await repositories.findAll(pesquisa, limit, cursor);
 
     const list = result.result.sort((a: any, b: any) => {
       var result = (a["created_at"] < b["created_at"]) ? -1 : (a["created_at"] > b["created_at"]) ? 1 : 0;
