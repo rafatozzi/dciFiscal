@@ -62,7 +62,7 @@ export class RelatorioNfeController {
                 {
                   text: `Total Cancelado: ${result.totalCancelado}`,
                   style: "rowTable",
-                  border: [false, true, false, false],
+                  border: [false, false, false, false],
                   fillColor: '#FFFFFF',
                   colSpan: 6,
                   alignment: "right"
