@@ -50,7 +50,7 @@ export class RelatorioNfeController {
               ...result.tableBody,
               [
                 {
-                  text: `Total: ${result.total}`,
+                  text: `Total Emitido: ${result.total}`,
                   style: "rowTable",
                   border: [false, true, false, false],
                   fillColor: '#FFFFFF',
