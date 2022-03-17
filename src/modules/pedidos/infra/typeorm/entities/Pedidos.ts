@@ -64,6 +64,9 @@ export class Pedidos {
   cep: string;
 
   @Column()
+  local_venda: string;
+
+  @Column()
   excluir: boolean;
 
   @CreateDateColumn()

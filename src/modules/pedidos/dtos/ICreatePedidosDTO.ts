@@ -11,4 +11,5 @@ export interface ICreatePedidosDTO {
   complemento: string;
   bairro: string;
   cep: string;
+  local_venda: string;
 }

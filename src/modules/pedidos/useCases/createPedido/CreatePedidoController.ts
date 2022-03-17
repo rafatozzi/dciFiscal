@@ -17,7 +17,8 @@ export class CreatePedidoController {
       id_cidades,
       cep,
       complemento,
-      valor_pago
+      valor_pago,
+      local_venda
     } = request.body as ICreatePedidosDTO;
 
     const useCase = container.resolve(CreatePedidoUseCase);
@@ -34,7 +35,8 @@ export class CreatePedidoController {
       id_cidades,
       cep,
       complemento,
-      valor_pago
+      valor_pago,
+      local_venda
     });
 
     return response.status(200).json(result);
