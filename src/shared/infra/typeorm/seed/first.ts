@@ -4,13 +4,7 @@ import { hash } from "bcrypt";
 import { Cidades } from "../../../../modules/cidades/infra/typeorm/entities/Cidades";
 
 async function create() {
-  let connection;
   const dbName = "enxovaislivia";
-
-  // await getConnectionOptions().then(async (options) => {
-  //   const newConnection = await createConnection({ ...options });
-  //   connection = newConnection;
-  // });
 
   await createConnections();
 
