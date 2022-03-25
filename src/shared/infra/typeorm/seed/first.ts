@@ -1,16 +1,21 @@
-import { getConnectionOptions, createConnection, Repository } from "typeorm";
+import { Repository, createConnections, getRepository } from "typeorm";
 import { Users } from "../../../../modules/accounts/infra/typeorm/entities/Users";
 import { hash } from "bcrypt";
+import { Cidades } from "../../../../modules/cidades/infra/typeorm/entities/Cidades";
 
 async function create() {
   let connection;
+  const dbName = "enxovaislivia";
 
-  await getConnectionOptions().then(async (options) => {
-    const newConnection = await createConnection({ ...options });
-    connection = newConnection;
-  });
+  // await getConnectionOptions().then(async (options) => {
+  //   const newConnection = await createConnection({ ...options });
+  //   connection = newConnection;
+  // });
 
-  const userRepository: Repository<Users> = connection.getRepository(Users);
+  await createConnections();
+
+  const userRepository: Repository<Users> = getRepository(Users, dbName);
+  const cidadesRepository: Repository<Cidades> = getRepository(Cidades, dbName);
 
   const senha = await hash(process.env.SENHA_DCI, 8);
 
@@ -25,7 +30,7 @@ async function create() {
 
   console.log("Usuário DCI criado.");
 
-  await connection.query(
+  await cidadesRepository.query(
     `INSERT INTO uf (id, nome, uf, ibge) VALUES
       (1, 'Acre', 'AC', 12),
       (2, 'Alagoas', 'AL', 27),
@@ -59,7 +64,7 @@ async function create() {
 
   console.log("Cadastros na tabela de Estados criados.");
 
-  await connection.query(
+  await cidadesRepository.query(
     `INSERT INTO cidades (id, id_uf, nome, ibge) VALUES
     (1, 8, 'Afonso Cláudio', 3200102),
     (2, 8, 'Água Doce do Norte', 3200169),
