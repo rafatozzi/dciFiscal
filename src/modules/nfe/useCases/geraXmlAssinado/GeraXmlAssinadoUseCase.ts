@@ -48,6 +48,8 @@ export class GeraXmlAssinadoUseCase {
       await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
     }
 
+    await nfeRepositories.create({ ...nfe, nr_nfe: nrNFe });
+
     const produtos: IProdutosApiNfe[] = [];
 
     await Promise.all(
