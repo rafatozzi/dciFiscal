@@ -10,7 +10,7 @@ export class RelatorioNfeController {
 
     const useCase = container.resolve(RelatorioNfeUseCase);
 
-    const result = await useCase.execute(request.cod_cliente, pesquisa);
+    const result = await useCase.execute(request.cod_cliente, pesquisa, 5000);
 
     const fonts = {
       Helvetica: {
@@ -27,7 +27,7 @@ export class RelatorioNfeController {
       defaultStyle: { font: "Helvetica" },
       content: [
         {
-          text: "RELATÓRIO DE ORDEM DE SERVIÇO\n\n", style: "header"
+          text: "RELATÓRIO DE NFe\n\n", style: "header"
         },
         {
           text: `${result.dataHora}\n\n`, style: "label"
@@ -44,7 +44,7 @@ export class RelatorioNfeController {
                 { text: "Cliente", style: "headerTable", border: [false, false, false, false] },
                 { text: "Empresa", style: "headerTable", border: [false, false, false, false] },
                 { text: "Data/Hora", style: "headerTable", border: [false, false, false, false] },
-                { text: "valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
+                { text: "Valor", style: "headerTable", alignment: "right", border: [false, false, false, false] },
                 { text: "Situação", style: "headerTable", border: [false, false, false, false] },
               ],
               ...result.tableBody,
