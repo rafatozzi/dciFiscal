@@ -1,4 +1,4 @@
-import { getRepository, Repository, MoreThanOrEqual, LessThanOrEqual, Raw } from "typeorm";
+import { getRepository, Repository, MoreThanOrEqual, LessThanOrEqual, Between } from "typeorm";
 import { ICreateNfeDTO } from "../../../dtos/ICreateNfeDTO";
 import { IFiltersNfeDTO } from "../../../dtos/IFiltersNfeDTO";
 import { IListNfeDTO } from "../../../dtos/IListNfeDTO";
@@ -53,11 +53,8 @@ export class NfeRepositories implements INfeRepositories {
       if (pesquisa.empresa)
         where = { ...where, id_empresa: pesquisa.empresa };
 
-      if (pesquisa.date_ini)
-        where = { ...where, created_at: MoreThanOrEqual(pesquisa.date_ini) };
-
-      if (pesquisa.date_fin)
-        where = { ...where, created_at: LessThanOrEqual(pesquisa.date_fin) };
+      if (pesquisa.date_ini && pesquisa.date_fin)
+        where = { ...where, created_at: Between(pesquisa.date_ini, pesquisa.date_fin) };
     }
 
     const [result, total] = await this.repository.findAndCount(
