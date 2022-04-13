@@ -1,4 +1,4 @@
-import { getRepository, LessThanOrEqual, MoreThanOrEqual, Repository, Between } from "typeorm";
+import { getRepository, Repository, Between } from "typeorm";
 import { ICreateOrdemServicoDTO } from "../../../dtos/ICreateOrdemServicoDTO";
 import { IFilterOrdemServicoDTO } from "../../../dtos/IFilterOrdemServicoDTO";
 import { IListOrdemServicoDTO } from "../../../dtos/IListOrdemServicoDTO";
