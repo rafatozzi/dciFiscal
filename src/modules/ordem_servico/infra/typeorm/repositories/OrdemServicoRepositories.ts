@@ -1,4 +1,4 @@
-import { getRepository, LessThanOrEqual, MoreThanOrEqual, Repository } from "typeorm";
+import { getRepository, LessThanOrEqual, MoreThanOrEqual, Repository, Between } from "typeorm";
 import { ICreateOrdemServicoDTO } from "../../../dtos/ICreateOrdemServicoDTO";
 import { IFilterOrdemServicoDTO } from "../../../dtos/IFilterOrdemServicoDTO";
 import { IListOrdemServicoDTO } from "../../../dtos/IListOrdemServicoDTO";
@@ -25,11 +25,8 @@ export class OrdemServicoRepositories implements IOrdemServicoRepositories {
       if (pesquisa.user)
         where = { ...where, id_user: pesquisa.user };
 
-      if (pesquisa.date_ini)
-        where = { ...where, created_at: MoreThanOrEqual(pesquisa.date_ini) };
-
-      if (pesquisa.date_fin)
-        where = { ...where, created_at: LessThanOrEqual(pesquisa.date_fin) };
+      if (pesquisa.date_ini && pesquisa.date_fin)
+        where = { ...where, created_at: Between(pesquisa.date_ini, pesquisa.date_fin) };
 
       if (pesquisa.id_status)
         where = { ...where, id_status: pesquisa.id_status };

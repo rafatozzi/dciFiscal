@@ -1,4 +1,4 @@
-import { getRepository, Repository, MoreThanOrEqual, LessThanOrEqual, Between } from "typeorm";
+import { getRepository, Repository, Between } from "typeorm";
 import { ICreateNfeDTO } from "../../../dtos/ICreateNfeDTO";
 import { IFiltersNfeDTO } from "../../../dtos/IFiltersNfeDTO";
 import { IListNfeDTO } from "../../../dtos/IListNfeDTO";
