@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
 import { resolve } from "path";
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 import { EmpresasRepositories } from "../../../empresas/infra/typeorm/repositories/EmpresasRepositories";
 import { NfeRepositories } from "../../infra/typeorm/repositories/NfeRepositories";
@@ -16,6 +16,7 @@ import { IIbpt } from "../../dtos/IIbpt";
 import Queue from "../../../../jobs/lib/queue";
 import { IPgtosApiNfe } from "../../dtos/IPgtosApiNfe";
 import { NcmAliquotasRepositories } from "../../../NcmAliquotas/infra/typeorm/repositories/NcmAliquotasRepositories";
+import { CreateNcmAliquotasUseCase } from "../../../NcmAliquotas/useCases/createNcmAliquotas/CreateNcmAliquotasUseCase";
 
 @injectable()
 export class GeraXmlAssinadoUseCase {
@@ -28,6 +29,8 @@ export class GeraXmlAssinadoUseCase {
     const nfeRepositories = new NfeRepositories(cod_cliente);
     const empresaRepositories = new EmpresasRepositories(cod_cliente);
     const ncmAliquotaRepositories = new NcmAliquotasRepositories(cod_cliente);
+
+    const createNcmAliquotaUseCase = container.resolve(CreateNcmAliquotasUseCase);
 
     const nfe = await nfeRepositories.findById(idNfe);
 
@@ -78,7 +81,7 @@ export class GeraXmlAssinadoUseCase {
               valor_uni: item.valor_unit
             });
 
-            await ncmAliquotaRepositories.create({
+            await createNcmAliquotaUseCase.execute(cod_cliente, {
               ncm: item.produto.ncm,
               tributo_estadual: resIbpt.ValorTributoEstadual,
               tributo_nacional: resIbpt.ValorTributoNacional
