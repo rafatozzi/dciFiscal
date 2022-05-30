@@ -15,6 +15,7 @@ import { IXmlAssinadoDTO } from "../../dtos/IXmlAssinadoDTO";
 import { IIbpt } from "../../dtos/IIbpt";
 import Queue from "../../../../jobs/lib/queue";
 import { IPgtosApiNfe } from "../../dtos/IPgtosApiNfe";
+import { NcmAliquotasRepositories } from "../../../NcmAliquotas/infra/typeorm/repositories/NcmAliquotasRepositories";
 
 @injectable()
 export class GeraXmlAssinadoUseCase {
@@ -26,6 +27,7 @@ export class GeraXmlAssinadoUseCase {
   async execute({ idNfe, cod_cliente }: IGeraXmlAssinado) {
     const nfeRepositories = new NfeRepositories(cod_cliente);
     const empresaRepositories = new EmpresasRepositories(cod_cliente);
+    const ncmAliquotaRepositories = new NcmAliquotasRepositories(cod_cliente);
 
     const nfe = await nfeRepositories.findById(idNfe);
 
@@ -56,7 +58,7 @@ export class GeraXmlAssinadoUseCase {
         let resIbpt = {} as IIbpt;
 
         await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
-          .then((res) => {
+          .then(async (res) => {
             resIbpt = res.data as IIbpt;
 
             if (resIbpt.Codigo === null) {
@@ -74,16 +76,38 @@ export class GeraXmlAssinadoUseCase {
               quantidade: item.qtd,
               unid_medida: item.produto.unid_med,
               valor_uni: item.valor_unit
-            })
+            });
+
+            await ncmAliquotaRepositories.create({
+              ncm: item.produto.ncm,
+              tributo_estadual: resIbpt.ValorTributoEstadual,
+              tributo_nacional: resIbpt.ValorTributoNacional
+            });
 
           })
-          .catch((err) => {
-            if (err.response.data.message) {
-              console.log(err.response.data.message);
-              throw new Error(err.response.data.message);
+          .catch(async (err) => {
+            const cacheAliquota = await ncmAliquotaRepositories.findByNcm(item.produto.ncm);
+
+            if (!cacheAliquota) {
+              if (err.response.data.message) {
+                console.log(err.response.data.message);
+                throw new Error(err.response.data.message);
+              } else {
+                console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+                throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+              }
             } else {
-              console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
-              throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+              produtos.push({
+                cfop: item.produto.cfop,
+                codigo: item.produto.id.substring(0, 5),
+                imp_estadual: cacheAliquota.tributo_estadual,
+                imp_federal: cacheAliquota.tributo_nacional,
+                ncm: item.produto.ncm,
+                nome: item.produto.nome,
+                quantidade: item.qtd,
+                unid_medida: item.produto.unid_med,
+                valor_uni: item.valor_unit
+              });
             }
           });
       })
