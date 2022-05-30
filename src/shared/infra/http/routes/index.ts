@@ -18,6 +18,7 @@ import { agendamentoRoutes } from "./agendamento.routes";
 import { caixaRoutes } from "./caixa.routes";
 import { financeiroRoutes } from "./financeiro.routes";
 import { relatoriosRoutes } from "./relatorios.routes";
+import { aliquotasRoutes } from "./ncmAliquotas.routes";
 
 const router = Router();
 
@@ -39,6 +40,7 @@ router.use("/agendamento", agendamentoRoutes);
 router.use("/caixa", caixaRoutes);
 router.use("/financeiro", financeiroRoutes);
 router.use("/relatorios", relatoriosRoutes);
+router.use("/ncm_aliquota", aliquotasRoutes);
 
 router.use(authenticateRoutes);
 
