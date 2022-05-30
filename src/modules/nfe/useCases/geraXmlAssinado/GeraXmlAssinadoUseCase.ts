@@ -125,12 +125,12 @@ export class GeraXmlAssinadoUseCase {
       });
     });
 
-    if (nfe.desconto > 0)
-      pgtos.push({
-        indpag: 0,
-        tpag: "05",
-        vpag: parseFloat(`${nfe.desconto}`)
-      });
+    // if (nfe.desconto > 0)
+    //   pgtos.push({
+    //     indpag: 0,
+    //     tpag: "05",
+    //     vpag: parseFloat(`${nfe.desconto}`)
+    //   });
 
     const jsonRequest: IXmlAssinadoDTO = {
       senha_certificado: empresa.senha_cert,
@@ -172,6 +172,7 @@ export class GeraXmlAssinadoUseCase {
         telefone: nfe.cliente.telefone,
         uf: nfe.cliente.cidade.uf.uf
       },
+      desconto: nfe.desconto > 0 ? parseFloat(`${nfe.desconto}`) : 0,
       produtos,
       pgtos
     }

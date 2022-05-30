@@ -12,4 +12,5 @@ export interface IXmlAssinadoDTO {
   cliente: IClienteNfe;
   produtos: IProdutosApiNfe[];
   pgtos: IPgtosApiNfe[];
+  desconto: number;
 }
