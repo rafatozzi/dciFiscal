@@ -99,7 +99,8 @@ export class ConsultaNfeUseCase {
           xml: res.data.xmlProtocolado
         } as ICreateNfeXmlDTO;
 
-        await nfeXmlRepository.create(newXml);
+        if (nfe.id !== undefined)
+          await nfeXmlRepository.create(newXml);
 
       })
       .catch(async (err) => {
