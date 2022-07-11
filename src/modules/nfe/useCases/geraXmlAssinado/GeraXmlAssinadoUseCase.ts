@@ -50,7 +50,7 @@ export class GeraXmlAssinadoUseCase {
       nrNFe = nfe.nr_nfe;
     else {
       nrNFe = empresa.nr_nfe + 1;
-      await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
+      // await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
       await nfeRepositories.create({ ...nfe, nr_nfe: nrNFe });
     }
 
@@ -124,13 +124,6 @@ export class GeraXmlAssinadoUseCase {
         vpag: parseFloat(`${item.valor}`)
       });
     });
-
-    // if (nfe.desconto > 0)
-    //   pgtos.push({
-    //     indpag: 0,
-    //     tpag: "05",
-    //     vpag: parseFloat(`${nfe.desconto}`)
-    //   });
 
     const jsonRequest: IXmlAssinadoDTO = {
       senha_certificado: empresa.senha_cert,
@@ -213,6 +206,9 @@ export class GeraXmlAssinadoUseCase {
         await nfeXmlRepository.create(newXml);
 
         await nfeRepositories.create({ ...nfe, chave: res.data.chave, nr_nfe: nrNFe });
+
+        if (nrNFe > empresa.nr_nfe)
+          await empresaRepositories.create({ ...empresa, nr_nfe: nrNFe });
 
         await Queue.add("EnviaLote", { idNfe, cod_cliente });
       })
