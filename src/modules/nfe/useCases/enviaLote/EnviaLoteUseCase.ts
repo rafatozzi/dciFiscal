@@ -37,7 +37,12 @@ export class EnviaLoteUseCase {
     let nfeXML = nfe.list_xml.find(i => i.acao === "xml").xml;
 
     if (!nfeXML) {
+      console.log("ID NFe nulo");
+
       const nullIdNfe = await nfeXmlRepository.findChave(nfe.chave);
+      console.log(nullIdNfe);
+      console.log(`nfe id: ${nfe.id}`);
+
       await nfeXmlRepository.create({ ...nullIdNfe, id_nfe: nfe.id });
       nfeXML = nullIdNfe.xml
     }
