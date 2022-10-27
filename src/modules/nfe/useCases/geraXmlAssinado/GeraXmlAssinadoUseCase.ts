@@ -79,6 +79,7 @@ export class GeraXmlAssinadoUseCase {
           });
         }
 
+        // API DE OLHO NO IMPOSTO
         /*
         await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
           .then(async (res) => {
@@ -215,7 +216,7 @@ export class GeraXmlAssinadoUseCase {
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
 
         let newXml = {
-          id_nfe: nfe.id,
+          id_nfe: idNfe,
           acao: "xml",
           xml: res.data.xml
         } as ICreateNfeXmlDTO;
