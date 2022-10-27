@@ -3,10 +3,10 @@
     "name": "default",
     "type": "mysql",
     "port": 3306,
-    "host": "192.168.57.16",
-    "username": "dci_fiscal",
-    "password": "dci_fiscal",
-    "database": "dci_fiscal",
+    "host": "162.241.41.45",
+    "username": "dcifisca_db",
+    "password": "dC@1155l$!",
+    "database": "dcifisca_datacontrol",
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
     ],
@@ -18,13 +18,13 @@
     }
   },
   {
-    "name": "dcifiscal2",
+    "name": "enxovaislivia",
     "type": "mysql",
     "port": 3306,
-    "host": "192.168.57.16",
-    "username": "dci_fiscal",
-    "password": "dci_fiscal",
-    "database": "dci_fiscal2",
+    "host": "162.241.41.45",
+    "username": "dcifisca_db",
+    "password": "dC@1155l$!",
+    "database": "dcifisca_enxovaislivia",
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
     ],

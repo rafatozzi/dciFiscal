@@ -6,4 +6,5 @@ export interface INfeXmlRepositories {
   findById(id: string): Promise<NfeXml>;
   findByNfe(id: string): Promise<NfeXml[]>;
   deleteNfePgtos(id: string): Promise<void>;
+  findChave(chave: string): Promise<NfeXml>;
 }

@@ -24,6 +24,11 @@ export class ConsultaNfeUseCase {
 
     const nfe = await nfeRepositories.findById(idNfe);
 
+    if (nfe.id === null) {
+      console.log("ID NFe nula");
+      throw new Error("NFe nula");
+    }
+
     if (!nfe) {
       console.log("NFe não encontrada");
       throw new Error("NFe não encontrada");

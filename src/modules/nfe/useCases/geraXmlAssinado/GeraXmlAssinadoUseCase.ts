@@ -60,6 +60,26 @@ export class GeraXmlAssinadoUseCase {
       nfe.pedidos.map(async (item) => {
         let resIbpt = {} as IIbpt;
 
+        const cacheAliquota = await ncmAliquotaRepositories.findByNcm(item.produto.ncm);
+
+        if (!cacheAliquota) {
+          console.log(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+          throw new Error(`Erro ao buscar aliquota do produto ${item.produto.nome} com NCM ${item.produto.ncm}`);
+        } else {
+          produtos.push({
+            cfop: item.produto.cfop,
+            codigo: item.produto.id.substring(0, 5),
+            imp_estadual: cacheAliquota.tributo_estadual,
+            imp_federal: cacheAliquota.tributo_nacional,
+            ncm: item.produto.ncm,
+            nome: item.produto.nome,
+            quantidade: item.qtd,
+            unid_medida: item.produto.unid_med,
+            valor_uni: item.valor_unit
+          });
+        }
+
+        /*
         await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
           .then(async (res) => {
             resIbpt = res.data as IIbpt;
@@ -112,7 +132,7 @@ export class GeraXmlAssinadoUseCase {
                 valor_uni: item.valor_unit
               });
             }
-          });
+          });*/
       })
     );
 

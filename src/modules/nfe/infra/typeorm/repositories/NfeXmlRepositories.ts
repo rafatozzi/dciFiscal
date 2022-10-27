@@ -1,4 +1,4 @@
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Like, Repository } from "typeorm";
 import { ICreateNfeXmlDTO } from "../../../dtos/ICreateNfeXmlDTO";
 import { INfeXmlRepositories } from "../../../repositories/INfeXmlRepositories";
 import { NfeXml } from "../entities/NfeXml";
@@ -27,6 +27,14 @@ export class NfeXmlRepositories implements INfeXmlRepositories {
 
   async deleteNfePgtos(id: string): Promise<void> {
     await this.repository.delete({ id });
+  }
+
+  async findChave(chave: string): Promise<NfeXml> {
+    return await this.repository.findOne({
+      where: {
+        xml: Like(`%${chave}%`)
+      }
+    })
   }
 
 }
