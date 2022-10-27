@@ -226,6 +226,11 @@ export class GeraXmlAssinadoUseCase {
         if (dbXml.filter(i => i.acao === "xml").length > 0)
           newXml = { ...newXml, id: dbXml.find(i => i.acao === "xml").id };
 
+        console.log("*****************************");
+        console.log("*****************************");
+        console.log("---");
+        console.log(newXml);
+
         await nfeXmlRepository.create(newXml);
 
         await nfeRepositories.create({ ...nfe, chave: res.data.chave, nr_nfe: nrNFe });
