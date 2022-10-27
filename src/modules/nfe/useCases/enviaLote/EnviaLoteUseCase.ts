@@ -34,9 +34,12 @@ export class EnviaLoteUseCase {
     if (!empresa)
       throw new Error("Empresa não encontrada");
 
-    let nfeXML = nfe.list_xml.find(i => i.acao === "xml").xml;
 
-    if (!nfeXML) {
+    let nfeXML = "";
+
+    try {
+      nfeXML = nfe.list_xml.find(i => i.acao === "xml").xml;
+    } catch (error) {
       console.log("ID NFe nulo");
 
       const nullIdNfe = await nfeXmlRepository.findChave(nfe.chave);
