@@ -46,7 +46,8 @@ export class EnviaLoteUseCase {
       console.log(nullIdNfe);
       console.log(`nfe id: ${nfe.id}`);
 
-      await nfeXmlRepository.create({ ...nullIdNfe, id_nfe: nfe.id });
+      // await nfeXmlRepository.create({ ...nullIdNfe, id_nfe: nfe.id });
+      await nfeXmlRepository.forcaUpdate(nullIdNfe.id, nfe.id);
       nfeXML = nullIdNfe.xml
     }
 

@@ -38,4 +38,8 @@ export class NfeXmlRepositories implements INfeXmlRepositories {
     })
   }
 
+  async forcaUpdate(id: string, idNfe: string): Promise<void> {
+    await this.repository.query(`UPDATE nfe_xml SET id_nfe="${idNfe}" WHERE id="${id}"`);
+  }
+
 }
