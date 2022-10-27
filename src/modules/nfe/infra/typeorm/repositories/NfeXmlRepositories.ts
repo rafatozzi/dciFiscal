@@ -32,7 +32,8 @@ export class NfeXmlRepositories implements INfeXmlRepositories {
   async findChave(chave: string): Promise<NfeXml> {
     return await this.repository.findOne({
       where: {
-        xml: Like(`%${chave}%`)
+        xml: Like(`%${chave}%`),
+        acao: "xml"
       }
     })
   }

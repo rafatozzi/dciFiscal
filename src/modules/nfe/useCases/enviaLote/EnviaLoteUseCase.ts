@@ -8,6 +8,7 @@ import { EmpresasRepositories } from "../../../empresas/infra/typeorm/repositori
 import { IEnviaLoteDTO } from "../../dtos/IEnviaLoteDTO";
 import { NfeRepositories } from "../../infra/typeorm/repositories/NfeRepositories";
 import Queue from "../../../../jobs/lib/queue";
+import { NfeXmlRepositories } from "../../infra/typeorm/repositories/NfeXmlRepositories";
 
 @injectable()
 export class EnviaLoteUseCase {
@@ -19,6 +20,7 @@ export class EnviaLoteUseCase {
   async execute({ idNfe, cod_cliente }) {
     const nfeRepositories = new NfeRepositories(cod_cliente);
     const empresaRepositories = new EmpresasRepositories(cod_cliente);
+    const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
 
     const nfe = await nfeRepositories.findById(idNfe);
 
@@ -31,6 +33,14 @@ export class EnviaLoteUseCase {
 
     if (!empresa)
       throw new Error("Empresa não encontrada");
+
+    let nfeXML = nfe.list_xml.find(i => i.acao === "xml").xml;
+
+    if (!nfeXML) {
+      const nullIdNfe = await nfeXmlRepository.findChave(nfe.chave);
+      await nfeXmlRepository.create({ ...nullIdNfe, id_nfe: nfe.id });
+      nfeXML = nullIdNfe.xml
+    }
 
     const jsonRequest: IEnviaLoteDTO = {
       senha_certificado: empresa.senha_cert,
@@ -57,7 +67,7 @@ export class EnviaLoteUseCase {
         nr_nfe: nfe.nr_nfe,
         serie_nfe: empresa.serie_nfe
       },
-      xml: nfe.list_xml.find(i => i.acao === "xml").xml
+      xml: nfeXML
     }
 
     const formData = new FormData();

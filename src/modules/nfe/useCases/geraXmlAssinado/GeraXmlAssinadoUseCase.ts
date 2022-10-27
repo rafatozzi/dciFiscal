@@ -215,8 +215,6 @@ export class GeraXmlAssinadoUseCase {
         const nfeXmlRepository = new NfeXmlRepositories(cod_cliente);
         const dbXml: NfeXml[] = await nfeXmlRepository.findByNfe(nfe.id);
 
-        console.log(`ID NFE: ${idNfe}`);
-
         let newXml = {
           id_nfe: idNfe,
           acao: "xml",
@@ -225,11 +223,6 @@ export class GeraXmlAssinadoUseCase {
 
         if (dbXml.filter(i => i.acao === "xml").length > 0)
           newXml = { ...newXml, id: dbXml.find(i => i.acao === "xml").id };
-
-        console.log("*****************************");
-        console.log("*****************************");
-        console.log("---");
-        console.log(newXml);
 
         await nfeXmlRepository.create(newXml);
 
