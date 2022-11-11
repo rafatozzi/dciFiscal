@@ -60,6 +60,7 @@ export class GeraXmlAssinadoUseCase {
       nfe.pedidos.map(async (item) => {
         let resIbpt = {} as IIbpt;
 
+        /*
         const cacheAliquota = await ncmAliquotaRepositories.findByNcm(item.produto.ncm);
 
         if (!cacheAliquota) {
@@ -78,14 +79,15 @@ export class GeraXmlAssinadoUseCase {
             valor_uni: item.valor_unit
           });
         }
+        */
 
         // API DE OLHO NO IMPOSTO
-        /*
-        await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
+        // await axios.get(`https://apidoni.ibpt.org.br/api/v1/produtos?token=${process.env.TOKEN_IBPT}&cnpj=${process.env.CNPJ_IBPT}&codigo=${item.produto.ncm}&uf=${empresa.cidade.uf.uf}&ex=0&descricao=produto&unidadeMedida=${item.produto.unid_med}&valor=${item.valor_unit}&gtin=sem%20gtin`)
+        await axios.get(`http://ibpt.nfe.io/ncm/${empresa.cidade.uf.uf}/${item.produto.ncm}.json`)
           .then(async (res) => {
             resIbpt = res.data as IIbpt;
 
-            if (resIbpt.Codigo === null) {
+            if (resIbpt.code === null) {
               console.log(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
               throw new Error(`NCM ${item.produto.ncm} do produto ${item.produto.nome} não encontrado para cálculo de impostos`);
             }
@@ -93,8 +95,8 @@ export class GeraXmlAssinadoUseCase {
             produtos.push({
               cfop: item.produto.cfop,
               codigo: item.produto.id.substring(0, 5),
-              imp_estadual: resIbpt.ValorTributoEstadual,
-              imp_federal: resIbpt.ValorTributoNacional,
+              imp_estadual: resIbpt.stateRate,
+              imp_federal: resIbpt.federalNationalRate,
               ncm: item.produto.ncm,
               nome: item.produto.nome,
               quantidade: item.qtd,
@@ -104,8 +106,8 @@ export class GeraXmlAssinadoUseCase {
 
             await createNcmAliquotaUseCase.execute(cod_cliente, {
               ncm: item.produto.ncm,
-              tributo_estadual: resIbpt.ValorTributoEstadual,
-              tributo_nacional: resIbpt.ValorTributoNacional
+              tributo_estadual: resIbpt.stateRate,
+              tributo_nacional: resIbpt.federalNationalRate
             });
 
           })
@@ -133,7 +135,10 @@ export class GeraXmlAssinadoUseCase {
                 valor_uni: item.valor_unit
               });
             }
-          });*/
+          });
+
+
+
       })
     );
 
