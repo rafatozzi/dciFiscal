@@ -24,6 +24,9 @@ export class ResetPasswordUseCase {
 
     const userToken = await userTokensRepositories.findByRefreshToken(data.token);
 
+    if(!data.senha)
+      throw new AppError("Nova senha não informada");
+
     if (!userToken)
       throw new AppError("Token inválido");
 
