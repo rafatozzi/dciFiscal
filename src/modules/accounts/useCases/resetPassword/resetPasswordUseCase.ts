@@ -38,7 +38,6 @@ export class ResetPasswordUseCase {
     user.senha = await hash(data.senha, 8);
 
     await usersRepositories.create(user);
-    await userTokensRepositories.deleteById(userToken.id);
   }
 
 }
