@@ -14,7 +14,7 @@ export class ResetPasswordUseCase {
     // private usersRepositories: UsersRepositories,
     // @inject("UserTokensRepositories")
     // private userTokensRepositories: UserTokensRepositories,
-    @inject("DayjsDateProvider")
+    @inject("DaysJsDateProvider")
     private dayjsDateProvider: IDateProvider
   ) { }
 
