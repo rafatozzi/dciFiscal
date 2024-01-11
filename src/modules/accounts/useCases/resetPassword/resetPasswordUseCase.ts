@@ -6,7 +6,7 @@ import { IResetPassword } from "../../dtos/IResetPassword";
 import { UsersRepositories } from "../../infra/typeorm/repositories/UsersRepositories";
 import { UserTokensRepositories } from "../../infra/typeorm/repositories/UserTokensRepositories";
 
-injectable()
+@injectable()
 export class ResetPasswordUseCase {
 
   constructor(
