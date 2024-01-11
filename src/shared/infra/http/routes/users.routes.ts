@@ -19,6 +19,6 @@ usersRouter.get("/", EnsureAuthenticated, profileUserController.handle);
 
 usersRouter.get("/list", EnsureAuthenticated, listUsersController.handle);
 
-usersRouter.get("/resetPassword", EnsureAuthenticated, resetPasswordController.handle);
+usersRouter.post("/resetPassword", EnsureAuthenticated, resetPasswordController.handle);
 
 export { usersRouter };
