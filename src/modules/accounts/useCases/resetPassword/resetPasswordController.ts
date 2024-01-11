@@ -7,6 +7,8 @@ export class ResetPasswordController {
     const { token } = request.query;
     const { senha } = request.body;
 
+    console.log(request.body);    
+
     const useCase = container.resolve(ResetPasswordUseCase);
 
     await useCase.execute(request.cod_cliente, {
